@@ -1,5 +1,5 @@
 
-name: 📦Release
+name: 🔖Version
 
 on:
   # push:
@@ -24,8 +24,6 @@ jobs:
         uses: relekang/python-semantic-release@v7.33.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.PYPI_API_TOKEN }}
           #additional_options: --patch
 
   nightly-merge:
