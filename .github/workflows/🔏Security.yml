@@ -40,6 +40,8 @@ jobs:
   PyCharm:
     name: PyCharm Scanning
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.2
       - name: PyCharm Python Security Scanner
         uses: tonybaloney/pycharm-security@1.28.0
 
