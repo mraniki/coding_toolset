@@ -11,12 +11,12 @@ on:
 jobs:
   secret_check:
     runs-on: ubuntu-latest
-      steps:
-        - name: "check is MY_SECRET exists"
-          env: 
-              super_secret: ${{ secrets.MY_SECRET }}
-          if: ${{ env.super_secret == '' }}
-          run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it'
+    steps:
+      - name: "check is MY_SECRET exists"
+        env: 
+            super_secret: ${{ secrets.MY_SECRET }}
+        if: ${{ env.super_secret == '' }}
+        run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it'
 
   # Notify:
   #   name: Discord
