@@ -33,6 +33,7 @@ jobs:
   push_to_registry:
     name: 🐳 Build and Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3.5.2
@@ -44,20 +45,11 @@ jobs:
           echo "docker_images=$IMAGES" >> $GITHUB_ENV
 
       - name: Extract metadata for Docker latest
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         id: meta
         uses: docker/metadata-action@v4
         with:
           images:  ${{ env.docker_images }}
           tags: latest
-
-      - name: Extract metadata for Docker nightly
-        if: ${{ github.ref == 'refs/heads/dev' && github.event_name == 'push' }}
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-            images:  ${{ env.docker_images }}
-            tags: nightly
 
       - name: Log in to the ghcr registry
         uses: docker/login-action@v2
