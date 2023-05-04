@@ -26,7 +26,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
           repository_password: ${{ secrets.PYPI_API_TOKEN }}
-          directory: ${{ github.repository }}
+          #directory: ${{ github.repository }}
           #additional_options: --patch
 
   # nightly-merge:
