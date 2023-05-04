@@ -1,0 +1,33 @@
+
+name: 🦺Lint
+
+on:
+  # push:
+  #   branches: ["main","dev"]
+  # pull_request:
+  # workflow_dispatch:
+  # schedule:
+  #   - cron: '42 23 * * 5'
+  workflow_call:
+
+jobs:
+
+  coding-standards:
+    name: Linting & CodingStandards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3.5.2
+
+      - name: Lint Code Base
+        uses: github/super-linter@v5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_MARKDOWN: false
+          VALIDATE_PYTHON_MYPY: false
+          VALIDATE_PYTHON_ISORT: false
+
+         
+
