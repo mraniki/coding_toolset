@@ -38,11 +38,11 @@ jobs:
           # ini_path: # optional, default is DEFAULT
   
   PyCharm:
+    runs-on: ubuntu-latest
       - name: PyCharm Python Security Scanner
         uses: tonybaloney/pycharm-security@1.28.0
 
   GitGuardian:
-    needs: [test]
     name: Code Scanning
     runs-on: ubuntu-latest
     steps:
