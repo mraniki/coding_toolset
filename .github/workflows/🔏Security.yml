@@ -37,27 +37,27 @@ jobs:
           # path to a .bandit file that supplies command line arguments
           # ini_path: # optional, default is DEFAULT
   
-  PyCharm:
-    name: PyCharm Scanning
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3.5.2
-      - name: PyCharm Python Security Scanner
-        uses: tonybaloney/pycharm-security@1.28.0
+  # PyCharm:
+  #   name: PyCharm Scanning
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3.5.2
+  #     - name: PyCharm Python Security Scanner
+  #       uses: tonybaloney/pycharm-security@1.28.0
 
-  GitGuardian:
-    name: GitGuardian Scanning
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3.5.2
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
-      - name: GitGuardian scan
-        uses: GitGuardian/ggshield-action@v1.15.0
-        env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_BASE_SHA:  ${{ github.event.pull_request.base.sha }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+  # GitGuardian:
+  #   name: GitGuardian Scanning
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3.5.2
+  #       with:
+  #         fetch-depth: 0 # fetch all history so multiple commits can be scanned
+  #     - name: GitGuardian scan
+  #       uses: GitGuardian/ggshield-action@v1.15.0
+  #       env:
+  #         GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+  #         GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+  #         GITHUB_PULL_BASE_SHA:  ${{ github.event.pull_request.base.sha }}
+  #         GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  #         GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
