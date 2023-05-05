@@ -68,7 +68,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: /.register/Dockerfile
+          file: .register/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -110,8 +110,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .register
-          file: Dockerfile
+          context: .
+          file: .register/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
