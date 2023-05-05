@@ -1,0 +1,260 @@
+%YAML 1.2
+---
+name: Pine Script
+file_extensions: [pinescript, pine]
+scope: source.pine
+first_line_match:
+
+variables:
+    identifier_regex: '[a-zA-Z_][a-zA-Z0-9_]*'
+
+contexts:
+  main:
+    - match: //.*
+      scope: comment.pine
+
+  # controls
+    - match: \b(//@version=5)\b
+      scope: keyword.control.import.pine
+
+    - match: \b(if|else|for|for...in|to|while)\b
+      scope: punctuation.definition.conditional.pine
+
+    - match: \b(?<=\w\.)(bool)\b
+      scope: source.pine
+
+    - match: (\-|\+)(?=\d)
+      scope: constant.numeric.pine
+
+  # functions
+
+    - match: '\b(alert|alertcondition|barcolor|bgcolor|bool|ceil|change|dayof(month|week)|fill|fixnan|float|hline|hour|indicator|input|int|label|line|linefill|library|max_bars_back|minute|month|n(a|z)|plot|runtime.error|second|strategy|string|table|time(_close)?|timeframe.in_seconds|timestamp|
+
+      |array\.(a(bs|vg)|binary_search(_leftmost|_rightmost)?|clear|concat|copy|covariance|fill|from|get|includes|indexof|insert|join|lastindexof|max|median|min|mode|new<(bool|box|color|float|int|line|label|linefill|string|table)>|new_(bool|box|color|float|int|line|label|linefill|string|table)|percentile_linear_interpolation|percentile_nearest_rank|percentrank|pop|push|range|remove|reverse|set|shift|size|slice|sort(_indices)?|standardize|stdev|sum|unshift|variance)|
+
+      |box|box\.(copy|delete|get_(bottom|left|right|top)|new|set_(bgcolor|border_color|border_style|border_width|bottom|extend|left|lefttop|right|rightbottom|text|text_color|text_halign|text_size|text_valign|text_wrap|top))|
+
+      |color|color\.(b|from_gradient|g|new|r|rgb|t)|
+
+      |input\.(bool|color|float|int|price|s(tring|ession|ource|ymbol)|t(ext_area|ime|imeframe))|kagi|linebreak|
+
+      |label\.(copy|delete|get_(x|y|text)|new|set_(color|size|style|text|textalign|textcolor|tooltip|x|xloc|xy|y|yloc))|
+
+      |line\.(copy|delete|get_(price|x1|x2|y1|y2)|new|set_(color|extend|style|width|x1|x2|y1|y2|xloc|xy1|xy2))|
+
+      |linefill\.(delete|get_(line1|line2)|new|set_color)|
+
+      |plot(arrow|bar|candle|char|shape)|
+
+      |math\.(a(bs|cos|sin|tan|vg)||c(eil|os)|e(xp)|floor|l(og|og10)|m(in|ax)|pow|r(andom|ound|ound_to_mintick)|s(ign|in|qrt|um)|t(an|odegrees|oradians))|
+
+      |matrix\.(add_(col|row)|avg|col|columns|concat|copy|det|diff|eigen(values|vectors)|elements_count|fill|get|inv|is_(antidiagonal|antisymmetric|binary|diagonal|identity|square|stochastic|symmetric|triangular|zero)|kron|max|median|min|mode|mult|new<(bool|box|color|float|int|line|label|linefill|string|table)>|pinv|pow|rank|remove_(col|row)|reshape|reverse|row|rows|set|sort|submatrix|sum|swap_(columns|rows)|trace|transpose)|
+
+      |request\.(dividends|earnings|economic|financial|quandl|security|splits)|
+
+      |strategy\.(cancel|cancel_all|close|close_all|closedtrades\.(commission|entry_(bar_index|id|price|time)|exit_(bar_index|id|price|time)|max_(drawdown|runup)|profit|size)|convert_to_(account|symbol)|entry|exit|opentrades\.(commission|entry_(bar_index|id|price|time)|max_(drawdown|runup)|profit|size)|order|risk\.(allow_entry_in|max_(cons_loss_days|drawdown|intraday_(filled_orders|loss)|position_size)))|
+
+      |str\.(contains|endswith|format|length|lower|match|pos|r(eplace|eplace_all)|s(plit|tartswith|ubstring)|t(onumber|ostring)|upper)|
+
+      |ta\.(a(lma|tr)|barssince|bb|bbw|cci|change|cmo|cog|correlation|cross(over|under)?|cum|dev|dmi|ema|falling|highest(bars)?|hma|kc|kcw|linreg|lowest(bars)?|macd|median|mfi|mode|mom|percentile_linear_interpolation|percentile_nearest_rank|percentrank|pivothigh|pivotlow|range|rising|r(ma|oc|si)|s(ar|ma|tdev|toch|upertrend|wma)|tr|tsi|valuewhen|variance|v(wap|wma)|w(ma|pr)|valuewhen|variance)|weekofyear|year|
+
+      |table\.(cell|cell_set_(bgcolor|height|text|text_(color|halign|size|valign)|tooltip|width)|clear|delete|merge_cells|new|set_(bgcolor|border_(color|width)|frame_(color|width)|position))|
+
+      |ticker\.(heikinashi|kagi|linebreak|modify|new|pointfigure|renko))[(]'
+      captures:
+        1: support.function.pines
+
+  #variables:
+  # add ? to variables that need single name highlighting
+
+    - match: \b(adjustment)\.(dividends|none|splits)\b
+      scope: constant.language.pine
+
+    - match: \b(alert)\.(freq_all|freq_once_per_bar|freq_once_per_bar_close)\b
+      scope: constant.language.pine
+
+    - match: \b(bar_index)\b
+      scope: constant.language.pine
+
+    - match: \b(barmerge)\.(gaps_(off|on)|lookahead_(off|on))\b
+      scope: constant.language.pine
+
+    - match: \b(barstate)\.is(confirmed|first|history|last|new|realtime|islastconfirmedhistory)\b
+      scope: constant.language.pine
+
+    - match: \b(box)\.(all)\b
+      scope: constant.language.pine
+
+    - match: \b(chart)\.is_(keikinashi|kagi|linebreak|pnf|range|renko)\b
+      scope: constant.language.pine
+
+    - match: \b(color)\.(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)\b
+      scope: constant.language.pine
+
+    - match: \b(currency)\.(AUD|BTC|CAD|CHF|ETH|EUR|GBP|HKD|JPY|KRW|MYR|NOK|NONE|NZD|RUB|SEK|SGD|TRY|USD|ZAR)\b
+      scope: constant.language.pine
+
+    - match: \b(dayofweek)|\.(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b
+      scope: constant.language.pine
+
+    - match: \b(display)\.(all|none)\b
+      scope: constant.language.pine
+
+    - match: \b(dividends)\.(gross|net)\b
+      scope: constant.language.pine
+
+    - match: \b(earnings)\.(actual|estimate|standardized)\b
+      scope: constant.language.pine
+
+    - match: \b(extend)\.(both|left|none|right)\b
+      scope: constant.language.pine
+
+    - match: \b(format)\.(inherit|mintick|percent|price|volume)\b
+      scope: constant.language.pine
+
+    - match: \b(open|high|low|close|hl2|hlc3|hlcc4|ohlc4|na|volume|period|tickerid|symbol)\b
+      scope: constant.language.pine
+
+    - match: \b(hline.style)\_(dashed|dotted|solid)\b
+      scope: constant.language.pine
+
+    - match: \b(label.all)\b
+      scope: constant.language.pine
+
+    - match: \b(label.style)\_(arrowdown|arrowup|circle|cross|diamond|flag|label_center|label_down|label_left|label_lower_left|label_lower_right|label_up|label_upper_left|label_upper_right|none|square|triangledown|triangleup|xcross)\b
+      scope: constant.language.pine
+
+    - match: \b(last_bar)\.(index|time)\b
+      scope: constant.language.pine
+
+    - match: \b(line.all)\b
+      scope: constant.language.pine
+
+    - match: \b(line.style)\_(arrow_both|arrow_left|arrow_right|dashed|dotted|solid)\b
+      scope: constant.language.pine
+
+    - match: \b(linefill.all)\b
+      scope: constant.language.pine
+
+    - match: \b(location)\.(abovebar|absolute|belowbar|bottom|top)\b
+      scope: constant.language.pine
+
+    - match: \b(math)\.(e|phi|pi|rphi)\b
+      scope: constant.language.pine
+
+    - match: \b(order)\.(ascending|descending)\b
+      scope: constant.language.pine
+
+    - match: \b(plot.style)\_(area|areabr|circles|columns|cross|histogram|line|linebr|stepline|stepline_diamond)\b
+      scope: constant.language.pine
+
+    - match: \b(position)\.(bottom|middle|top)\_(center|left|right)\b
+      scope: constant.language.pine
+
+    - match: \b(scale)\.(left|none|right)\b
+      scope: constant.language.pine
+
+    - match: \b(session)\.(extended|ismarket|ispostmarket|ispremarket|regular)\b
+      scope: constant.language.pine
+
+    - match: \bshape\.(arrowdown|arrowup|circle|cross|diamond|flag|labeldown|labelup|square|triangledown|triangleup|xcross)\b
+      scope: constant.language.pine
+
+    - match: \bsize\.(auto|huge|large|normal|small|tiny)\b
+      scope: constant.language.pine
+
+    - match: \b(splits)\.(denominator|numerator)\b
+      scope: constant.language.pine
+
+    - match: \bstrategy\.(account_currency|cash|closedtrades|commission\.(cash_per_contract|cash_per_order|percent)|direction\.(all|long|short)|equity|eventrades|fixed|grossloss|grossprofit|initial_capital|long|losstrades|max_(contracts_held_all|contracts_held_long|contracts_held_short|drawdown)|netprofit|oca\.(cancel|none|reduce)|openprofit|opentrades|percent_of_equity|position_avg_price|position_entry_name|position_size|short|wintrades)\b
+      scope: constant.language.pine
+
+    - match: \bsyminfo\.(basecurrency|currency|description|mintick|pointvalue|prefix|root|session|ticker|tickerid|timezone|type)\b
+      scope: constant.language.pine
+
+    - match: \b(ta)\.(accdist|iii|nvi|obv|pvi|pvt|tr|vwap|wad|wvad)\b
+      scope: constant.language.pine
+
+    - match: \b(table\.all)\b
+      scope: constant.language.pine
+
+    - match: \b(text)\.(align_(bottom|center|left|right|top)|wrap_(auto|none))\b
+      scope: constant.language.pine
+
+    - match: \b(time)\_(close|tradingday)\b
+      scope: constant.language.pine
+
+    - match: \btimeframe\.(isdaily|isdwm|isintraday|isminutes|ismonthly|isseconds|isweekly|multiplier|period)\b
+      scope: constant.language.pine
+
+    - match: \b(timenow|time|year|month|weekofyear|dayofmonth|hour|minute|second|interval|isdaily|isdwm|isintraday|ismonthly|isweekly)\b
+      scope: constant.language.pine
+
+    - match: \b(xloc)\.bar_(index|time)\b
+      scope: constant.language.pine
+
+    - match: \b(yloc)\.(abovebar|belowbar|price)\b
+      scope: constant.language.pine
+
+    - match: \b(color)(?=\s?\=)
+      scope: source.pine
+
+    - match: \b(array|bool|box|color|export|float|line|linefill|label|import|matrix|series|simple|switch|string|table)(?!\s?\=|\.)\b
+      scope: punctuation.definition.float.pine
+
+
+  # var
+    - match: \b(var|varip)\b
+      scope: punctuation.definition.pine
+
+
+  # operators
+
+    - match: (\-|\+|\*|\/|\%|\*=|\+=|\-=|\/=)
+      scope: punctuation.definition.pine
+    - match: (==|!=|<=|=>|>=|<|>|\:=|%=)
+      scope: punctuation.definition.comparison.pine
+    - match: (\=)
+      scope: storage.type.numeric.comparison.pine
+    - match: (\?|\:|\[]|\[\s*|\s*\])
+      scope: punctuation.definition.ternary.pine
+    - match: \b(and|or|not)\b
+      scope: punctuation.definition.logical.pine
+    - match: "="
+      scope: keyword.operator.assignment.pine
+
+    - match: \b(true|false)\b
+      scope: constant.numeric.pine
+
+    - match: '\b([.0-9]+)\b'
+      scope: constant.numeric.pine
+
+    - match: (\D\.)
+      scope: source.pine
+
+    - match: \b(int)\b
+      scope: punctuation.definition.integer.pine
+
+    - match: \bRuckSack\b
+      scope: rucksack.pine
+
+   # strings
+    - match: ''''
+      push: single-quoted-string
+    - match: '"'
+      push: double-quoted-string
+    - match: \b(string)\b
+      scope: constant.character.pine
+
+  single-quoted-string:
+    - meta_scope: string.custom.quoted.single.pine
+    - match: ''''
+      pop: true
+
+  double-quoted-string:
+    - meta_scope: string.custom.quoted.double.pine
+    - match: '"'
+      pop: true
+
+# Do not reproduce or distribute
+# © RuckSack
