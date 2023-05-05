@@ -9,15 +9,17 @@ on:
   workflow_call:
 
 jobs:
-  secret_check:
+  discord_check:
     runs-on: ubuntu-latest
     steps:
-      - name: "check is MY_SECRET exists"
+      - name: "check is DISCORD_WEBHOOK exists"
         env: 
-            super_secret: ${{ secrets.MY_SECRET }}
+            discord_check: ${{ secrets.DISCORD_WEBHOOK }}
         if: ${{ env.super_secret == '' }}
-        run: 'echo "test " '
-        
+        run: |
+          echo "Missing Discord Token"
+          exit 1
+
   # Notify:
   #   name: Discord
   #   runs-on: ubuntu-latest
