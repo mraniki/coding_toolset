@@ -9,29 +9,30 @@ on:
   workflow_call:
 
 jobs:
-  discord_check:
+  Token_check:
     runs-on: ubuntu-latest
     steps:
       - name: "check is DISCORD_WEBHOOK exists"
         env: 
             discord_check: ${{ secrets.DISCORD_WEBHOOK }}
-        if: ${{ env.super_secret == '' }}
+        if: ${{ env.DISCORD_WEBHOOK == '' }}
         run: |
           echo "Missing Discord Token"
           exit 1
 
-  # Notify:
-  #   name: Discord
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Actions Start Discord
-  #       uses: sarisia/actions-status-discord@v1
-  #       if: always()
-  #       with:
-  #         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-  #         title: "New Docker Ready"
-  #         noprefix: true
-  #         color: 0xf5d442
+  Notify:
+    name: Discord
+    runs-on: ubuntu-latest
+    needs: [Token_check]
+    steps:
+      - name: Actions Start Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "New Docker Ready"
+          noprefix: true
+          color: 0xf5d442
       # - name: Actions Start Apprise
       #   uses: cstuder/apprise-ga@v3
       #   with:
