@@ -11,28 +11,28 @@ on:
 jobs:
 
 
-  nightly-merge:
-    runs-on: ubuntu-latest
-    # needs: [release]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3.5.2
-        with:
-          fetch-depth: 0
+  # nightly-merge:
+  #   runs-on: ubuntu-latest
+  #   # needs: [release]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3.5.2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Nightly Merge
-        uses: robotology/gh-action-nightly-merge@v1.4.0
-        with:
-          stable_branch: 'main'
-          development_branch: 'dev'
-          allow_ff: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Nightly Merge
+  #       uses: robotology/gh-action-nightly-merge@v1.4.0
+  #       with:
+  #         stable_branch: 'main'
+  #         development_branch: 'dev'
+  #         allow_ff: true
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
   automerge:
     runs-on: ubuntu-latest
-    needs: [nightly-merge]
+    # needs: [nightly-merge]
     steps:
       - id: automerge
         name: automerge
