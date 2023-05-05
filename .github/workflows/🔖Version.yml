@@ -26,23 +26,23 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           #additional_options: --patch
 
-  # nightly-merge:
-  #   runs-on: ubuntu-latest
-  #   needs: [release]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3.5.2
-  #       with:
-  #         fetch-depth: 0
+  nightly-merge:
+    runs-on: ubuntu-latest
+    needs: [release]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+        with:
+          fetch-depth: 0
 
-  #     - name: Nightly Merge
-  #       uses: robotology/gh-action-nightly-merge@v1.4.0
-  #       with:
-  #         stable_branch: 'main'
-  #         development_branch: 'dev'
-  #         allow_ff: true
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Nightly Merge
+        uses: robotology/gh-action-nightly-merge@v1.4.0
+        with:
+          stable_branch: 'main'
+          development_branch: 'dev'
+          allow_ff: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          
 
