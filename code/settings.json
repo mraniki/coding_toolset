@@ -1,0 +1,145 @@
+{
+    "workbench.startupEditor": "none",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "git.autofetch": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.testing.pytestEnabled": true,
+    "python.condaPath": "/Users/eridu/micromamba/condabin/conda",
+    "terminal.integrated.profiles.osx": {
+        "bash": {
+            "path": "bash",
+            "args": [
+                "-l"
+            ],
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh",
+            "args": [
+                "-l"
+            ]
+        },
+        "fish": {
+            "path": "fish",
+            "args": [
+                "-l"
+            ]
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        },
+        "zsh-dev": {
+            "path": "/bin/zsh",
+            "args": [
+                "-l"
+            ]
+        }
+    },
+    "terminal.integrated.env.osx": {},
+    "python.venvFolders": [
+        "/micromamba/envs"
+    ],
+    "terminal.integrated.inheritEnv": false,
+    "git.enableSmartCommit": true,
+    "git.terminalAuthentication": false,
+    "git.confirmSync": false,
+    "genieai.enableConversationHistory": true,
+    "Codegeex.Privacy": true,
+    "Codegeex.Explanation.LanguagePreference": "en-US",
+    "githubPullRequests.pullBranch": "never",
+    "githubPullRequests.fileListLayout": "tree",
+    "python.testing.pytestArgs": [
+        "-v",
+        "-s"
+    ],
+    "workbench.colorTheme": "Pine Editor Dark",
+    "gitmoji.addCustomEmoji": [
+
+        {
+            "emoji": "🐛 bugfix",
+            "code": ":bug:",
+            "description": "Fix a bug — need I say more?",
+        },
+        {
+            "emoji": "🚑 hotfix",
+            "code": ":ambulance:",
+            "description": "HotFix",
+        },
+        {
+            "emoji": "⚡ improvement",
+            "code": ":zap:",
+            "description": "Fix a bug — need I say more?",
+        },
+        {
+            "emoji": "🔒 security",
+            "code": ":lock:",
+            "description": "security",
+        },
+        {
+            "emoji": "👽 3rd party",
+            "code": ":alien:",
+            "description": "thirdparty",
+        },
+        {
+            "emoji": "🥅 test",
+            "code": ":goal_net:",
+            "description": "test",
+        },
+        {
+            "emoji": "🔍 Troubleshoot",
+            "code": ":mag:",
+            "description": "Troubleshoot",
+        },
+        {
+            "emoji": "💬 docs",
+            "code": ":docs:",
+            "description": "Anything style related.",
+        },
+        {
+            "emoji": "🥚 feature",
+            "code": ":new:",
+            "description": "Prepping new feature",
+            },
+        {
+            "emoji": "✨ feature",
+            "code": ":feat:",
+            "description": "New feature",
+        },
+        {
+            "emoji": "💄 refactor",
+            "code": ":improve:",
+            "description": "Improve piece of code like refactoring.",
+        },
+        {
+            "emoji": "📈 refactor",
+            "code": ":improve:",
+            "description": "Improve piece of code like refactoring.",
+        },
+        {
+            "emoji": "🚸 refactor",
+            "code": ":improve:",
+            "description": "Improve piece of code like refactoring.",
+        },
+        {
+            "emoji": "📱 refactor",
+            "code": ":improve:",
+            "description": "Improve piece of code like refactoring.",
+        },
+        {
+            "emoji": "💥 breaking",
+            "code": ":breaking:",
+            "description": "Release a new version",
+        },
+
+    ],
+    "gitmoji.onlyUseCustomEmoji": true,
+    "git.autoStash": true,
+    "git.rebaseWhenSync": true
+}
