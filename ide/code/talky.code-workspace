@@ -1,6 +1,11 @@
 {
 	"folders": [
 		{
+			"name": "coding_toolset",
+			"path": "../.."
+		},
+		{
+			"name": "findmyorder",
 			"path": "../../../findmyorder"
 		},
 		{
@@ -16,16 +21,12 @@
 			"path": "../../../tokenlist"
 		},
 		{
-			"name": "coding_toolset",
-			"path": "../.."
+			"name": "TalkyTrend",
+			"path": "../../../TalkyTrend"
 		},
 		{
 			"name": "iamlistening",
 			"path": "../../../iamlistening"
-		},
-		{
-			"name": "TalkyTrend",
-			"path": "../../../TalkyTrend"
 		}
 	],
 	"settings": {
