@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "../../../findmyorder"
+		},
+		{
+			"name": "dxsp",
+			"path": "../../../dxsp"
+		},
+		{
+			"name": "tt",
+			"path": "../../../tt"
+		},
+		{
+			"name": "tokenlist",
+			"path": "../../../tokenlist"
+		},
+		{
+			"name": "coding_toolset",
+			"path": "../.."
+		},
+		{
+			"name": "iamlistening",
+			"path": "../../../iamlistening"
+		},
+		{
+			"name": "TalkyTrend",
+			"path": "../../../TalkyTrend"
+		}
+	],
+	"settings": {
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.autopep8"
+		},
+		"python.formatting.provider": "none",
+		"python.defaultInterpreterPath": "~/micromamba/envs/dev/bin/python",
+		"python.terminal.activateEnvInCurrentTerminal": true,
+		"python.globalModuleInstallation": false,
+	}
+}
