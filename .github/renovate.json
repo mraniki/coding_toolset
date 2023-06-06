@@ -2,9 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base",
-    ":semanticCommits(⬆️)"
-    ":semanticCommitType(⬆️)"
+    ":semanticCommitTypeAll(⬆️)"
   ],
+  "semanticCommits": "enabled",
   "pip_requirements": {
     "fileMatch": [
       "(^|/)([\\w-]*)requirements\\.(txt|pip)$"
