@@ -12,7 +12,7 @@ on:
 
 jobs:
   app:
-    if: ${{ github.repository == 'mraniki/tt' }} and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: github.repository == 'mraniki/tt'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
@@ -23,13 +23,14 @@ jobs:
         with:
           without-hashes: true
           outfile-name: src/requirements.txt
-      - name: Python Semantic Release
+      - name: Semantic Version and Release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: relekang/python-semantic-release@v7.34.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   package:
-    if: ${{ github.repository != 'mraniki/tt' }} and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: github.repository != 'mraniki/tt' 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
@@ -40,7 +41,8 @@ jobs:
         with:
           without-hashes: true
           outfile-name: examples/requirements.txt
-      - name: Python Semantic Release and PYPI release
+      - name: Semantic Version and PYPI release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: relekang/python-semantic-release@v7.34.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,7 +51,7 @@ jobs:
 
   Merge:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    # if: ${{ always() }}
     needs: [app, package]
     steps:
       - name: Checkout
