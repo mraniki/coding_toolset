@@ -11,23 +11,9 @@ on:
   workflow_call:
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check file existence
-      env:
-        FILE: src/requirements.txt
-      shell: bash
-      run: |
-        if [[ -f $FILE ]]; then
-          package=false
-        else
-          package=true
-        fi
-        echo "package=${package}" | tee $GITHUB_ENV
 
   export_app_requirements:
-    if: env.package = 'false'
+    if: GITHUB_REPOSITORY='mraniki/tt'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.5.2
@@ -37,7 +23,7 @@ jobs:
         outfile-name: src/requirements.txt
 
   export_example_requirements-txt:
-    if: env.package = 'true'
+    if: GITHUB_REPOSITORY!='mraniki/tt'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.5.2
@@ -47,7 +33,7 @@ jobs:
         outfile-name: examples/requirements.txt
   
   release_github:
-    if: env.package = 'false' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: GITHUB_REPOSITORY='mraniki/tt' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
@@ -59,7 +45,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   release_pypi:
-    if: env.package = 'true' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: GITHUB_REPOSITORY!='mraniki/tt' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
@@ -71,7 +57,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
           repository_password: ${{ secrets.PYPI_API_TOKEN }}
-
 
   Merge:
     runs-on: ubuntu-latest
