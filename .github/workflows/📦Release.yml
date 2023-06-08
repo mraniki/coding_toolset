@@ -13,7 +13,7 @@ on:
 jobs:
 
   export_app_requirements:
-    if: $GITHUB_REPOSITORY='mraniki/tt'
+    if: ${{ github.repository == 'mraniki/tt' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.5.2
@@ -23,7 +23,7 @@ jobs:
         outfile-name: src/requirements.txt
 
   export_example_requirements-txt:
-    if: $GITHUB_REPOSITORY!='mraniki/tt'
+    if: ${{ github.repository != 'mraniki/tt' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.5.2
@@ -33,7 +33,7 @@ jobs:
         outfile-name: examples/requirements.txt
   
   release_github:
-    if: $GITHUB_REPOSITORY='mraniki/tt' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: ${{ github.repository == 'mraniki/tt' }} and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
@@ -45,7 +45,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   release_pypi:
-    if: $GITHUB_REPOSITORY!='mraniki/tt' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: ${{ github.repository != 'mraniki/tt' }} and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
