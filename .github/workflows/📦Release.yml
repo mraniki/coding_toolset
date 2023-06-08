@@ -51,7 +51,7 @@ jobs:
 
   Merge:
     runs-on: ubuntu-latest
-    # if: ${{ always() }}
+    if: ${{ always() }}
     needs: [app, package]
     steps:
       - name: Checkout
