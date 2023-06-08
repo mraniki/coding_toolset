@@ -21,12 +21,12 @@
 			"path": "../../../tokenlist"
 		},
 		{
-			"name": "TalkyTrend",
-			"path": "../../../TalkyTrend"
-		},
-		{
 			"name": "iamlistening",
 			"path": "../../../iamlistening"
+		},
+		{
+			"name": "talkytrend",
+			"path": "../../../talkytrend"
 		}
 	],
 	"settings": {

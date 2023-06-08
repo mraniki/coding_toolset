@@ -11,27 +11,48 @@ on:
   workflow_call:
 
 jobs:
-
-  
-  release:
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+  app:
+    if: github.repository == 'mraniki/tt'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.2
         with:
           fetch-depth: 0
-      - name: Python Semantic Release
+      - name: Export requirements
+        uses: divideprojects/poetry-export-requirements-action@v1
+        with:
+          without-hashes: true
+          outfile-name: src/requirements.txt
+      - name: Semantic Version and Release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: relekang/python-semantic-release@v7.34.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  package:
+    if: github.repository != 'mraniki/tt' 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          fetch-depth: 0
+      - name: Export requirements
+        uses: divideprojects/poetry-export-requirements-action@v1
+        with:
+          without-hashes: true
+          outfile-name: examples/requirements.txt
+      - name: Semantic Version and PYPI release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: relekang/python-semantic-release@v7.34.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
           repository_password: ${{ secrets.PYPI_API_TOKEN }}
-          #directory: ${{ github.repository }}
-          #additional_options: --patch
 
-  nightly-merge:
+  Merge:
     runs-on: ubuntu-latest
-    needs: [release]
+    if: ${{ always() }}
+    needs: [app, package]
     steps:
       - name: Checkout
         uses: actions/checkout@v3.5.2
@@ -46,3 +67,5 @@ jobs:
           allow_ff: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+         
