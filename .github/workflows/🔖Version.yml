@@ -11,7 +11,14 @@ on:
   workflow_call:
 
 jobs:
-
+  export-requirements-txt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - uses: divideprojects/poetry-export-requirements-action@v1
+      with:
+        without-hashes: true
+        outfile-name: src/requirements.txt
   
   release:
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
