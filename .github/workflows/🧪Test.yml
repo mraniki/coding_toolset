@@ -36,10 +36,12 @@ jobs:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
-#         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       - name: Install project
         run: poetry install --no-interaction
+      - name: Install pytest
+        run: pip install pytest
       - name: Test with pytest
         run: poetry run pytest --cov . --cov-report=xml
       - name: Upload coverage to Codecov
