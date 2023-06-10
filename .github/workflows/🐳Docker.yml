@@ -22,7 +22,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
 
       - name: Prepare docker image name
         id: image_names
@@ -65,7 +65,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/dev' && github.event_name == 'dev' }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
       
       - name: Prepare docker image name
         id: image_names
