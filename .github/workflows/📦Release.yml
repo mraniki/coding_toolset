@@ -22,7 +22,7 @@ jobs:
         uses: divideprojects/poetry-export-requirements-action@v1
         with:
           without-hashes: true
-          outfile-name: tt/requirements.txt
+          outfile-name: /.requirements/requirements.txt
       - name: Semantic Version and Release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: relekang/python-semantic-release@v7.34.3
@@ -40,7 +40,7 @@ jobs:
         uses: divideprojects/poetry-export-requirements-action@v1
         with:
           without-hashes: true
-          outfile-name: examples/requirements.txt
+          outfile-name: /.requirements/requirements.txt
       - name: Semantic Version and PYPI release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: relekang/python-semantic-release@v7.34.3
