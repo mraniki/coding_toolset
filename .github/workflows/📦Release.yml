@@ -25,7 +25,7 @@ jobs:
           outfile-name: .requirements/requirements.txt
       - name: Semantic Version and Release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: relekang/python-semantic-release@v7.34.3
+        uses: relekang/python-semantic-release@v7.34.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -43,7 +43,7 @@ jobs:
           outfile-name: .requirements/requirements.txt
       - name: Semantic Version and PYPI release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: relekang/python-semantic-release@v7.34.3
+        uses: relekang/python-semantic-release@v7.34.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
