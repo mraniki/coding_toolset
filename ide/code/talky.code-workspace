@@ -33,13 +33,14 @@
 		"[python]": {
 			"editor.defaultFormatter": "ms-python.autopep8"
 		},
-		"python.formatting.provider": "autopep8",
+		"python.formatting.provider": "black",
 		"python.defaultInterpreterPath": "~/micromamba/envs/dev/bin/python",
 		"python.terminal.activateEnvInCurrentTerminal": true,
 		"python.globalModuleInstallation": false,
 		"python.linting.banditEnabled": false,
-		"python.linting.pylintEnabled": true,
+		"python.linting.pylintEnabled": false,
 		"python.testing.pytestEnabled": true,
 		"python.terminal.executeInFileDir": true,
+		"python.linting.flake8Enabled": false,
 	}
 }
