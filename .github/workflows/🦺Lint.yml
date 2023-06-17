@@ -24,7 +24,8 @@ jobs:
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository
         uses: actions/checkout@v3.5.3
-  
+        with:
+        fetch-depth: 0
       - name: Check commit title
         run: |
           commit_title="$(git log -1 --pretty=format:'%s')"
