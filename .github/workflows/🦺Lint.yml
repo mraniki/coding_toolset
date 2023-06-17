@@ -31,16 +31,16 @@ jobs:
           echo "🔎 The name of your commit is $commit_title"
       - name: Validate commit title
         if: |
-          !startsWith(commit_title, 'fix:') &&
-          !startsWith(commit_title, '🎨') &&
-          !startsWith(commit_title, '🐛') &&
-          !startsWith(commit_title, '🚑') &&
-          !startsWith(commit_title, '⚡') &&
-          !startsWith(commit_title, '🔥') &&
-          !startsWith(commit_title, '🚨') &&
-          !startsWith(commit_title, '♻️') &&
-          !startsWith(commit_title, '🔧') &&
-          !startsWith(commit_title, '️✅')
+          !startsWith($commit_title, 'fix:') &&
+          !startsWith($commit_title, '🎨') &&
+          !startsWith($commit_title, '🐛') &&
+          !startsWith($commit_title, '🚑') &&
+          !startsWith($commit_title, '⚡') &&
+          !startsWith($commit_title, '🔥') &&
+          !startsWith($commit_title, '🚨') &&
+          !startsWith($commit_title, '♻️') &&
+          !startsWith($commit_title, '🔧') &&
+          !startsWith($commit_title, '️✅')
         run: |
           echo "Missing some config"
           echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
