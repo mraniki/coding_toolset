@@ -38,12 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set up env vars
-        run: echo "COMMIT_MSG=$(printf "%s" "${{ github.event.head_commit.message }}" | head -n 1)" >> $GITHUB_ENV
+        run: echo "COMMIT_MSG=$(printf "%s" "${{ github.event.workflow_run.head_commit.message }}" | head -n 1)" >> $GITHUB_ENV
       - name: Check commit message
         if: |
-          !startsWith(github.event.head_commit.message, '✅')
+          !startsWith(${{ github.event.workflow_run.head_commit.message }}, '✅')
         run: |
           echo "::warning:: Naming convention issues detected"
-          echo "workflow head commit: github.event.workflow_run.head_commit.message"
+          echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
           echo "event head commit: ${{ github.event.head_commit.message }}"
           echo "event head commit: github.event.head_commit.message"
