@@ -41,24 +41,18 @@ jobs:
         with:
           fetch-depth: 0
       - name: Check commit message
-        env:
-          COMMITS_URL: ${{ github.event.pull_request.commits_url }}
         run: |
-          if [ "${COMMITS_URL}x" != "x" ]; then
-            # get commits list and pick up last one by jq
-            # caution: only 100 commits will be taken by curl
-            # if your PR has more than 100 commits
-            # you have to set page query parameter
-            # and request last page commits
-            # API URL details: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-commits-on-a-pull-request
-            LAST_MSG=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "${COMMITS_URL}?per_page=100" | jq -r .[-1].commit.message)
-            # set environment variable
-            echo "LAST_MSG=${LAST_MSG}" >> "${GITHUB_ENV}"
-          else
-            echo 'LAST_MSG=' >> "${GITHUB_ENV}"
-          fi
-          # if !startsWith("$text", '✅')
-          #   echo "::warning:: Naming convention issues detected"
-          #   echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
-          #   echo "event head commit: ${{ github.event.head_commit.message }}"
-          #   echo "event head commit: github.event.head_commit.message"
+          #if: ${{ contains(github.event.commits[0].message, '[✅]') }}
+          echo "${{ github.event.head_commit.message }}" 
+          # echo "success"
+          echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
+          echo "event head commit: ${{ github.event.head_commit.message }}"
+          echo "PR title is: ${{ github.event.pull_request.title }}"
+          echo "PR title is: ${{ github.event.commits[0].message }}"
+          #else:
+            #echo "::warning:: No naming convention issues detected"
+          #fi
+      # - name: Post actions
+      #   if: success()
+      #   run: |
+      #     echo "Success"
