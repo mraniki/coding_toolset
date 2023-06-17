@@ -34,6 +34,8 @@ jobs:
           if !startsWith($commit_title, 'fix:'); then
             echo "Missing some config $commit_title"
             exit 1
+          else
+            echo "Success"
           fi
       # - name: Post actions
       #   if: success()
