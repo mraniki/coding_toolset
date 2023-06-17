@@ -22,15 +22,18 @@ jobs:
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
           echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-          echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
-          echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
+      - name: Check out repository
+        uses: actions/checkout@v3.5.3
       - name: Check commit message
         if: |
           !startsWith(github.event.head_commit.message, '✅') &&
           !startsWith(github.event.head_commit.message, '🐛') &&
           !startsWith(github.event.head_commit.message, '♻️') &&
           !startsWith(github.event.head_commit.message, 'fix:')
-        run: echo "Missing some config"
+        run: |
+          echo "Missing some config"
+          echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
+          echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
       # - name: Post actions
       #   if: success()
       #   run: |
