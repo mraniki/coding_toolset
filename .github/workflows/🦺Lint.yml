@@ -29,24 +29,13 @@ jobs:
         run: |
           commit_title="$(git log -1 --pretty=format:'%s')"
           echo "🔎 The name of your commit is $commit_title"
-      - name: Validate commit title
-        if: |
-          !startsWith($commit_title, 'fix:') &&
-          !startsWith($commit_title, '🎨') &&
-          !startsWith($commit_title, '🐛') &&
-          !startsWith($commit_title, '🚑') &&
-          !startsWith($commit_title, '⚡') &&
-          !startsWith($commit_title, '🔥') &&
-          !startsWith($commit_title, '🚨') &&
-          !startsWith($commit_title, '♻️') &&
-          !startsWith($commit_title, '🔧') &&
-          !startsWith($commit_title, '️✅')
-        run: |
-          echo "Missing some config"
-          echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
-          echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
-          echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
-          exit 1
+          if !startsWith($commit_title, 'fix:|✅'); then
+            echo "Missing some config"
+            echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
+            echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
+            echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
+            exit 1
+          fi
       # - name: Post actions
       #   if: success()
       #   run: |
