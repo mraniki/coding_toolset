@@ -22,8 +22,9 @@ jobs:
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
           echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check commit message
+      - name: Check out repository
         uses: actions/checkout@v3.5.3
+      - name: Check commit message
         if: |
           !startsWith(github.event.head_commit.message, '✅') &&
           !startsWith(github.event.head_commit.message, '🐛') &&
