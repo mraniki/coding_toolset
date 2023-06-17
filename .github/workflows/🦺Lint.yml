@@ -31,8 +31,8 @@ jobs:
           commit_title="$(git log -1 --no-merges --pretty=%B)"
           echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
           echo "🔎 The name of your commit is $commit_title"
-          if !startsWith("$commit_title", 'fix:'); then
-            echo "Missing some config $commit_title"
+          if [[!startsWith("$commit_title", "fix:")]]; then
+            echo "Missing some config in $commit_title"
             exit 1
           else
             echo "Success"
