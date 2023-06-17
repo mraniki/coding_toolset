@@ -38,6 +38,7 @@ jobs:
       #   if: success()
       #   run: |
       #     echo "Success"
+      # ::warning
   coding-standards:
     name: Linting & CodingStandards
     needs: [semantic-check]
