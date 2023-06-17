@@ -37,6 +37,7 @@ jobs:
     steps:
       - name: Check commit message
         if: |
-          !contains(github.event.head_commit.message, 'fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|🧐|:monocle_face:|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:|Merge|Update|Refactored|Initial commit')
+          #!contains(github.event.head_commit.message, 'fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|🧐|:monocle_face:|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:|Merge|Update|Refactored|Initial commit')
+          !contains(github.event.head_commit.message, '✅')
         run: |
           echo "::warning:: Naming convention issues detected"
