@@ -8,36 +8,10 @@ on:
   # workflow_dispatch:
   # schedule:
   #   - cron: '42 23 * * 5'
-  #!contains(github.event.head_commit.message, 'fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|🧐|:monocle_face:|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:|Merge|Update|Refactored|Initial commit')
-
+ 
   workflow_call:
 
 jobs:
-  # semantic-check:
-  #   name: CommitLint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: workflow detail
-  #       run: |
-  #         echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  #         echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #         echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-  #     - name: Check out repository
-  #       uses: actions/checkout@v3.5.3
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Check commit title
-  #       run: |
-  #         commit_title="$(git log -1 --no-merges --pretty=%B)"
-  #         echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
-  #         echo "🔎 The name of your commit is $commit_title"
-  #         echo "🔎 The name of your commit ${{ github.event.commits[0].message }} "
-  #         if [[!startsWith("$commit_title", fix)]]; then
-  #           echo "Missing some config in $commit_title"
-  #           exit 1
-  #         else
-  #           echo "Success"
-  #         fi
   validate-commit-message:
     name: Validate Commit Message
     runs-on: ubuntu-latest
@@ -52,7 +26,7 @@ jobs:
 
   coding-standards:
     name: Linting & CodingStandards
-    needs: [validate-commit-message]
+    # needs: [validate-commit-message]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
