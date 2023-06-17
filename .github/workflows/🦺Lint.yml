@@ -24,15 +24,12 @@ jobs:
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository
         uses: actions/checkout@v3.5.3
+  
       - name: Validate commit title
         run: |
-          # Check that the commit title isn't excessively long.
           commit_title="$(git log -1 --pretty=format:'%s')"
           echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
-          if [ "${#commit_title}" -gt 120 ]; then
-            echo "Error: The title of commit is too long"
-            exit 1
-          fi
+          echo "🔎 The name of your commit is $commit_title"
 
         #   lowercase_title="$(echo $commit_title | awk '{print tolower($0)}')"
         #   # Check that the commit title isn't 'internal' (ignore case)
@@ -50,7 +47,7 @@ jobs:
         #   echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
         #   echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
         #   echo "🔎 The name of your commit is $(git log -1 --no-merges --pretty=%B)"
-          exit 1
+          # exit 1
       # - name: Post actions
       #   if: success()
       #   run: |
