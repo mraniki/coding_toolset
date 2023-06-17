@@ -37,21 +37,20 @@ jobs:
     name: CommitLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Check commit message
+      - run: echo "UPDATE TO DEMO WORKFLOW"
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
         run: |
-          #if: ${{ contains(github.event.commits[0].message, '[✅]') }}
-          echo "${{ github.event.head_commit.message }}" 
-          # echo "success"
-          echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
-          echo "event head commit: ${{ github.event.head_commit.message }}"
-          echo "PR title is: ${{ github.event.pull_request.title }}"
-          echo "PR title is: ${{ github.event.commits[0].message }}"
-          #else:
-            #echo "::warning:: No naming convention issues detected"
-          #fi
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      
       # - name: Post actions
       #   if: success()
       #   run: |
