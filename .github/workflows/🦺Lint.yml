@@ -25,10 +25,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3.5.3
   
-      - name: Validate commit title
+      - name: Check commit title
         run: |
           commit_title="$(git log -1 --pretty=format:'%s')"
           echo "🔎 The name of your commit is $commit_title"
+      - name: Validate commit title
         if: |
           !startsWith(commit_title, 'fix:') &&
           !startsWith(commit_title, '🎨') &&
