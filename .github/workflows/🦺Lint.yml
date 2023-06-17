@@ -29,8 +29,8 @@ jobs:
       - name: Check commit title
         run: |
           commit_title="$(git log -1 --pretty=format:'%s')"
-          echo "🔎 The name of your commit is ${{commit_title}}"
-          if !startsWith( ${{commit_title}}", 'fix:'); then
+          echo "🔎 The name of your commit is $(git log -1 --pretty=format:'%s')"
+          if !startsWith( $commit_title, 'fix:'); then
             echo "Missing some config"
             echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
             echo "🔎 The name of your commit workflow is ${{ github.event.workflow_run.head_commit.message }}"
