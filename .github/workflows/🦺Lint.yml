@@ -37,14 +37,15 @@ jobs:
     name: CommitLint
     runs-on: ubuntu-latest
     steps:
-      - name: Logging
-        run: |
-          echo "${{toJSON(github.event)}}"
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Check commit message
-        if: |
-          !startsWith(${{ github.event.workflow_run.head_commit.message }}, '✅')
         run: |
-          echo "::warning:: Naming convention issues detected"
-          echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
-          echo "event head commit: ${{ github.event.head_commit.message }}"
-          echo "event head commit: github.event.head_commit.message"
+          # Get your last commit message, not the merge commit.
+          text=$(git log -1 --no-merges --pretty=%B)
+          if !startsWith("$text", '✅')
+            echo "::warning:: Naming convention issues detected"
+            echo "workflow head commit: ${{ github.event.workflow_run.head_commit.message }}"
+            echo "event head commit: ${{ github.event.head_commit.message }}"
+            echo "event head commit: github.event.head_commit.message"
