@@ -17,17 +17,19 @@ jobs:
     name: CommitLint
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: workflow detail
+        run: |
           echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
           echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
           echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+          echo "🔎 The name of your commit is ${{ github.event.head_commit.message }}"
       - name: Check commit message
         if: |
-          !startsWith(github.event.head_commit.message, '🔖 bump(release):') &&
-          !startsWith(github.event.head_commit.message, 'bump(release):') &&
-          !startsWith(github.event.head_commit.message, '🔖 bump:') &&
-          !startsWith(github.event.head_commit.message, 'bump:')
-        run: echo "Success"
+          !startsWith(github.event.head_commit.message, '✅') &&
+          !startsWith(github.event.head_commit.message, '🐛') &&
+          !startsWith(github.event.head_commit.message, '♻️') &&
+          !startsWith(github.event.head_commit.message, 'fix:')
+        run: echo "Missing some config"
       # - name: Post actions
       #   if: success()
       #   run: |
