@@ -31,13 +31,13 @@ jobs:
           VALIDATE_PYTHON_BLACK: false
           VALIDATE_PYTHON_ISORT: false
 
-  # semantic-check:
-  #   name: Check commit message
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check type prefix
-  #       uses: gsactions/commit-message-checker@v2.0.0
-  #       with:
-  #         pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|🧐|:monocle_face:|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:)(.*\s*)*)|(Merge|Update|'Refactored (.*\s*)*)|(Initial commit$)'
-  #         flags: 'gm'
-  #         error: 'The first line needs to start with a commit type like "[fix]".'
+  semantic-check:
+    name: Check commit message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3.5.3
+    if: |
+      !contains(github.event.head_commit.message, 'fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|🧐|:monocle_face:|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:|Merge|Update|Refactored|Initial commit')
+    run: |
+      echo "::warning::Naming convention issues detected"
