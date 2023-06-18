@@ -19,7 +19,7 @@ jobs:
       - name: Validate Commit Message Content
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|🥅|✅|:white_check_mark:|🐳|:whale:|🙈|⚗️|🧐|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥)(.*\s*)*)|(Merge|update|['] (.*\s*)*)|(Initial commit$)''
+          pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|🥅|✅|:white_check_mark:|🐳|:whale:|🙈|⚗️|🧐|🔇|:mute:|🔊|:loud:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥)(.*\s*)*)|(Merge|update|['] (.*\s*)*)|(Initial commit$)'
           #accessToken: ${{ secrets.GITHUB_TOKEN }}
           error: 'Semantic message not valid'
 
