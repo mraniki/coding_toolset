@@ -49,7 +49,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install --with docs
+          poetry install --with dev --with docs
 
       - name: Build Sphinx documentation
         run: |
