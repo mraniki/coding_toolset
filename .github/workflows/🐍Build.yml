@@ -36,33 +36,17 @@ jobs:
             pages: write
             id-token: write
     steps:
-        
-      - name: Check out repository
-        uses: actions/checkout@v3.5.3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-
-      - name: Install Poetry
+     - name: Install dependencies
         run: |
-          pip install poetry
-
-      - name: Install dependencies
+          pip install sphinx
+      - name: Sphinx build
         run: |
-          poetry install --with dev --with docs
-
-      - name: Build Sphinx documentation
-        run: |
-          poetry run make -C docs html
-
-      - name: Set up Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+          sphinx-build docs _build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
-          path: 'docs/build/html'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/
+          force_orphan: true
