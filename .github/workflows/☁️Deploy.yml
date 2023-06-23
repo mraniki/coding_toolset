@@ -9,61 +9,36 @@ on:
   workflow_call:
 
 jobs:
-  Token_check:
+  flydeploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: "check is DISCORD_WEBHOOK exists"
-        env: 
-            discord_check: ${{ secrets.DISCORD_WEBHOOK }}
-        if: ${{ env.DISCORD_WEBHOOK == '' }}
-        run: |
-          echo "Missing Discord Token"
-          exit 1
+    if: ${{ env.fly_api_token != '' }}
+    name: Deploy on deta
+    commands:
+      - apk update && apk --no-cache add curl git
+      - wget -O - https://fly.io/install.sh | sh
+      - git clone https://codeberg.org/video-prize-ranch/fly-cfg.git
+      - cd fly-cfg/librarian
+      - /root/.fly/bin/flyctl deploy --detach
+    secrets: [fly_api_token]
 
-  Notify:
-    name: Discord
+  Deta:
     runs-on: ubuntu-latest
-    needs: [Token_check]
+    if: ${{ env.DETA_ACCESS_TOKEN != '' }}
+    name: Deploy on deta
     steps:
-      - name: Actions Start Discord
-        uses: sarisia/actions-status-discord@v1
-        if: always()
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+      - name: Deploy to Deta
+        uses: BogDAAAMN/deta-deploy-action@v1.0.1
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: "New Docker Ready"
-          noprefix: true
-          color: 0xf5d442
-      # - name: Actions Start Apprise
-      #   uses: cstuder/apprise-ga@v3
-      #   with:
-      #     title: "Notication title"
-      #     message: "Message"
-      #   env:
-      #     APPRISE_URL: ${{ secrets.APPRISE_URL }}
-      # - name: send telegram message on push
-      #   uses: appleboy/telegram-action@master
-      #   with:
-      #     to: ${{ secrets.TELEGRAM_TO }}
-      #     token: ${{ secrets.TELEGRAM_TOKEN }}
-      #     message: |
-      #       ${{ github.actor }} created commit:
-      #       Commit message: ${{ github.event.commits[0].message }}
-            
-      #       Repository: ${{ github.repository }}
-            
-      #       See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-
-
-      # - name: get repository name
-      #   run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-      # - name: update repo category by language
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     REPOSITORY: ${{ env.REPOSITORY_NAME }}
-      #     USERNAME: ${{ github.repository_owner }}
+          deta-access-token: ${{ secrets.DETA_ACCESS_TOKEN }}
+          deta-name: ${{ secrets.DETA_STAGING_MICRO_NAME }}
+          deta-project: ${{ secrets.DETA_PROJECT_NAME }}
 
   # Koyeb:
-  #   - name: Build and deploy the application to Koyeb
+  #   if: ${{ env.DETA_ACCESS_TOKEN != '' }}
+  #   name: Deploy on Koyeb
+  #   runs-on: ubuntu-latest
   #     uses: koyeb/action-git-deploy@v1
   #     with:
   #       app-name: my-koyeb-app
@@ -72,17 +47,17 @@ jobs:
   #       service-ports: "8080:http"
   #       service-routes: "/health:8080"
 
+  Notify:
+    if: ${{ env.APPRISE_URL != '' }}
+    runs-on: ubuntu-latest
+    name: Actions Start Apprise
+    steps:
+      uses: cstuder/apprise-ga@v3
+      with:
+        title: "Notication title"
+        message: "Message"
+      env:
+        APPRISE_URL: ${{ secrets.APPRISE_URL }}
 
 
-  # Deta:
-  #   name: Deploy
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3.5.2
-  #     - name: Deploy to Deta
-  #       uses: BogDAAAMN/deta-deploy-action@v1.0.1
-  #       with:
-  #         deta-access-token: ${{ secrets.DETA_ACCESS_TOKEN }}
-  #         deta-name: ${{ secrets.DETA_STAGING_MICRO_NAME }}
-  #         deta-project: ${{ secrets.DETA_PROJECT_NAME }}
+
