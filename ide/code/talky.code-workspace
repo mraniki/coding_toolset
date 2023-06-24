@@ -27,6 +27,10 @@
 		{
 			"name": "talkytrend",
 			"path": "../../../talkytrend"
+		},
+		{
+			"name": "trading",
+			"path": "../../../trading"
 		}
 	],
 	"settings": {
