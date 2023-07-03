@@ -46,7 +46,7 @@ jobs:
         pip install --upgrade pip
         pip install poetry
     - name: install
-      run: poetry install --all-extras
+      run: poetry install --with docs
     - name: Build documentation
       run: |
         mkdir gh-pages
@@ -60,3 +60,4 @@ jobs:
       with:
         branch: gh-pages
         folder: gh-pages
+        

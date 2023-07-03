@@ -37,7 +37,7 @@ jobs:
       - name: Update requirements
         run: |
           poetry lock
-          poetry export --extras all --without-hashes --format=requirements.txt > requirements.txt
+          poetry export --without-hashes --format=requirements.txt > requirements.txt
       # poetry export --without-hashes --format=requirements.txt > requirements.txt
 
       - name: Upload Lockfile and Requirements
