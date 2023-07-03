@@ -13,6 +13,7 @@ on:
 jobs:
 
   build:
+    if: github.repository != 'mraniki/tt' 
     runs-on: ubuntu-latest
 
     steps:
