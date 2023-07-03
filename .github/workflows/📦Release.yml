@@ -19,36 +19,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.5.3
-      - name: Update requirements
-        uses: ryan-rozario/pipreqs-action-cpy@master
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          PROJECT_PATH: .
-          REQUIREMENT_PATH: .requirements/requirements.txt
+          python-version: '3.10'
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.10'
+      - name: Install Poetry
+        run: |
+          pip install --upgrade pip
+          pip install poetry
 
-      # - name: Install Poetry
-      #   run: |
-      #     pip install --upgrade pip
-      #     pip install poetry
+      - name: Install dependencies
+        run: |
+          poetry install
 
-      # - name: Install dependencies
-      #   run: |
-      #     poetry install
+      - name: Update requirements
+        run: |
+          poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-      # - name: Update requirements
-      #   run: |
-      #     poetry export --without-hashes --format=requirements.txt > requirements.txt
-
-      # - name: Upload Lockfile and Requirements
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     path: |
-      #       .requirements/requirements.txt
-    
+      - name: Upload Lockfile and Requirements
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            .requirements/requirements.txt
     
   app:
     if: github.repository == 'mraniki/tt'
