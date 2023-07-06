@@ -26,6 +26,7 @@ jobs:
   coding-standards:
     name: Linting & CodingStandards
     # needs: [validate-commit-message]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
