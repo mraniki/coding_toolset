@@ -23,6 +23,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.5.3
 
+      - name: Create dir if missing
+        run: |
+          mkdir -p .requirements
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -41,11 +45,7 @@ jobs:
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
-      
-      - name: Create dir if missing
-        run: |
-          mkdir -p .requirements
-          
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
             repository: ./.requirements/
