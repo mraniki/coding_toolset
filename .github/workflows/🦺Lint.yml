@@ -23,14 +23,13 @@ jobs:
           #accessToken: ${{ secrets.GITHUB_TOKEN }}
           error: 'Semantic message not valid'
 
-  coding-standards:
-
-    name: ruff
+  ruff:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: chartboost/ruff-action@v1
 
+  coding-standards:
     name: super-linter
     if: always()
     runs-on: ubuntu-latest
