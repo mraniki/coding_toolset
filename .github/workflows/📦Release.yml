@@ -48,7 +48,7 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-            repository: ./.requirements/
+            repository: ./.requirements
             commit_message: Update Requirements
 
     
