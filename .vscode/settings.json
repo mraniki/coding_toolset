@@ -1,3 +1,6 @@
 {
-    "python.linting.enabled": false
+    "python.linting.enabled": false,
+    "python.testing.autoTestDiscoverOnSaveEnabled": false,
+    "python.testing.unittestArgs": [],
+    "python.defaultInterpreterPath": "~/miniconda3/envs/dev311/bin/python"
 }
