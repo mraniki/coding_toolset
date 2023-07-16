@@ -44,7 +44,7 @@ jobs:
   nightly:
     name: 🥷 Build and Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/dev' }}
+    if: ${{ github.ref.type == 'dev' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3.5.3
