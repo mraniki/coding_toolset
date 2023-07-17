@@ -2,13 +2,6 @@
 name: 🦺Lint
 
 on:
-  # push:
-  #   branches: ["main","dev"]
-  # pull_request:
-  # workflow_dispatch:
-  # schedule:
-  #   - cron: '42 23 * * 5'
- 
   workflow_call:
 
 jobs:
@@ -20,18 +13,11 @@ jobs:
         uses: gsactions/commit-message-checker@v2
         with:
           pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|:monocle_face:|🧐|🔇|:mute:|🔊|:volume:|:loud:|:loud_sound:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥)(.*\s*)*)|(Merge|update|Update|Refactored|Dev (.*\s*)*)|(Initial commit$)'
-          #accessToken: ${{ secrets.GITHUB_TOKEN }}
           error: 'Semantic message not valid'
 
-  # ruff:
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: chartboost/ruff-action@v1
-
   coding-standards:
-    name: super-linter
+    name: Linting & CodingStandards
+    # needs: [validate-commit-message]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -44,17 +30,21 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LOG_LEVEL: WARN
-          VALIDATE_GITLEAKS: false
-          VALIDATE_JSCPD: false
-          VALIDATE_PYTHON_BLACK: false
-          VALIDATE_PYTHON_FLAKE8: false
-          VALIDATE_PYTHON_ISORT: false
-          VALIDATE_PYTHON_PYLINT: false
+          VALIDATE_MARKDOWN: false
           VALIDATE_PYTHON_MYPY: false
-          YAML_ERROR_ON_WARNING: false
+          VALIDATE_PYTHON_FLAKE8: false
+          VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_ISORT: false
           # LINTER_RULES_PATH: ./
-    
+
+  # ruff:
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: chartboost/ruff-action@v1
+
+
     # black:
     #     runs-on: ubuntu-latest
     #     steps:
