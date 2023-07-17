@@ -15,14 +15,19 @@ jobs:
           pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|:monocle_face:|🧐|🔇|:mute:|🔊|:volume:|:loud:|:loud_sound:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥)(.*\s*)*)|(Merge|update|Update|Refactored|Dev (.*\s*)*)|(Initial commit$)'
           error: 'Semantic message not valid'
 
-  # ruff:
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: chartboost/ruff-action@v1
+  lint-ruff:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3.5.3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    - run: pip install ruff==0.0.275
+    - name: Lint with ruff
+      run: ruff check . 
 
-  coding-standards:
+  superlint:
     name: Linting & CodingStandards
     # needs: [validate-commit-message]
     if: always()
