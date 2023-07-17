@@ -16,6 +16,7 @@ jobs:
           error: 'Semantic message not valid'
 
   lint-ruff:
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.5.3
