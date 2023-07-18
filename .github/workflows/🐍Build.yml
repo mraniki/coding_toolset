@@ -31,8 +31,10 @@ jobs:
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
+          cp requirements.txt .requirements/requirements.txt
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-            repository: .requirements
+            repository: .
             commit_message: Update Requirements
+            file_pattern: .requirements/
