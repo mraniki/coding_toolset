@@ -7,49 +7,6 @@ on:
 
 jobs:
 
-  # update-requirements:
-
-  #   if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-  #   name: Update Requirements
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3.5.3
-
-  #     # - name: Create dir if missing
-  #     #   run: |
-  #     #     mkdir -p .requirements
-
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: '3.10'
-
-  #     - name: Install Poetry
-  #       run: |
-  #         pip install --upgrade pip
-  #         pip install poetry
-
-  #     - name: Install dependencies
-  #       run: |
-  #         poetry install
-
-      # - name: Create dir if missing
-      #   run: |
-      #     mkdir -p .requirements
-
-      # - name: Update requirements
-      #   run: |
-      #     poetry lock
-      #     poetry export --without-hashes --format=requirements.txt > requirements.txt
-
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #       repository: .requirements/
-      #       commit_message: Update Requirements
-
   release:
     runs-on: ubuntu-latest
     permissions:
@@ -70,13 +27,6 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-      - name: Publish package to GitHub Release
-        uses: python-semantic-release/upload-to-gh-release@main
-        if: ${{ steps.release.outputs.released }} == 'true'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.release.outputs.tag }}
 
   Merge:
     runs-on: ubuntu-latest
