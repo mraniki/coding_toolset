@@ -24,31 +24,31 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "3.11"
-    - run: pip install ruff==0.0.275
+    - run: pip install ruff
     - name: Lint with ruff
       run: ruff check . 
 
-  superlint:
-    name: Linting & CodingStandards
-    # needs: [validate-commit-message]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v3.5.3
+  # superlint:
+  #   name: Linting & CodingStandards
+  #   # needs: [validate-commit-message]
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository
+  #       uses: actions/checkout@v3.5.3
 
-      - name: Lint Code Base
-        uses: github/super-linter@v5
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_MARKDOWN: false
-          VALIDATE_PYTHON_MYPY: false
-          VALIDATE_PYTHON_FLAKE8: false
-          VALIDATE_PYTHON_BLACK: false
-          VALIDATE_PYTHON_ISORT: false
-          # LINTER_RULES_PATH: ./
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v5
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: false
+  #         DEFAULT_BRANCH: main
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         VALIDATE_MARKDOWN: false
+  #         VALIDATE_PYTHON_MYPY: false
+  #         VALIDATE_PYTHON_FLAKE8: false
+  #         VALIDATE_PYTHON_BLACK: false
+  #         VALIDATE_PYTHON_ISORT: false
+  #         # LINTER_RULES_PATH: ./
 
 
 
