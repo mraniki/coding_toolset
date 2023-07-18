@@ -3,12 +3,7 @@
 name: 🧪Test
 
 on:
-  # push:
-  #   branches: ["main","dev"]
-  # pull_request:
-  # workflow_dispatch:
-  # schedule:
-  #   - cron: '42 23 * * 5'
+  workflow_dispatch:
   workflow_call:
 
 jobs:

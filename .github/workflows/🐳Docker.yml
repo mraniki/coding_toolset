@@ -4,14 +4,7 @@ name: 🐳Docker
 run-name: ${{ github.actor }} is using 🐳
 
 on:
-  # release:
-  #     types: [published]
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["🐍Build"]
-  #   branches: [ "main" ]
-  #   types: 
-  #     - completed
   workflow_call:
 
 jobs:

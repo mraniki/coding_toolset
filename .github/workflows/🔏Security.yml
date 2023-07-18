@@ -1,10 +1,7 @@
 
 name: 🔏Security
 on:
-  # push:
-  #   branches: [ "dev" ]
-  # schedule:
-  #   - cron: '24 6 * * 5'
+  workflow_dispatch:
   workflow_call:
 
 jobs:
@@ -24,6 +21,7 @@ jobs:
           exit_zero: true # optional, default is DEFAULT
           # Github token of the repository (automatically created by Github)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+          excluded_paths: tests # optional, default is DEFAULT
           # File or directory to run bandit on
           # path: # optional, default is .
           # Report only issues of a given severity level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)

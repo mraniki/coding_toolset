@@ -2,6 +2,7 @@
 name: 🦺Lint
 
 on:
+  workflow_dispatch:
   workflow_call:
 
 jobs:
@@ -35,7 +36,6 @@ jobs:
     #         - uses: psf/black@stable
     #           with:
     #               options: --check --verbose
-
 
   # superlint:
   #   name: Linting & CodingStandards

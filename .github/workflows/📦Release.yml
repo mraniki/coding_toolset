@@ -36,6 +36,10 @@ jobs:
         run: |
           poetry install
 
+      # - name: Create dir if missing
+      #   run: |
+      #     mkdir -p .requirements
+
       - name: Update requirements
         run: |
           poetry lock
@@ -62,12 +66,12 @@ jobs:
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.PYPI_API_TOKEN }}
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
 
   Merge:
     runs-on: ubuntu-latest
+    needs: release
     if: ${{ always() }}
     steps:
       - name: Checkout
@@ -83,5 +87,3 @@ jobs:
           allow_ff: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
