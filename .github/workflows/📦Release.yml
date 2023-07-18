@@ -2,12 +2,7 @@
 name: 📦Release
 
 on:
-  # push:
-  #   branches: ["main","dev"]
-  # pull_request:
-  # workflow_dispatch:
-  # schedule:
-  #   - cron: '42 23 * * 5'
+  workflow_dispatch:
   workflow_call:
 
 jobs:
@@ -51,12 +46,10 @@ jobs:
             repository: .requirements/
             commit_message: Update Requirements
 
-  pypi-publish:
-    name: upload release to PyPI
+  release:
     runs-on: ubuntu-latest
-    # environment: release
     permissions:
-      id-token: write
+        id-token: write
     steps:
       - uses: actions/checkout@v3.5.3
         with:
@@ -66,13 +59,16 @@ jobs:
         uses: relekang/python-semantic-release@v8.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository_username: __token__
+          repository_password: ${{ secrets.PYPI_API_TOKEN }}
 
-  merge:
+  Merge:
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ always() }}
     needs: semanticrelease
     steps:
       - name: Checkout

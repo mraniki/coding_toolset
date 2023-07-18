@@ -28,6 +28,15 @@ jobs:
     - name: Lint with ruff
       run: ruff check . 
 
+    # black:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v3
+    #         - uses: psf/black@stable
+    #           with:
+    #               options: --check --verbose
+
+
   # superlint:
   #   name: Linting & CodingStandards
   #   # needs: [validate-commit-message]
@@ -51,54 +60,3 @@ jobs:
   #         # LINTER_RULES_PATH: ./
 
 
-
-
-    # black:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - uses: actions/checkout@v3
-    #         - uses: psf/black@stable
-    #           with:
-    #               options: --check --verbose
-
-    # mypy:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Checkout Code
-    #           uses: actions/checkout@v3
-
-    #         - name: Set up Python
-    #           uses: actions/setup-python@v4
-    #           with:
-    #               cache: pip
-    #               python-version-file: .python-version
-
-    #         - name: Install dependencies
-    #           run: |
-    #               python3 -m pip install --upgrade pip wheel mypy
-    #               python3 -m pip install -r requirements.txt
-    #         - name: Lint with mypy
-    #           run: |
-    #               mkdir -p .mypy_cache
-    #               mypy --install-types --non-interactive
-
-    # pylint:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Checkout Code
-    #           uses: actions/checkout@v3
-
-    #         - name: Set up Python
-    #           uses: actions/setup-python@v4
-    #           with:
-    #               cache: pip
-    #               python-version-file: .python-version
-
-    #         - name: Install dependencies
-    #           run: |
-    #               python3 -m pip install --upgrade pip wheel pylint
-    #               python3 -m pip install -r requirements.txt
-
-    #         - name: Lint with pylint
-    #           run: |
-    #               pylint artistools
