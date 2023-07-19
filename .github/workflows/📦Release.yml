@@ -24,6 +24,7 @@ jobs:
         uses: relekang/python-semantic-release@v8.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          root_options: -vv
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
