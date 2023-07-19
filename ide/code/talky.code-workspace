@@ -35,7 +35,7 @@
 	],
 	"settings": {
 		"[python]": {
-			"editor.defaultFormatter": "ms-python.autopep8"
+			"editor.defaultFormatter": "charliermarsh.ruff"
 		},
 		"python.formatting.provider": "black",
 		"python.defaultInterpreterPath": "~/micromamba/envs/dev/bin/python",
@@ -46,5 +46,152 @@
 		"python.testing.pytestEnabled": true,
 		"python.terminal.executeInFileDir": true,
 		"python.linting.flake8Enabled": false,
+		"gitmoji.onlyUseCustomEmoji": true,
+		"gitmoji.addCustomEmoji": [
+
+
+			{
+				"emoji": "🎨",
+				"code": ":art:",
+				"description": "Improve structure / format of the code.",
+			},
+			{
+				"emoji": "🐛",
+				"code": ":bug:",
+				"description": "Fix a bug.",
+			},
+			{
+				"emoji": "🚑",
+				"code": ":ambulance:",
+				"description": "HotFix",
+			},
+			{
+				"emoji": "🔥",
+				"code": ":fire:",
+				"description": "Remove code",
+			},
+			{
+				"emoji": "🚨",
+				"code": ":rotating_light:",
+				"description": "Fix linter ",
+			},
+			{
+				"emoji": "⚡",
+				"code": ":zap:",
+				"description": "Improve performance.",
+			},
+			{
+				"emoji": "🔧",
+				"code": ":wrench:",
+				"description": "Add or update configuration",
+			},
+			{
+				"emoji": "♻️",
+				"code": ":recycle:",
+				"description": "Refactor code",
+			},
+			{
+				"emoji": "💬",
+				"code": ":docs:",
+				"description": "Add or update documentation.",
+			},
+			{
+				"emoji": "📝",
+				"code": ":memo:",
+				"description": "Add or update documentation.",
+			},
+			{
+				"emoji": "🩹",
+				"code": ":adhesive_bandage:",
+				"description": "Simple fix for a non-critical issue.",
+			},
+			{
+				"emoji": "🐳",
+				"code": ":whale:",
+				"description": "Docker change",
+			},
+			{
+				"emoji": "👷 CI Change",
+				"code": ":whale:",
+				"description": "CI change",
+			},
+			{
+				"emoji": "🙈",
+				"code": ":see_no_evil:",
+				"description": "Add or update a .gitignore file.",
+			},
+			{
+				"emoji": "⚗️",
+				"code": ":alembic:",
+				"description": "Perform experiments.",
+			},
+			{
+				"emoji": "🧐",
+				"code": ":monocle_face:",
+				"description": "Data inspection.",
+			},
+			{
+				"emoji": "🔇",
+				"code": ":mute:",
+				"description": "Remove logs.",
+			},
+			{
+				"emoji": "🔊",
+				"code": ":loud_sound:",
+				"description": "Add or update logs.",
+			},
+			{
+				"emoji": "🥅",
+				"code": ":goal_net:",
+				"description": "Catch errors.",
+			},
+
+			{
+				"emoji": "✅",
+				"code": ":white_check_mark:",
+				"description": "Add, update, or pass tests.",
+				},
+
+				{
+				"emoji": "⬆️",
+				"code": ":arrow_up:",
+				"description": "Upgrade dependencies.",
+				},
+			{
+				"emoji": "🔒",
+				"code": ":lock:",
+				"description": "Fix security issues.",
+			},
+			{
+				"emoji": "👽",
+				"code": ":alien:",
+				"description": "Update code due to 3rd party changes",
+			},
+			{
+				"emoji": "🥚",
+				"code": ":egg:",
+				"description": "Prepping new feature",
+				},
+			{
+				"emoji": "✨ feature",
+				"code": ":sparkles:",
+				"description": "New feature",
+			},
+			{
+				"emoji": "💄 Add or update version",
+				"code": ":lipstick:",
+				"description": "Improve piece of code like refactoring.",
+			},
+			{
+				"emoji": "🚀 new version",
+				"code": ":rocket:",
+				"description": "Deploy stuff.",
+			},
+			{
+				"emoji": "💥 breaking",
+				"code": ":breaking:",
+				"description": "Release a new version",
+			},
+		],
 	}
 }

@@ -3,6 +3,9 @@
     "[python]": {
         "editor.formatOnType": true
     },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+      },
     "git.autofetch": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
     "python.testing.pytestEnabled": true,
