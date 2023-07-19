@@ -27,7 +27,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           root_options: -vv
-          force: "patch"
+          #force: "patch"
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
