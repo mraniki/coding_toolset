@@ -1,0 +1,56 @@
+
+name: 📦Release
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+
+  app:
+    if: github.repository == 'mraniki/tt'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+        with:
+          fetch-depth: 0
+      - name: Semantic Version and Release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: relekang/python-semantic-release@v7.34.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  package:
+    if: github.repository != 'mraniki/tt' 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+        with:
+          fetch-depth: 0
+      - name: Semantic Version and PYPI release
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: relekang/python-semantic-release@v7.34.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository_username: __token__
+          repository_password: ${{ secrets.PYPI_API_TOKEN }}
+
+  Merge:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [app, package]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.3
+        with:
+          fetch-depth: 0
+
+      - name: Nightly Merge
+        uses: robotology/gh-action-nightly-merge@v1.4.0
+        with:
+          stable_branch: 'main'
+          development_branch: 'dev'
+          allow_ff: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
