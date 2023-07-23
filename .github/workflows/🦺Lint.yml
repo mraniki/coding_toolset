@@ -17,7 +17,7 @@ jobs:
           error: 'Semantic message not valid'
 
   lint-ruff:
-    needs: [validate-commit-message]
+    # needs: [validate-commit-message]
     if: always()
     runs-on: ubuntu-latest
     steps:
