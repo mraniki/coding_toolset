@@ -5,11 +5,18 @@ name: 🧪Test
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+        environment:
+          description: 'env'
+          required: false
+          default: dev
+          type: string
  
 jobs:
 
   test:
     runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.5.3
