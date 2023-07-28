@@ -5,12 +5,12 @@ name: 🧪Test
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-        environment:
-          description: 'env'
-          required: false
-          default: dev
-          type: string
+    # inputs:
+    #     environment:
+    #       description: 'env'
+    #       required: false
+    #       default: dev
+    #       type: string
  
 jobs:
 
