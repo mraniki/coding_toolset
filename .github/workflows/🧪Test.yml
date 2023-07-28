@@ -41,7 +41,12 @@ jobs:
       #   if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       #   run: poetry install --no-interaction --no-root
       - name: Install project
-        run: poetry install --sync --no-interaction 
+        run: poetry install --sync --no-interaction
+      - uses: dopplerhq/secrets-fetch-action@v1.1.1
+        id: doppler
+        with:
+          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
+          inject-env-vars: true
       - name: Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
       - name: Upload coverage to Codecov
