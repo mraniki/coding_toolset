@@ -42,21 +42,22 @@ jobs:
       #   run: poetry install --no-interaction --no-root
       - name: Install project
         run: poetry install --sync --no-interaction
-      - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v1
-        with:
-          version: 2.18.0
-    
+      - name: Install 1Password Cli
+        run: |
+          curl https://cache.agilebits.com/dist/1P/op2/pkg/v2.18.0/op_linux_amd64_v2.18.0.zip > op.zip
+          unzip op.zip
+          sudo mv op /usr/local/bin
+          rm op.zip
+
+          op user get --me
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
       - name: Get 1Password Secrets
         run: op read op://git/dev/notesPlain > .env
-        #working-directory: ./api
+        working-directory: .
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-      # - uses: dopplerhq/secrets-fetch-action@v1.1.1
-      #   id: doppler
-      #   with:
-      #     doppler-token: ${{ secrets.DOPPLER_TOKEN }}
-      #     inject-env-vars: true
       - name: Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
       - name: Upload coverage to Codecov
