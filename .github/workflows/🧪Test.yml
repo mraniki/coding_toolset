@@ -56,7 +56,7 @@ jobs:
           op user get --me
           op read op://git/devtoml/notesPlain > settings.toml
           ls *
-        working-directory: ./iamlistening
+        working-directory: ./tests
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
   
