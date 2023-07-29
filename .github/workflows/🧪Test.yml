@@ -28,33 +28,13 @@ jobs:
       - name: Install project
         run: poetry install --sync --no-interaction
 
-      # - name: Install 1Password Cli
-      #   run: |
-      #     curl https://cache.agilebits.com/dist/1P/op2/pkg/v2.18.0/op_linux_amd64_v2.18.0.zip > op.zip
-      #     unzip op.zip
-      #     sudo mv op /usr/local/bin
-      #     rm op.zip
-          
-      #     op user get --me
-      #   env:
-      #     OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-
-      # - name: Get 1Password Secrets
-      #   run: |
-      #     op read op://git/dev/notesPlain > .env
-      #     op read op://git/devtoml/notesPlain > settings.toml
-      #     ls *
-      #   working-directory: .
-      #   env:
-      #       OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
       - name: Get 1Password Secrets
         run: |
           op user get --me
-          op read op://git/devtoml/notesPlain > default_settings.toml
+          op read op://git/devtoml/notesPlain > settings.toml
           ls *
         working-directory: ./iamlistening/
         env:
