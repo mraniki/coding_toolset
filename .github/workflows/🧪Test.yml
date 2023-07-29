@@ -5,12 +5,6 @@ name: 🧪Test
 on:
   workflow_dispatch:
   workflow_call:
-    # inputs:
-    #     environment:
-    #       description: 'env'
-    #       required: false
-    #       default: dev
-    #       type: string
  
 jobs:
 
@@ -31,15 +25,6 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
-     # - name: Load cached venv
-       # id: cached-poetry-dependencies
-        #uses: actions/cache@v3
-      #  with:
-         # path: .venv
-         # key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      # - name: Install dependencies
-      #   if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      #   run: poetry install --no-interaction --no-root
       - name: Install project
         run: poetry install --sync --no-interaction
       - name: Install 1Password Cli
@@ -48,7 +33,7 @@ jobs:
           unzip op.zip
           sudo mv op /usr/local/bin
           rm op.zip
-
+          
           op user get --me
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
@@ -56,9 +41,8 @@ jobs:
       - name: Get 1Password Secrets
         run: |
           op read op://git/dev/notesPlain > .env
-        #  op read op://git/devtoml/notesPlain > settings.toml
+          op read op://git/devtoml/notesPlain > settings.toml
           ls *
- 
         working-directory: .
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
