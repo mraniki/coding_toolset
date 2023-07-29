@@ -56,7 +56,7 @@ jobs:
       - name: Get 1Password Secrets
         run: |
           op read op://git/dev/notesPlain > .env
-          op read op://git/dev/notesPlain > settings.toml
+        #  op read op://git/devtoml/notesPlain > settings.toml
           ls *
  
         working-directory: .
