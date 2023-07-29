@@ -54,7 +54,7 @@ jobs:
       - name: Get 1Password Secrets
         run: |
           op user get --me
-          op read op://git/devtoml/notesPlain > settings.toml
+          op read op://git/devtoml/notesPlain > default_settings.toml
           ls *
         working-directory: ./iamlistening/
         env:
