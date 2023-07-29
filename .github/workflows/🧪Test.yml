@@ -33,9 +33,9 @@ jobs:
   
       - name: Get 1Password Secrets
         run: |
-          op user get --me
           op read op://git/devtoml/notesPlain > settings.toml
           ls *
+          cat settings.toml
         working-directory: .
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
