@@ -24,8 +24,17 @@ jobs:
           python -m pip install --upgrade pip twine
           pip install poetry
           poetry install
+          pip install playwright
+          playwright install
+          playwright install-deps
       - name: Build package
         run: poetry build
+
+      - name: playwright dependencies
+        run: |
+          pip install playwright
+          playwright install
+          playwright install-deps
 
       - name: Update requirements
         run: |
