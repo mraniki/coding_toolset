@@ -33,7 +33,7 @@ jobs:
 
       - name: playwright dependencies
         run: |
-          sudo apt-get -y install chromium
+          sudo apt-get -y install chromium-browser
           pip install playwright
           playwright install
           playwright install-deps
