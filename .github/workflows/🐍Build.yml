@@ -30,12 +30,6 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: playwright dependencies
-        run: |
-          pip install playwright
-          playwright install
-          playwright install-deps
-
       - name: Update requirements
         run: |
           poetry lock
