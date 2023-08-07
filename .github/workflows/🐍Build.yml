@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.ref.type == 'dev' }}
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Update requirements
         run: |
