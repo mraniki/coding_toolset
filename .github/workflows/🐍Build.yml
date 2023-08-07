@@ -28,6 +28,12 @@ jobs:
       - name: Build package
         run: poetry build
 
+  req:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.ref == 'refs/heads/dev' }}
+    steps:
       - name: Update requirements
         run: |
           poetry lock
