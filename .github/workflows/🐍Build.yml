@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.ref == 'refs/heads/dev' }}
+    if: ${{ github.ref.type == 'dev' }}
     steps:
       - name: Update requirements
         run: |
