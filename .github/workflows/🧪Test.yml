@@ -32,6 +32,7 @@ jobs:
         uses: 1password/install-cli-action@v1
 
       - name: playwright dependencies
+        if: github.repository == 'mraniki/tt'
         run: |
           sudo apt-get -y install chromium-browser
           pip install playwright
