@@ -13,7 +13,7 @@ jobs:
       - name: Validate Commit Message Content
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|:monocle_face:|🧐|🔇|:mute:|🔊|:volume:|:loud:|:loud_sound:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥)(.*\s*)*)|(Merge|update|Update|Refactored|Dev (.*\s*)*)|(Initial commit$)'
+          pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|:monocle_face:|🧐|🔇|:mute:|🔊|:volume:|:loud:|:loud_sound:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:)(.*\s*)*)|(Merge|update|Update|Refactored|Dev (.*\s*)*)|(Initial commit$)'
           error: 'Semantic message not valid'
 
   lint-ruff:
