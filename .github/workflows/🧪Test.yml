@@ -31,13 +31,13 @@ jobs:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
 
-      - name: playwright dependencies
-        if: github.repository == 'mraniki/tt'
-        run: |
-          sudo apt-get -y install chromium-browser
-          pip install playwright
-          playwright install
-          playwright install-deps
+      # - name: playwright dependencies
+      #   if: github.repository == 'mraniki/tt'
+      #   run: |
+      #     sudo apt-get -y install chromium-browser
+      #     pip install playwright
+      #     playwright install
+      #     playwright install-deps
   
       - name: Get Secrets
         run: |
