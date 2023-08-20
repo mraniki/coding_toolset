@@ -36,7 +36,7 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v8.0.7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          root_options: -vv
+          #root_options: -vv
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
