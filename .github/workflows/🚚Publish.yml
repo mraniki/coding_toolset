@@ -22,6 +22,7 @@ jobs:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
 
+
       - name: Load credentials
         uses: 1password/load-secrets-action@v1
         with:
@@ -30,6 +31,12 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
+      - uses: actions/download-artifact@v3
+        with:
+          # unpacks default artifact into dist/
+          # if `name: artifact` is omitted, the action will create extra parent dir
+          name: artifact
+          path: dist
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
