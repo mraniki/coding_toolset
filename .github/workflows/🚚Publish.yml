@@ -44,8 +44,6 @@ jobs:
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        #if: github.repository != 'mraniki/tt'
-        if: steps.release.outputs.released == 'true'
         with:
           user: __token__
           password: ${{ env.PYPI_API_TOKEN }}
