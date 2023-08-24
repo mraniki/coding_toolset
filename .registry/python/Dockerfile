@@ -1,6 +1,6 @@
 FROM python:3.11
 WORKDIR /app
-COPY ./examples .
+COPY ./examples/ /.requirements/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 8443 8080
+EXPOSE 8080
 CMD [ "python", "./example.py" ]
