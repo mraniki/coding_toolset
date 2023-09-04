@@ -27,7 +27,7 @@ jobs:
           DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
   
       - name: Check out the repo
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
 
       - name: Prepare docker image name
         id: image_names

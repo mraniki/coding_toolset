@@ -28,7 +28,7 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.0.0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
