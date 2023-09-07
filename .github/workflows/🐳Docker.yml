@@ -27,13 +27,11 @@ jobs:
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
           DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
 
-      - name: Sleep for 2 minutes
-        run: sleep 120s
-        shell: bash
 
       - name: Check out the repo
         uses: actions/checkout@v4
-
+        with:
+            fetch-depth: 0
       - name: Prepare docker image name
         id: image_names
         run: |
