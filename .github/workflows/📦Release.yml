@@ -18,6 +18,8 @@ jobs:
     steps:
 
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Semantic Version and Release
         id: release
@@ -33,6 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
 
       - name: Nightly Merge
         uses: robotology/gh-action-nightly-merge@v1.4.0
