@@ -22,6 +22,7 @@ jobs:
 
       - name: Load credentials
         uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
         with:
           export-env: false
         env:
@@ -49,5 +50,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          password: ${{ env.PYPI_API_TOKEN }}
+          password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
 
