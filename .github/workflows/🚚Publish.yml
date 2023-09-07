@@ -34,14 +34,14 @@ jobs:
             fetch-depth: 0
 
       - name: Get latest release
-          id: latestrelease
+        id: latestrelease
         uses: cardinalby/git-get-release-action@v1
         with:
           latest: true
           prerelease: false
           draft: false
-         env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
       # - name: Set up Python
       #   uses: actions/setup-python@v4
