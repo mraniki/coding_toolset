@@ -33,15 +33,19 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Get latest release
-        id: latestrelease
-        uses: cardinalby/git-get-release-action@v1
+      - uses: actions/download-artifact@v3
         with:
-          latest: true
-          prerelease: false
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: artifact
+          path: dist
+      # - name: Get latest release
+      #   id: latestrelease
+      #   uses: cardinalby/git-get-release-action@v1
+      #   with:
+      #     latest: true
+      #     prerelease: false
+      #     draft: false
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
       # - name: Set up Python
       #   uses: actions/setup-python@v4

@@ -26,6 +26,9 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v8.0.7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        with:
+            path: dist/*.tar.gz
 
 
   merge:
