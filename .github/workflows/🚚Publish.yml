@@ -28,25 +28,25 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      # - uses: actions/checkout@v4
+      # - name: Set up Python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.11'
   
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          python -m pip install --upgrade pip twine
-          pip install poetry
-          poetry install
-      - name: Build package
-        run: poetry build
+      # - name: Install dependencies
+      #   run: |
+      #     pip install --upgrade pip
+      #     python -m pip install --upgrade pip twine
+      #     pip install poetry
+      #     poetry install
+      # - name: Build package
+      #   run: poetry build
+      - uses: actions/download-artifact@v3
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ env.PYPI_API_TOKEN }}
-          # password: ${{ secrets.PYPI_API_TOKEN }}
 
