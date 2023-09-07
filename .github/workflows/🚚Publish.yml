@@ -23,12 +23,12 @@ jobs:
       - name: Load credentials
         uses: 1password/load-secrets-action@v1
         with:
-          export-env: true
+          export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
