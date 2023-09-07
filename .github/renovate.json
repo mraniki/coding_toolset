@@ -16,13 +16,13 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true,
-      "matchBaseBranches": ["dev"],
+      "matchBaseBranches": ["main"],
       "minimumReleaseAge": "15 days"
     },
     {
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "matchBaseBranches": ["dev"],
+      "matchBaseBranches": ["main"],
       "minimumReleaseAge": "30 days"
     }
   ]
