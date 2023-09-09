@@ -39,9 +39,8 @@ jobs:
     if: |
       github.event_name == 'pull_request' &&
       (
-        github.actor != 'dependabot[bot]' ||
-        github.actor != 'renovate[bot]' ||
-        github.actor != 'github-actions[bot]'
+        github.author != 'dependabot[bot]' ||
+        github.author != 'renovate[bot]'
       )
     steps:
       - uses: actions/checkout@v4
