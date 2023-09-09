@@ -34,9 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    #if: ${{ github.event_name == 'pull_request' }}
-    #&& ${{ github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]' }} && (github.actor != 'github-actions[bot]')
-    if: ${{ github.event_name == 'pull_request' }} && (${{github.actor != 'dependabot[bot]' }} || ${{github.actor != 'renovate[bot]' }} || ${{github.triggering_actor !='renovate[bot]' }})
+    if: ${{ github.ref == 'refs/heads/dev' && github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v4
         with:
