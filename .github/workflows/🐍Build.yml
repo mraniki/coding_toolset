@@ -34,7 +34,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.event_name == 'pull_request' }}
+    #if: ${{ github.event_name == 'pull_request' }}
+    #&& ${{ github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]' }} && (github.actor != 'github-actions[bot]')
+    if: |
+      github.event_name == 'pull_request' &&
+      (
+        github.actor != 'dependabot[bot]' ||
+        github.actor != 'renovate[bot]' ||
+        github.actor != 'github-actions[bot]'
+      )
     steps:
       - uses: actions/checkout@v4
         with:
