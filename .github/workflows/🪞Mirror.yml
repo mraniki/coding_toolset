@@ -25,7 +25,7 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          CODEBERG: "op://git/CODEBERG/password"
+          CODEBERG: "op://git/CODEBERG/key"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -33,6 +33,27 @@ jobs:
         with:
           target_repo_url: "git@codeberg.org:mraniki/${GITHUB_REPOSITORY}"
           ssh_private_key: ${{ steps.op-load-secrets.outputs.CODEBERG }}
+
+  gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          GITLAB: "op://git/GITLAB/key" 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@gitlab.com:mraniki/${GITHUB_REPOSITORY}".git
+          ssh_private_key: ${{ steps.op-load-secrets.outputs.GITLAB }}
+            
           
 
           
