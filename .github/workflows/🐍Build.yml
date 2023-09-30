@@ -34,7 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.ref == 'refs/heads/dev' && github.event_name == 'push' }}
+    if: ${{ github.ref == 'refs/heads/dev' 
+    #&& github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v4
         with:
