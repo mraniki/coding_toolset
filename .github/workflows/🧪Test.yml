@@ -15,6 +15,10 @@ jobs:
       matrix:
         #os: [ubuntu-latest]
         python-version: ["3.10", "3.11", "3.12"]
+        include:
+          - experimental: false
+          - python-version: "3.12"
+          experimental: true
     #runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
     steps:
@@ -25,7 +29,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          allow-prereleases: true
+          allow-prereleases: ${{ matrix.experimental }}
           
       - name: Install Poetry
         uses: snok/install-poetry@v1
