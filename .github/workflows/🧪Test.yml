@@ -8,14 +8,13 @@ on:
  
 jobs:
   test:
-    runs-on: ubuntu-latest
-    #runs-on: ${{ matrix.os }}
+    #runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        #os: [ubuntu-latest]
-        python-version: ["3.09","3.10", "3.11"]
-        #"3.12"]
+        os: [ubuntu-latest]
+        python-version: ["3.9","3.10", "3.11","3.12"]
         include:
           - experimental: true
           - check-latest: true
