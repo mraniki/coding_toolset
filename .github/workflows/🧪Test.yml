@@ -15,6 +15,8 @@ jobs:
       matrix:
         #os: [ubuntu-latest]
         python-version: ["3.09","3.10", "3.11"]
+        allow-prereleases: true
+        check-latest: true
         #"3.12"]
         include:
           - experimental: false
