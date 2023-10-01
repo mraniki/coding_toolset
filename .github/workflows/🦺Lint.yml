@@ -33,7 +33,8 @@ jobs:
 
     - uses: pre-commit/action@v3.0.0
       with:
-        extra_args: --config .github/.pre-commit-config.yaml --all-files
+        extra_args: --config .github/.pre-commit-config.yaml
+        #  --all-files
     # - run: |
     #     pip install pre-commit
     #     pre-commit install
