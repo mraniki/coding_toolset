@@ -31,20 +31,20 @@ jobs:
       with:
         python-version: "3.x"
 
-    - uses: pre-commit/action@v3.0.0
-      with:
-        extra_args: --config .github/.pre-commit-config.yaml
-        #  --all-files
-    # - run: |
-    #     pip install pre-commit
-    #     pre-commit install
-    #     pre-commit run --config .github/.pre-commit-config.yaml --all-files
+    # - uses: pre-commit/action@v3.0.0
+    #   with:
+    #     extra_args: --config .github/.pre-commit-config.yaml
+    #     #  --all-files
+    # # - run: |
+    # #     pip install pre-commit
+    # #     pre-commit install
+    # #     pre-commit run --config .github/.pre-commit-config.yaml --all-files
     
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      if: ${{ failure() }}
-      with:
-        commit_message: Apply automatic changes
-        commit_options: "--no-verify"
+    # - uses: stefanzweifel/git-auto-commit-action@v4
+    #   if: ${{ failure() }}
+    #   with:
+    #     commit_message: Apply automatic changes
+    #     commit_options: "--no-verify"
 
 
 
