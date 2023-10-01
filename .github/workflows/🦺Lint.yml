@@ -35,6 +35,11 @@ jobs:
         pre-commit install
         pre-commit run --config .github/.pre-commit-config.yaml --all-files
 
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+          repository: .
+          commit_message: Precommit fix
+
 
     # - uses: pre-commit/action@v3.0.0
     #   with:
