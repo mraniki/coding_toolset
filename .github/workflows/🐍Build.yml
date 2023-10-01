@@ -34,9 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.ref == 'refs/heads/dev' }}
+    # if: ${{ github.ref == 'refs/heads/dev' }}
+    # if: ${{ github.ref.type == 'dev' }}
+    if: github.event_name == 'pull_request'
     #&& github.event_name == 'push' }}
-    steps:
+    steps: 
       - uses: actions/checkout@v4
         with:
             fetch-depth: 0
