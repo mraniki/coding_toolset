@@ -5,21 +5,28 @@ on:
   workflow_call:
 
 jobs:
-  Bandit:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-
+  Bypass:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Bandit Scan
-        uses: shundor/python-bandit-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
-        with: # optional arguments
-          exit_zero: true # optional, default is DEFAULT
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
-          excluded_paths: "tests" # optional, default is DEFAULT
+      - name: skip
+        run: |
+          echo "replaced via precommit hook"
+  # Bandit:
+  #   permissions:
+  #     contents: read # for actions/checkout to fetch code
+  #     security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+  #     actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Bandit Scan
+  #       uses: shundor/python-bandit-scan@9cc5aa4a006482b8a7f91134412df6772dbda22c
+  #       with: # optional arguments
+  #         exit_zero: true # optional, default is DEFAULT
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+  #         excluded_paths: "tests" # optional, default is DEFAULT
 
       # - name: Run bandit
       #   run: >
