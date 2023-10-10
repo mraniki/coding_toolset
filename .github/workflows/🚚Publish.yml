@@ -34,12 +34,15 @@ jobs:
             fetch-depth: 0
 
       - uses: actions/download-artifact@v3
+        id: download
         with:
           name: artifact
           path: dist
+          if_no_artifact_found: ignore
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        #if: ${{ steps.download.outputs != null }}
         with:
           user: __token__
           password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
