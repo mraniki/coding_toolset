@@ -19,7 +19,12 @@ jobs:
         with: # optional arguments
           exit_zero: true # optional, default is DEFAULT
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
-          excluded_paths: tests # optional, default is DEFAULT
+          excluded_paths: "tests" # optional, default is DEFAULT
+
+      # - name: Run bandit
+      #   run: >
+      #     pip install bandit
+      #     bandit -c bandit.toml -r boom
 
   # GitGuardian:
   #   name: GitGuardian Scanning
