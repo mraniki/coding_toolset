@@ -28,10 +28,12 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+          TOKEN: "op://git/GITHUB/TOKEN"
 
       - uses: actions/checkout@v4
         with:
             fetch-depth: 0
+            token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
       - uses: actions/download-artifact@v3
         id: download
