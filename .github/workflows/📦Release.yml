@@ -116,7 +116,7 @@ jobs:
         with:
           stable_branch: 'main'
           development_branch: 'dev'
-          allow_ff: true
+          allow_ff: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
