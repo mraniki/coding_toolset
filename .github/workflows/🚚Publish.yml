@@ -40,7 +40,6 @@ jobs:
         with:
           name: artifact
           path: dist
-          if_no_artifact_found: ignore
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
