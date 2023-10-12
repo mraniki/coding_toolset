@@ -27,6 +27,7 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
+          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
       - uses: actions/checkout@v4
         with:
@@ -38,12 +39,40 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v8.1.1
         with:
           github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
-      - uses: actions/upload-artifact@v3
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #       path: dist/*.tar.gz
+      #       name: artifact
+
+      - name: Publish package distributions to PyPI
+        if: steps.release.outputs.released == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-            path: dist/*.tar.gz
-            name: artifact
+            skip-existing: true
+            user: __token__
+            password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
 
 
+  merge:
+    runs-on: ubuntu-latest
+    needs: release
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+
+      - name: Nightly Merge
+        uses: robotology/gh-action-nightly-merge@v1.4.0
+        with:
+          stable_branch: 'main'
+          development_branch: 'dev'
+          allow_ff: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          
 # name: Release to PyPI
 
 # on:
@@ -100,24 +129,4 @@ jobs:
 #           commit: main
 #       - name: Publish package distributions to PyPI
 #       uses: pypa/gh-action-pypi-publish@release/v1
-
-
-  merge:
-    runs-on: ubuntu-latest
-    needs: release
-    if: always()
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-            fetch-depth: 0
-
-      - name: Nightly Merge
-        uses: robotology/gh-action-nightly-merge@v1.4.0
-        with:
-          stable_branch: 'main'
-          development_branch: 'dev'
-          allow_ff: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
