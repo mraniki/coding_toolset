@@ -1,0 +1,16 @@
+name: ⛙Automerge
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Enable Pull Request Automerge
+      run: gh pr merge --merge --auto "1"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
