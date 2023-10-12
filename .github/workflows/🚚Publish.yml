@@ -14,8 +14,6 @@ jobs:
     permissions:
         id-token: write
         contents: write
-        pull-requests: read
-        action: read
 
     steps:
 
@@ -45,7 +43,7 @@ jobs:
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        #if: ${{ steps.download.outputs != null }}
+        if: ${{ steps.download.outputs != null }}
         with:
           user: __token__
           password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
