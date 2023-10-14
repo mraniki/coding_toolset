@@ -37,10 +37,23 @@ jobs:
       
     if: github.event_name == 'pull_request'
 
-    steps: 
+    steps:
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+
+      - name: Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TOKEN: "op://git/GITHUB/TOKEN"
+
       - uses: actions/checkout@v4
         with:
             fetch-depth: 0
+            token: ${{ steps.op-load-secrets.outputs.TOKEN }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
