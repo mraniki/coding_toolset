@@ -67,3 +67,7 @@ jobs:
             repository: .
             commit_message: Update Requirements
             file_pattern: .requirements/
+            commit_user_name: github-actions[bot] # defaults to "github-actions[bot]"
+            commit_user_email: 8766259+mraniki@users.noreply.github.com 
+            commit_author: github-actions[bot] <8766259+mraniki@users.noreply.github.com> # defaults to author of the commit that triggered the run
+
