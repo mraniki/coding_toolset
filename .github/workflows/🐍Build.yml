@@ -34,10 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # if: ${{ github.ref == 'refs/heads/dev' }}
-    # if: ${{ github.ref.type == 'dev' }}
+      
     if: github.event_name == 'pull_request'
-    #&& github.event_name == 'push' }}
+
     steps: 
       - uses: actions/checkout@v4
         with:
@@ -66,8 +65,8 @@ jobs:
         with:
             repository: .
             commit_message: Update Requirements
+            commit_options: '--no-verify'
             file_pattern: .requirements/
-            # push_options: '--force'
             commit_user_name: mraniki
             commit_user_email: 8766259+mraniki@users.noreply.github.com 
             commit_author: mraniki <8766259+mraniki@users.noreply.github.com>
