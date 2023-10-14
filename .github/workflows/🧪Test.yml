@@ -5,6 +5,12 @@ name: 🧪Test
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings_location:
+        required: false
+        type: string
+        default: '.'
+
  
 jobs:
   test:

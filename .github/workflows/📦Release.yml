@@ -4,6 +4,15 @@ name: 📦Release
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings_token:
+        required: false
+        type: string
+        default: '.'
+      settings_pypi:
+        required: false
+        type: string
+        default: '.'
 
 jobs:
 
@@ -39,11 +48,6 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v8.1.1
         with:
           github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #       path: dist/*.tar.gz
-      #       name: artifact
-     
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

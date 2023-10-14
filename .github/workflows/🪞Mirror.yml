@@ -3,6 +3,15 @@ name: 🪞Mirror
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings_codeberg:
+        required: false
+        type: string
+        default: '.'
+      settings_gitlab:
+        required: false
+        type: string
+        default: '.'
 
 jobs:
 

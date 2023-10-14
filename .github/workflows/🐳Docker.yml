@@ -6,13 +6,21 @@ run-name: ${{ github.actor }} is using 🐳
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings_docker_username:
+        required: false
+        type: string
+        default: '.'
+      settings_docker_password:
+        required: false
+        type: string
+        default: '.'
  
 jobs:
 
   latest:
     name: 🐳 Build and Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-   # if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     steps:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1

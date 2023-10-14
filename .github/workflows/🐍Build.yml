@@ -4,6 +4,11 @@ name: 🐍Build
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings_token:
+        required: false
+        type: string
+        default: '.'
 
 jobs:
 

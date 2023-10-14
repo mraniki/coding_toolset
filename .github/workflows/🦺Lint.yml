@@ -4,6 +4,11 @@ name: 🦺Lint
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      settings:
+        required: false
+        type: string
+        default: '.'
 
 jobs:
   lint-ruff:
@@ -34,11 +39,7 @@ jobs:
     - uses: pre-commit/action@v3.0.0
       with:
         extra_args: --config .github/.pre-commit-config.yaml
-        #  --all-files
-    # - run: |
-    #     pip install pre-commit
-    #     pre-commit install
-    #     pre-commit run --config .github/.pre-commit-config.yaml --all-files
+        
     
     - uses: stefanzweifel/git-auto-commit-action@v4
       if: ${{ failure() }}
@@ -46,46 +47,3 @@ jobs:
         commit_message: Apply automatic changes
         commit_options: "--no-verify"
 
-
-
-        
-    # black:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - uses: actions/checkout@v3
-    #         - uses: psf/black@stable
-    #           with:
-    #               options: --check --verbose
-
-  # superlint:
-  #   name: Linting & CodingStandards
-  #   # needs: [validate-commit-message]
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out repository
-  #       uses: actions/checkout@v3.6.0
-
-  #     - name: Lint Code Base
-  #       uses: github/super-linter@v5
-  #       env:
-  #         VALIDATE_ALL_CODEBASE: false
-  #         DEFAULT_BRANCH: main
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         VALIDATE_MARKDOWN: false
-  #         VALIDATE_PYTHON_MYPY: false
-  #         VALIDATE_PYTHON_FLAKE8: false
-  #         VALIDATE_PYTHON_BLACK: false
-  #         VALIDATE_PYTHON_ISORT: false
-  #         # LINTER_RULES_PATH: ./
-
-
-  # validate-commit-message:
-  #   name: Validate Commit Message
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Validate Commit Message Content
-  #       uses: gsactions/commit-message-checker@v2
-  #       with:
-  #         pattern: '^((fix|🎨|:art:|🐛|:bug:|🚑|:ambulance:|⚡|:zap:|🔥|:fire:|🚨|:rotating_light:|♻️|:recycle:|🔧|:wrench:|⬆️|:arrow_up:|🩹|:adhesive_bandage:|👷|:construction_worker:|:construction_worker_man:|📝|:memo:|🔒|:lock:|👽|:alien:|💬|:speech_balloon:|🥅|:goal_net:|✅|:white_check_mark:|🐳|:whale:|🙈|:see_no_evil:|⚗️|:alembic:|:monocle_face:|🧐|🔇|:mute:|🔊|:volume:|:loud:|:loud_sound:|feat|🥚|:egg:|🚀|:rocket:|💄|:lipstick:|✨|:sparkles:|BREAKING|💥|:boom:)(.*\s*)*)|(Merge|update|Update|Refactored|Dev (.*\s*)*)|(Initial commit$)'
-  #         error: 'Semantic message not valid'
