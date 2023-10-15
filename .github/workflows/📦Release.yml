@@ -56,9 +56,9 @@ jobs:
         if: github.repository != 'mraniki/tt'
         #if: github.event.inputs.settings_pypi != null
         with:
-            skip-existing: true
-            user: __token__
-            password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
+          skip-existing: true
+          user: __token__
+          password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
           # password: ${{ inputs.settings_pypi }}
 
   merge:
