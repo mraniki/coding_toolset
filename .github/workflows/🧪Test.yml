@@ -70,6 +70,13 @@ jobs:
       #   working-directory: .
       #   env:
       #       OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      # - name: Get Secrets
+      #   run: |
+      #     op read ${{ inputs.settings_location }} > settings.toml
+      #   working-directory: .
+      #   env:
+      #       OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
   
       - name: Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
