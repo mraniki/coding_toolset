@@ -66,7 +66,7 @@ jobs:
 
       # - name: Get Secrets
       #   run: |
-      #     op read ${{ input.SETTINGS_LOCATION }} > settings.toml
+      #     op read ${{ secrets.SETTINGS_LOCATION }} > settings.toml
       #   working-directory: .
       #   env:
       #       OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
