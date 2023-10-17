@@ -65,7 +65,7 @@ jobs:
           github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
       - name: Upload to PyPI via Twine
-        if: ${{github.event.inputs.settings_pypi}} == 'true'
+        if: ${{github.event.inputs.settings_pypi}} == 'true' && ${{ steps.release.outputs.released }} == 'true'
         continue-on-error: true
         env:
           TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
