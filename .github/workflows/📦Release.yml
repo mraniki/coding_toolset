@@ -73,10 +73,23 @@ jobs:
         contents: write
 
     steps:
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+
+      - name: Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TOKEN: "op://git/GITHUB/TOKEN"
+          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+
       - name: Set up latest Python
         uses: actions/setup-python@v4
         with:
-          python-version: "*"
+          python-version: '3.11'
 
       - name: Install latest pip, build, twine
         run: |
@@ -93,7 +106,7 @@ jobs:
       - name: Publish sdists and wheels to PyPI
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_KEY }}
+          TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
         run: |
           twine upload dist/*
 
