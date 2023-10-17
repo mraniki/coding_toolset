@@ -41,7 +41,7 @@ jobs:
       contents: write
       
     if: github.event_name == 'pull_request'
-
+    continue-on-error: true
     steps:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
