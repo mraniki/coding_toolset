@@ -41,7 +41,6 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
-          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
       - uses: actions/checkout@v4
         with:
@@ -54,20 +53,13 @@ jobs:
         with:
           github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
-      # - name: Publish package distributions to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     skip-existing: true
-      #     user: __token__
-      #     password: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
-
 
   upload:
 
     runs-on: ubuntu-latest
     concurrency: release
     needs: release
-    if: ${{github.event.inputs.settings_pypi}}
+    if: ${{github.event.inputs.settings_pypi}} == 'true'
     permissions:
         id-token: write
         contents: write
@@ -83,7 +75,6 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
       - name: Set up latest Python
@@ -103,14 +94,12 @@ jobs:
         env:
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: twine upload --verbose -u '__token__' dist/*
-      - name: Publish sdists and wheels to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
-        run: |
-          twine upload dist/*
-
-
+      # - name: Publish sdists and wheels to PyPI
+      #   env:
+      #     TWINE_USERNAME: __token__
+      #     TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
+      #   run: |
+      #     twine upload dist/*
 
   merge:
     runs-on: ubuntu-latest
