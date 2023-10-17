@@ -41,12 +41,23 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
+          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
+      - name: Set up latest Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install latest pip, build, twine
+        run: |
+          python -m pip install --upgrade --disable-pip-version-check pip
+          python -m pip install --upgrade build twine
+    
       - name: Semantic Version and Release
         id: release
         uses: python-semantic-release/python-semantic-release@v8.1.1
