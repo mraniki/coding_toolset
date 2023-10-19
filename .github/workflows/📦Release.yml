@@ -70,7 +70,14 @@ jobs:
         env:
           TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
         run: twine upload --verbose -u '__token__' dist/*
-        
+
+      - name: Publish package to GitHub Release
+        uses: python-semantic-release/upload-to-gh-release@main
+        if: ${{ steps.release.outputs.released }} == 'true'
+        with:
+          github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}
+
 
   mergetodev:
     runs-on: ubuntu-latest
