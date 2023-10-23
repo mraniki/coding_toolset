@@ -60,10 +60,12 @@ jobs:
             git checkout origin/dev
             git add .
             git commit -m "Auto" --allow-empty
+            git push origin HEAD:dev
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
-                         --base "main"
+                         --base "main" \
+                         --head "dev"
 
           
         
