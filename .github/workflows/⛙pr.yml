@@ -60,7 +60,7 @@ jobs:
             git checkout origin/dev
             git add .
             git checkout main
-            git commit -m "Auto"
+            git commit -m "Auto" --allow-empty
             git push 
             
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
