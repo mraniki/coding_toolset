@@ -59,8 +59,8 @@ jobs:
 
             git checkout origin/dev
             git add .
-            git commit -am "⬆️ 🤖 (dependency)"
-            git push origin dev
+            git commit -m "⬆️ (dep)" -a
+            git push
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
