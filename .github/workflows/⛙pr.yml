@@ -63,7 +63,7 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git status
-          # git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
+
             git add .
             git push origin HEAD:dev
             git pull origin main --rebase
@@ -72,8 +72,7 @@ jobs:
                          --base "main" \
                          --head "dev" \
                          --fill
-          #  --body "Auto Release" \
-          
+
         - name: Push to main
           needs: cpr
           env:
