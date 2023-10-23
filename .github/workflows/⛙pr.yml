@@ -63,8 +63,7 @@ jobs:
 
             git checkout origin/dev
             git add .
-            git push -u HEAD:dev 
-            git pull HEAD:main
+            git push -u HEAD:dev HEAD:main
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
