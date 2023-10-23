@@ -71,7 +71,7 @@ jobs:
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --base "main" \
                          --head "dev" \
-                         --fill
+                         --body "Auto Release"
 
     push:
       name: 'Create GitHub PR'
