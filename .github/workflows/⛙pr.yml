@@ -52,7 +52,7 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
-            gh pr create --title "Automated PR - ${{ github.ref_name}}" \
+            gh pr create --title "⬆️ 🤖 Automated PR - ${{ github.ref_name}}-${{ github.sha }}" \
                         --body "Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
                         --head "dev" \
                         --base "main"
