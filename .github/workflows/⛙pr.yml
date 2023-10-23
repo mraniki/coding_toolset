@@ -40,7 +40,7 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
-            if git diff dev origin/main >/dev/null; then
+            if git diff origin/dev origin/main >/dev/null; then
               echo "no change"
             else
               echo "change"
@@ -56,9 +56,9 @@ jobs:
             git config user.email "action@github.com"
             git config user.name "GitHub Action"
 
-            git checkout -b dev
-            git add .
-            git commit -am "⬆️ 🤖 (dependency)"
+            # git checkout -b dev
+            # git add .
+            # git commit -am "⬆️ 🤖 (dependency)"
             git push --set-upstream origin dev
 
             gh pr create --title "⬆️ 🤖 - ${{ github.ref_name}}-${{ github.sha }}" \
