@@ -61,9 +61,10 @@ jobs:
             git config user.email "action@github.com"
             git config user.name "GitHub Action"
 
+            git fetch --all           
             git checkout origin/dev
             git add .
-            git push -u HEAD:dev HEAD:main
+            git push -u origin dev
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
