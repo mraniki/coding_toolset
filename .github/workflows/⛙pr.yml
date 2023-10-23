@@ -59,7 +59,6 @@ jobs:
 
             git checkout origin/dev
             git add .
-            git checkout main
             git merge origin/dev
             git push origin main
 
