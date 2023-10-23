@@ -16,6 +16,7 @@ jobs:
       name: 'Create GitHub PR'
       runs-on: ubuntu-latest
       permissions:
+        contents: write
         pull-requests: write
       steps:
         - name: Install 1Password CLI
@@ -61,7 +62,7 @@ jobs:
             git checkout origin/dev
             git add .
             git commit -m "Auto" --allow-empty
-            git push origin HEAD:dev
+            git push origin HEAD:main
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
