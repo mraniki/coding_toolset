@@ -66,12 +66,12 @@ jobs:
             git status
             git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
             git add .
-            git push origin dev
-            git pull origin main
+            git push origin/dev
+            git pull origin/main
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --body "Auto Release" \
-                         --base "main" \
+                         --base "origin/main" \
                          --head "origin/dev"
 
           
