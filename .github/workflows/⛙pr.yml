@@ -56,9 +56,9 @@ jobs:
             git config user.email "action@github.com"
             git config user.name "GitHub Action"
 
-            # git checkout -b dev
-            # git add .
-            # git commit -am "⬆️ 🤖 (dependency)"
+            git checkout -b dev
+            git add .
+            git commit -am "⬆️ 🤖 (dependency)"
             git push --set-upstream origin ${{ github.ref_name}}
 
             gh pr create --title "⬆️ 🤖 - ${{ github.ref_name}}-${{ github.sha }}" \
