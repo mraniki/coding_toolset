@@ -74,7 +74,7 @@ jobs:
                          --fill
 
         - name: Push to main
-          needs: cpr
+          needs: [cpr]
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
