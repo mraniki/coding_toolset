@@ -59,13 +59,12 @@ jobs:
 
             git checkout origin/dev
             git add .
-            git checkout main
             git commit -m "Auto" --allow-empty
             git push 
             
-            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
-                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
-                         --head "origin/dev" \
+            gh pr create --title "⬆️ 🤖 - Auto Release - " \
+                         --body " " \
+                         --head "dev" \
                          --base "main"
 
           
