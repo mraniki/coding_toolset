@@ -64,7 +64,7 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git add .
-            git push -u origin dev
+            git push -u origin/dev
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
