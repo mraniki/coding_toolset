@@ -42,12 +42,12 @@ jobs:
             token: ${{ steps.op-load-secrets.outputs.TOKEN }}
             branch: dev
             base: main
-            commit-message: ⬆️ 🛠️ Update dependencies
+            commit-message: Update dependencies
             title: Update dependencies
 
         - name: Check outputs
             if: ${{ steps.cpr.outputs.pull-request-number }}
            run: |
-             echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-             echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+            echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+            echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
         
