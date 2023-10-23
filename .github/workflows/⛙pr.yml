@@ -65,7 +65,7 @@ jobs:
             
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                          --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
-                         --head "dev" \
+                         --head "origin/dev" \
                          --base "main"
 
           
