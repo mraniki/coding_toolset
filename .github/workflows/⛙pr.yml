@@ -71,7 +71,7 @@ jobs:
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --body "Auto Release" \
                          --base "main" \
-                         --head "dev"
+                         --head "origin/dev"
 
           
         
