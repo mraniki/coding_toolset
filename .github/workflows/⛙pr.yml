@@ -68,8 +68,8 @@ jobs:
             git push origin HEAD:dev
             git pull origin main
 
-            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
-                         --fill \
+            gh pr create --title "⬆️ 🤖 - Auto Release" \
+                         --body "Auto Release" \
                          --base "main" \
                          --head "dev"
 
