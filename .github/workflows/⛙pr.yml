@@ -52,6 +52,11 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
+          
+            git checkout -b dev
+            git commit -am "⬆️ 🤖 (dependency)"
+            git push --set-upstream origin dev
+
             gh pr create --title "⬆️ 🤖 - ${{ github.ref_name}}-${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
                         --head "dev" \
