@@ -63,11 +63,13 @@ jobs:
 
             git fetch --all           
             git checkout origin/dev
+            git status
             git add .
             git push origin HEAD:dev
-            
-            gh pr create --title "⬆️ 🤖 - Auto Release - " \
-                         --body " " \
+            git pull origin main
+
+            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
+                         --fill \
                          --base "main" \
                          --head "dev"
 
