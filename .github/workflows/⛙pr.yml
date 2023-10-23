@@ -58,13 +58,9 @@ jobs:
             git config user.name "GitHub Action"
 
             git checkout origin/dev
+            git add .
             git merge dev
             git push
-
-          # git checkout origin/dev
-          # git add .
-          # git commit -m "⬆️ (dep)" -a
-          # git push
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
