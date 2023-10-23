@@ -74,9 +74,9 @@ jobs:
                          --fill
           #  --body "Auto Release" \
           
-          - name: Push to main
-            needs: cpr
-            env:
-              GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
-            run: |
-              git push origin main
+        - name: Push to main
+          needs: cpr
+          env:
+            GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
+          run: |
+            git push origin main
