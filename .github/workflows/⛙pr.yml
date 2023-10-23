@@ -63,6 +63,7 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git status
+            git commit -m "Auto" --allow-empty
 
             git add .
             git push origin HEAD:dev
