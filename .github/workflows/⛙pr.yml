@@ -75,7 +75,7 @@ jobs:
                          --body "Auto Release"
 
     push:
-      name: 'Create GitHub PR'
+      name: 'Push to main'
       needs: [create_pull_request]
       runs-on: ubuntu-latest
       concurrency: release
