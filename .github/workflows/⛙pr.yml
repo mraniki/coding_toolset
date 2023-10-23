@@ -64,15 +64,15 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git status
-            git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
+          # git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
             git add .
             git push origin HEAD:dev
             git pull origin main --rebase
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
-                         --body "Auto Release" \
                          --base "main" \
-                         --head "dev"
-
+                         --head "dev" \
+                         --fill
+          #  --body "Auto Release" \
           
         
