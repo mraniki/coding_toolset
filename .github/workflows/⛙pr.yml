@@ -65,6 +65,7 @@ jobs:
             git checkout origin/dev
             git status
             git add .
+            git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
             git push origin HEAD:dev
             git pull origin main
 
