@@ -39,8 +39,8 @@ jobs:
           uses: peter-evans/create-pull-request@v5
           with:
             token: ${{ steps.op-load-secrets.outputs.TOKEN }}
-            branch: dev
-            base: main
+            branch: main
+            base: dev
             commit-message: ⬆️ 🛠️ Update dependencies
             title: Update dependencies
     
