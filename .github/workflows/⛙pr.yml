@@ -52,14 +52,15 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
+            echo "${{ steps.diff.outputs.CHANGE }}"
 
             git config user.email "action@github.com"
             git config user.name "GitHub Action"
 
-            # git checkout dev
+            git checkout origin/dev
             git add .
             git commit -am "⬆️ 🤖 (dependency)"
-            git push --set-upstream origin origin/dev
+            git push origin dev
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
