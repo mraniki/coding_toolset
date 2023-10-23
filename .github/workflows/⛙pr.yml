@@ -40,14 +40,14 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
-            if git diff origin/dev origin/main >/dev/null; then
-              echo ""
+            if git diff dev main >/dev/null; then
+              echo "No changes"
             else
               echo "change identified"
             fi
 
         - name: Create pull request
-          if: ${{ steps.diff.outputs.stdout }} != ''
+          if: ${{ steps.diff.outputs.stdout }} == "change identified"
           id: cpr
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
