@@ -64,9 +64,9 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git status
-            git add .
             git commit -m "⬆️ 🤖 - Auto Release" --allow-empty
-            git push origin HEAD:dev
+            git add .
+            git push HEAD:dev
             git pull origin main
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
