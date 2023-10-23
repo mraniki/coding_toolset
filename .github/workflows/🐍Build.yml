@@ -79,7 +79,7 @@ jobs:
           poetry export --without-hashes --format=requirements.txt > requirements.txt
           cp requirements.txt .requirements/requirements.txt
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
             repository: .
             commit_message: Update Requirements
