@@ -40,7 +40,7 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
-            if git diff dev main >/dev/null; then
+            if git diff origin/dev origin/main >/dev/null; then
               echo "No changes"
             else
               echo "change identified"
@@ -59,7 +59,7 @@ jobs:
             # git checkout dev
             git add .
             git commit -am "⬆️ 🤖 (dependency)"
-            git push --set-upstream origin ${{ github.ref_name}}
+            git push --set-upstream origin origin/dev
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
