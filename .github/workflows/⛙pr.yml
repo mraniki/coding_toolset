@@ -15,7 +15,9 @@ jobs:
     create_pull_request:
       name: 'Create GitHub PR'
       runs-on: ubuntu-latest
+      concurrency: release
       permissions:
+        id-token: write
         contents: write
         pull-requests: write
       steps:
@@ -61,8 +63,7 @@ jobs:
 
             git checkout origin/dev
             git add .
-            git commit -m "Auto" --allow-empty
-            git push origin HEAD:main
+            git push origin HEAD:dev
             
             gh pr create --title "⬆️ 🤖 - Auto Release - " \
                          --body " " \
