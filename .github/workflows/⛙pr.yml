@@ -41,9 +41,9 @@ jobs:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
             if git diff origin/dev origin/main >/dev/null; then
-              echo "no change"
+              echo ""
             else
-              echo "change"
+              echo "change identified"
             fi
 
         - name: Create pull request
@@ -59,7 +59,7 @@ jobs:
             # git checkout -b dev
             # git add .
             # git commit -am "⬆️ 🤖 (dependency)"
-            git push --set-upstream origin dev
+            git push --set-upstream origin ${{ github.ref_name}}
 
             gh pr create --title "⬆️ 🤖 - ${{ github.ref_name}}-${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
