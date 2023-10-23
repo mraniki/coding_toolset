@@ -60,7 +60,7 @@ jobs:
             git checkout origin/dev
             git add .
             git merge origin/dev
-            git push
+            git push origin main
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.sha }}" \
                         --body "[${{ github.sha }}](https://github.com/${{ github.repository }}/commits/${{ github.sha }})" \
