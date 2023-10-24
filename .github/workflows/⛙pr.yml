@@ -104,4 +104,9 @@ jobs:
           env:
             GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
           run: |
+            git config user.email "action@github.com"
+            git config user.name "GitHub Action"
+
+            git fetch --all           
+            git checkout origin/dev
             git push origin main
