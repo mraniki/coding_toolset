@@ -31,30 +31,29 @@ jobs:
   precommit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
-
-    - uses: pre-commit/action@v3.0.0
-      with:
-        extra_args: --config .github/.pre-commit-config.yaml
-
-    - name: Job Info
-      if: success()
-      run: |
-        echo "pre-check is successful."
-        echo workspace is: ${{ github.workspace }}
-        echo "is workflow_dispatch event? ${{ github.event_name == 'workflow_dispatch' }}"
-        echo "is push event? ${{ github.event_name == 'push' }}"
-        echo "is pull request event? ${{ github.event_name == 'pull_request' }}"
-        echo "pull_request.head.ref is: ${{ github.event.pull_request.head.ref }}"
-        echo "github.ref_name is: ${{ github.ref_name }}"
-        echo "github.ref is: ${{ github.ref }}"
-        echo "github.head_ref is: ${{ github.head_ref }}"
-        echo "pypi_publish? ${{ github.event.inputs.pypi_publish }}"
-
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+  
+      - uses: pre-commit/action@v3.0.0
+        with:
+          extra_args: --config .github/.pre-commit-config.yaml
+  
+      - name: Job Info
+        if: success()
+        run: |
+          echo "pre-check is successful."
+          echo workspace is: ${{ github.workspace }}
+          echo "is workflow_dispatch event? ${{ github.event_name == 'workflow_dispatch' }}"
+          echo "is push event? ${{ github.event_name == 'push' }}"
+          echo "is pull request event? ${{ github.event_name == 'pull_request' }}"
+          echo "pull_request.head.ref is: ${{ github.event.pull_request.head.ref }}"
+          echo "github.ref_name is: ${{ github.ref_name }}"
+          echo "github.ref is: ${{ github.ref }}"
+          echo "github.head_ref is: ${{ github.head_ref }}"
+          echo "pypi_publish? ${{ github.event.inputs.pypi_publish }}"
 
   secrets:
     needs: [precommit]
@@ -89,6 +88,8 @@ jobs:
           CODEBERG: "op://git/CODEBERG/key"
 
   buildntest:
+    outputs:
+      version: ${{ steps.semantic.outputs.tag }}
     needs: [precommit, secrets]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -116,14 +117,29 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Build package and requirements
+      - name: Build package
         run: |
           poetry build
+      - name: Update Version
+          id: semantic
+         env:
+           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+         run: |
+           poetry run semantic-release version
+           cat $GITHUB_OUTPUT
+      - name: Save artefact
+      - uses: actions/upload-artifact@v2
+        with:
+          path: /dist
+          
+      - name: Build requirements
+        run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
           cp requirements.txt .requirements/requirements.txt
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Save requirements
+        uses: stefanzweifel/git-auto-commit-action@v5
         if: github.event_name == 'pull_request'
         continue-on-error: true
         with:
@@ -145,26 +161,46 @@ jobs:
 
   pullrequest:
     needs: [precommit, secrets, buildntest]
-    if: ${{ github.ref == 'refs/heads/main'}}
+    #if: contains(github.event.pull_request.labels.*.name, '<label_name>')
+    if: ${{ github.ref == 'refs/heads/dev'}} && ${{github.event_name != 'pull_request'}}
     runs-on: ubuntu-latest
     permissions:
         id-token: write
-        contents: write 
+        contents: write
+        pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Release
+
+      - name: Checks
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+        id: check
         run: |
-          git fetch --all
-          git reset --hard origin/main
-          pip install python-semantic-release
+          pr_title="Update.${{ needs.secrets.outputs.tag }}"
+          base_branch=main
+          echo "::set-output name=diff::$(git diff --name-only | wc -l)"
+          echo "::set-output name=count::$(gh pr list -S ${pr_title}' in:title' -B $base_branch | wc -l)"
+          echo "::set-output name=pr_title::$pr_title"
+          echo "::set-output name=base_branch::$base_branch"
+      - name: Push branch
+        if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-        # semantic-release publish
+          git checkout -b deps/${{ steps.check.outputs.pr_title }}
+          git commit -am "bumpup deps"
+          git push origin deps/${{ steps.check.outputs.pr_title }}
+      - name: Create release pr
+        if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
+        env:
+          GH_TOKEN: ${{ secrets.PR_GITHUB_TOKEN }}
+        run: |
+          gh pr create -B ${{ steps.check.outputs.base_branch }} -t ${{ steps.check.outputs.pr_title }} -b ""
 
   release:
     needs: [precommit, secrets, buildntest]
@@ -191,20 +227,19 @@ jobs:
           python -m pip install --upgrade --disable-pip-version-check pip
           python -m pip install --upgrade build twine
     
-      - name: Semantic Version and Release
-        id: release
-        uses: python-semantic-release/python-semantic-release@v8.1.1
+      - name: Download the artefact
+        uses: actions/download-artifact@v3
         with:
-          github_token: ${{ needs.secrets.outputs.TOKEN }}
+          path: dist/
 
       - name: Upload to PyPI via Twine
-        if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ needs.secrets.outputs.released }} == 'true'
+        if: ${{github.event.inputs.pypi_publish}} == 'true'
         continue-on-error: true
         env:
           TWINE_PASSWORD: ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
         run: twine upload --verbose -u '__token__' dist/*
 
-      - name: Publish package to GitHub Release
+      - name: Upload package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@main
         if: ${{ needs.secrets.outputs.released }} == 'true'
         with:
