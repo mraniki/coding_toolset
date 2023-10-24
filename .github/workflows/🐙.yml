@@ -1,0 +1,226 @@
+
+name: 🐙
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      pypi_publish:
+        required: false
+        type: string
+        default: true
+      gitlab_mirror:
+        required: false
+        type: string
+        default: true
+      codeberg_mirror:
+        required: false
+        type: string
+        default: true
+      target:
+        required: false
+        description: 'Prerelease type: develop or stable'
+        default: "develop"
+        type: choice
+        options:
+          - develop
+          - stable
+
+jobs:
+
+  precommit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+
+    - uses: pre-commit/action@v3.0.0
+      with:
+        extra_args: --config .github/.pre-commit-config.yaml
+
+    - name: Job Info
+      if: success()
+      run: |
+        echo "pre-check is successful."
+        echo workspace is: ${{ github.workspace }}
+        echo "is workflow_dispatch event? ${{ github.event_name == 'workflow_dispatch' }}"
+        echo "is push event? ${{ github.event_name == 'push' }}"
+        echo "is pull request event? ${{ github.event_name == 'pull_request' }}"
+        echo "pull_request.head.ref is: ${{ github.event.pull_request.head.ref }}"
+        echo "github.ref_name is: ${{ github.ref_name }}"
+        echo "github.ref is: ${{ github.ref }}"
+        echo "github.head_ref is: ${{ github.head_ref }}"
+        echo "pypi_publish? ${{ github.event.inputs.pypi_publish }}"
+
+
+  secrets:
+    needs: [precommit]
+    runs-on: ubuntu-latest
+    outputs:
+      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
+      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
+      PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
+      DOCKER_USERNAME: "${{ steps.secrets.outputs.poetry }}"
+      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.poetry }}"
+      GITLAB: "${{ steps.secrets.outputs.poetry }}"
+      CODEBERG: "${{ steps.secrets.outputs.poetry }}"
+      SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
+
+    steps:
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+  
+      - name: Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SETTINGS_LOCATION: "op://git/settings/${{github.event.inputs.repo}}"
+          TOKEN: "op://git/GITHUB/TOKEN"
+          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+          DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
+          DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
+          GITLAB: "op://git/GITLAB/key"
+          CODEBERG: "op://git/CODEBERG/key"
+
+  buildntest:
+    needs: [precommit, secrets]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.11"]
+        include:
+          - experimental: true
+          - check-latest: true
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        id: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: ${{ matrix.experimental }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          python -m pip install --upgrade pip twine
+          pip install poetry
+          poetry install
+
+      - name: Build package and requirements
+        run: |
+          poetry build
+          poetry lock
+          poetry export --without-hashes --format=requirements.txt > requirements.txt
+          cp requirements.txt .requirements/requirements.txt
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        with:
+            repository: .
+            commit_message: Update Requirements
+            commit_options: '--no-verify'
+            file_pattern: .requirements/
+            commit_user_name: mraniki
+            commit_user_email: 8766259+mraniki@users.noreply.github.com 
+            commit_author: mraniki <8766259+mraniki@users.noreply.github.com>
+
+      - name: Test with pytest
+        run: poetry run pytest -v --cov . --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  pullrequest:
+    needs: [precommit, secrets, buildntest]
+    if: ${{ github.ref == 'refs/heads/main'}}
+    runs-on: ubuntu-latest
+    permissions:
+        id-token: write
+        contents: write 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Release
+        env:
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+        run: |
+          git fetch --all
+          git reset --hard origin/main
+          pip install python-semantic-release
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+        # semantic-release publish
+
+  release:
+    needs: [precommit, secrets, buildntest]
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+        id-token: write
+        contents: write 
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ needs.secrets.outputs.TOKEN }}
+
+      - name: Set up latest Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install latest pip, build, twine
+        run: |
+          python -m pip install --upgrade --disable-pip-version-check pip
+          python -m pip install --upgrade build twine
+    
+      - name: Semantic Version and Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v8.1.1
+        with:
+          github_token: ${{ needs.secrets.outputs.TOKEN }}
+
+      - name: Upload to PyPI via Twine
+        if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ needs.secrets.outputs.released }} == 'true'
+        continue-on-error: true
+        env:
+          TWINE_PASSWORD: ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
+        run: twine upload --verbose -u '__token__' dist/*
+
+      - name: Publish package to GitHub Release
+        uses: python-semantic-release/upload-to-gh-release@main
+        if: ${{ needs.secrets.outputs.released }} == 'true'
+        with:
+          github_token: ${{ needs.secrets.outputs.TOKEN }}
+
+      - name: Mirror to Codeberg
+        uses: pixta-dev/repository-mirroring-action@v1
+        if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name == 'push' }} && ${{github.event.inputs.codeberg_mirror }} == 'true'
+        with:
+          target_repo_url: git@codeberg.org:${{ github.repository }}.git
+          ssh_private_key: ${{ needs.secrets.outputs.CODEBERG }}
+
+      - name: Mirror to Codeberg
+        uses: pixta-dev/repository-mirroring-action@v1
+        if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name  }}== 'push' && ${{github.event.inputs.gitlab_mirror }} == 'true'
+        with:
+          target_repo_url: git@gitlab.com:${{ github.repository }}.git
+          ssh_private_key: ${{ needs.secrets.outputs.GITLAB }}
+
