@@ -108,5 +108,5 @@ jobs:
             git config user.name "GitHub Action"
 
             git fetch --all           
-            git checkout origin/main
-            git merge origin/dev
+            git checkout origin/dev
+            git push origin HEAD:main
