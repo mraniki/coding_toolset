@@ -123,7 +123,7 @@ jobs:
 
       - name: Build package
          run: |
-          poetry build
+           poetry build
       - name: Update Version
           id: semantic
          env:
