@@ -267,16 +267,12 @@ jobs:
     needs: [secrets, release]
     if: ${{github.event.inputs.docker_image }} == 'true'
     runs-on: ubuntu-latest
-    concurrency: release
-    permissions:
-        id-token: write
-        contents: write
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0
+          fetch-depth: 0
       - name: Prepare docker image name
         id: image_names
         run: |
