@@ -74,39 +74,39 @@ jobs:
                          --head "dev" \
                          --body "Auto Release"
 
-    push:
-      name: 'Push to main'
-      needs: [create_pull_request]
-      runs-on: ubuntu-latest
-      concurrency: release
-      permissions:
-        id-token: write
-        contents: write
-        pull-requests: write
-      steps:
-        - name: Install 1Password CLI
-          uses: 1password/install-cli-action@v1
+    # push:
+    #   name: 'Push to main'
+    #   needs: [create_pull_request]
+    #   runs-on: ubuntu-latest
+    #   concurrency: release
+    #   permissions:
+    #     id-token: write
+    #     contents: write
+    #     pull-requests: write
+    #   steps:
+    #     - name: Install 1Password CLI
+    #       uses: 1password/install-cli-action@v1
 
-        - name: Load credentials
-          uses: 1password/load-secrets-action@v1
-          id: op-load-secrets
-          with:
-            export-env: false
-          env:
-            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-            TOKEN: "op://git/GITHUB/TOKEN"
+    #     - name: Load credentials
+    #       uses: 1password/load-secrets-action@v1
+    #       id: op-load-secrets
+    #       with:
+    #         export-env: false
+    #       env:
+    #         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+    #         TOKEN: "op://git/GITHUB/TOKEN"
 
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
-            token: ${{ steps.op-load-secrets.outputs.TOKEN }}
-        - name: Push to main
-          env:
-            GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
-          run: |
-            git config user.email "action@github.com"
-            git config user.name "GitHub Action"
+    #     - uses: actions/checkout@v4
+    #       with:
+    #         fetch-depth: 0
+    #         token: ${{ steps.op-load-secrets.outputs.TOKEN }}
+    #     - name: Push to main
+    #       env:
+    #         GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
+    #       run: |
+    #         git config user.email "action@github.com"
+    #         git config user.name "GitHub Action"
 
-            git fetch --all           
-            git checkout origin/dev
-            git push origin HEAD:main
+    #         git fetch --all           
+    #         git checkout origin/dev
+    #         git push origin HEAD:main
