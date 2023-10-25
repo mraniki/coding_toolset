@@ -23,7 +23,7 @@ on:
         default: false
       target:
         required: false
-        description: 'Prerelease type: develop or stable'
+        description: 'Prerelease'
         default: "develop"
         type: choice
         options:
