@@ -259,3 +259,47 @@ jobs:
           target_repo_url: git@gitlab.com:${{ github.repository }}.git
           ssh_private_key: ${{ needs.secrets.outputs.GITLAB }}
 
+  docker:
+    needs: [secrets, release]
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+        id-token: write
+        contents: write 
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+      - name: Prepare docker image name
+        id: image_names
+        run: |
+          IMAGES="${GITHUB_REPOSITORY/docker-/},ghcr.io/${GITHUB_REPOSITORY/docker-/}"
+          echo "docker_images=$IMAGES" >> $GITHUB_ENV
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ needs.secrets.outputs.DOCKER_USERNAME }}
+          password: ${{ needs.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Log in to the ghcr registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker latest
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images:  ${{ env.docker_images }}
+          tags: latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: .registry/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
