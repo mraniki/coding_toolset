@@ -1,5 +1,5 @@
 
-name: 🐙
+name: 🐙Reusable CI/CD
 
 on:
   workflow_dispatch:
@@ -132,7 +132,7 @@ jobs:
            poetry run semantic-release version
            cat $GITHUB_OUTPUT
       - name: Save artefact
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           path: /dist
           
