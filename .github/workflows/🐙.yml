@@ -115,14 +115,14 @@ jobs:
           allow-prereleases: ${{ matrix.experimental }}
 
       - name: Install dependencies
-         run: |
+        run: |
            pip install --upgrade pip
            python -m pip install --upgrade pip twine
            pip install poetry
            poetry install
 
       - name: Build package
-         run: |
+        run: |
            poetry build
       - name: Update Version
           id: semantic
@@ -137,7 +137,7 @@ jobs:
           path: /dist
           
       - name: Build requirements
-         run: |
+        run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
           cp requirements.txt .requirements/requirements.txt
