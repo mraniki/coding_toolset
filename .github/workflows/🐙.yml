@@ -125,10 +125,10 @@ jobs:
         run: |
            poetry build
       - name: Update Version
-          id: semantic
-         env:
-           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
-         run: |
+        id: semantic
+        env:
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+        run: |
            poetry run semantic-release version
            cat $GITHUB_OUTPUT
       - name: Save artefact
