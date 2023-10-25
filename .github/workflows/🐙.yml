@@ -17,6 +17,10 @@ on:
         required: false
         type: string
         default: true
+      docker_image:
+        required: false
+        type: string
+        default: false
       target:
         required: false
         description: 'Prerelease type: develop or stable'
@@ -261,6 +265,7 @@ jobs:
 
   docker:
     needs: [secrets, release]
+    if: ${{github.event.inputs.docker_image }} == 'true'
     runs-on: ubuntu-latest
     concurrency: release
     permissions:
