@@ -122,7 +122,7 @@ jobs:
           poetry install
 
       - name: Build package
-        run: |
+         run: |
           poetry build
       - name: Update Version
           id: semantic
