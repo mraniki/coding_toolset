@@ -124,7 +124,7 @@ jobs:
         
       - name: Get Settings
         run: |
-          echo "op read op://git/SETTINGS/${{ inputs.repo }}" >> $SETTINGS
+          op read op://git/SETTINGS/${{ inputs.repo }} >> $SETTINGS
           
           echo $SETTINGS
           op read $SETTINGS > settings.toml
