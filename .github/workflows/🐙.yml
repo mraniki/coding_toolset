@@ -21,14 +21,6 @@ on:
         required: false
         type: string
         default: false
-      target:
-        required: false
-        description: 'Prerelease'
-        default: "develop"
-        type: choice
-        options:
-          - dev
-          - main
 
 jobs:
 
