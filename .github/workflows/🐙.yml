@@ -124,11 +124,9 @@ jobs:
         
       - name: Get Settings
         run: |
-          echo "${{inputs.repo}}"
-          echo "op://git/SETTINGS/${{inputs.repo}}"
-          op read op://git/SETTINGS/${{inputs.repo}}
-          echo ${{ needs.secrets.outputs.SETTINGS_LOCATION }}
-          op read ${{ needs.secrets.outputs.SETTINGS_LOCATION }} > settings.toml
+          SETTINGS_LOCATION=op read op://git/SETTINGS/${{inputs.repo}}
+          echo ${{ SETTINGS_LOCATION }}
+          op read ${{ SETTINGS_LOCATION }} > settings.toml
         working-directory: .
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
