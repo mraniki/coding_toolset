@@ -71,11 +71,11 @@ jobs:
             poetry export --without-hashes --format=requirements.txt > requirements.txt
             cp requirements.txt .requirements/requirements.txt
 
-            git commit -m "⬆️ Update Requirements and Version" --allow-empty
+            git commit -m "⬆️ Update Requirements and Version"
 
             git add .
 
-            git push
+            git push origin HEAD:dev
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --base "main" \
