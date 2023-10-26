@@ -36,6 +36,7 @@ jobs:
         - uses: actions/checkout@v4
           with:
             fetch-depth: 0
+            ref: dev
             token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
         - name: Check Diff
@@ -75,7 +76,7 @@ jobs:
 
             git add .
 
-            git push origin HEAD:dev
+            git push
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --base "main" \
