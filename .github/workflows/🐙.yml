@@ -60,10 +60,10 @@ jobs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
       TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
       PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
-      DOCKER_USERNAME: "${{ steps.secrets.outputs.poetry }}"
-      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.poetry }}"
-      GITLAB: "${{ steps.secrets.outputs.poetry }}"
-      CODEBERG: "${{ steps.secrets.outputs.poetry }}"
+      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
+      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
+      GITLAB: "${{ steps.secrets.outputs.GITLAB }}"
+      CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
       SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
     steps:
@@ -77,7 +77,7 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SETTINGS_LOCATION: "op://git/settings/${{github.event.inputs.repo}}"
+          SETTINGS_LOCATION: "op://git/SETTINGS/${{github.event.inputs.repo}}"
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
@@ -124,6 +124,8 @@ jobs:
         
       - name: Get Settings
         run: |
+          echo "op://git/SETTINGS/${{github.event.inputs.repo}}"
+          echo ${{ needs.secrets.outputs.SETTINGS_LOCATION }}
           op read ${{ needs.secrets.outputs.SETTINGS_LOCATION }} > settings.toml
         working-directory: .
         env:
