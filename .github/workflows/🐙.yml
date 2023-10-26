@@ -126,7 +126,7 @@ jobs:
         run: |
           echo "op read op://git/SETTINGS/${{ inputs.repo }}" >> $SETTINGS
           
-          echo "${ SETTINGS }"
+          echo $SETTINGS
           op read $SETTINGS > settings.toml
         working-directory: .
         env:
