@@ -62,20 +62,19 @@ jobs:
             git config user.name "GitHub Action"
 
             pip install --upgrade pip
-            python -m pip install --upgrade pip twine
-
             pip install poetry
             poetry install
-            poetry run semantic-release version
+
+            semantic-release -vv --noop version --print
 
             poetry lock
             poetry export --without-hashes --format=requirements.txt > requirements.txt
             cp requirements.txt .requirements/requirements.txt
 
-            git commit -m "⬆️ Update Requirements and Version"
-
             git add .
 
+            git commit -m "⬆️ Update Requirements and Version"
+            
             git push
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
