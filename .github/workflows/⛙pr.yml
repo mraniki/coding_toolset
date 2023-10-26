@@ -63,7 +63,18 @@ jobs:
             git fetch --all           
             git checkout origin/dev
             git status
-            git commit -m "Auto" --allow-empty
+
+            pip install --upgrade pip
+            python -m pip install --upgrade pip twine
+
+            pip install poetry
+            poetry install
+            poetry lock
+            poetry export --without-hashes --format=requirements.txt > requirements.txt
+            cp requirements.txt .requirements/requirements.txt
+            poetry run semantic-release version
+
+            git commit -m "⬆️ Update Requirements and Version" --allow-empty
 
             git add .
             git push origin HEAD:dev
