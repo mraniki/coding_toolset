@@ -27,8 +27,8 @@ on:
         default: "develop"
         type: choice
         options:
-          - develop
-          - stable
+          - dev
+          - main
 
 jobs:
 
@@ -95,8 +95,7 @@ jobs:
           CODEBERG: "op://git/CODEBERG/key"
 
   buildntest:
-    outputs:
-      version: ${{ steps.semantic.outputs.tag }}
+
     needs: [precommit, secrets]
     runs-on: ${{ matrix.os }}
     strategy:
@@ -137,38 +136,10 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Build requirements
-        run: |
-          poetry lock
-          poetry export --without-hashes --format=requirements.txt > requirements.txt
-          cp requirements.txt .requirements/requirements.txt
-
-      - name: Save requirements
-        uses: stefanzweifel/git-auto-commit-action@v5
-        if: github.event_name == 'pull_request'
-        continue-on-error: true
-        with:
-            repository: .
-            commit_message: Update Requirements
-            commit_options: '--no-verify'
-            file_pattern: .requirements/
-            commit_user_name: mraniki
-            commit_user_email: 8766259+mraniki@users.noreply.github.com 
-            commit_author: mraniki <8766259+mraniki@users.noreply.github.com>
-
-      - name: Update Version
-        id: semantic
-        env:
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
-        run: |
-           poetry run semantic-release version
-           cat $GITHUB_OUTPUT
-      - name: Save artefact
-        uses: actions/upload-artifact@v3
-        with:
-          path: /dist
 
   pullrequest:
+    outputs:
+      version: ${{ steps.semantic.outputs.tag }}
     needs: [precommit, secrets, buildntest]
     #if: contains(github.event.pull_request.labels.*.name, '<label_name>')
     if: ${{ github.ref == 'refs/heads/dev'}} && ${{github.event_name != 'pull_request'}}
@@ -197,19 +168,56 @@ jobs:
       - name: Push branch
         if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git checkout -b deps/${{ steps.check.outputs.pr_title }}
-          git commit -am "bumpup deps"
-          git push origin deps/${{ steps.check.outputs.pr_title }}
-      - name: Create release pr
-        if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
+
+            git config user.email "action@github.com"
+            git config user.name "GitHub Action"
+
+            pip install --upgrade pip
+
+            pip install poetry
+            poetry install --with dev
+
+      - name: Update Version
+        id: semantic
         env:
-          GH_TOKEN: ${{ secrets.PR_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
-          gh pr create -B ${{ steps.check.outputs.base_branch }} -t ${{ steps.check.outputs.pr_title }} -b ""
+            poetry run semantic-release -vv version --print
+            cat $GITHUB_OUTPUT
+      - name: Save artefact
+        uses: actions/upload-artifact@v3
+        with:
+          path: /dist
+
+      - name: Create Commit and PR
+        env:
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+        run: |
+
+            poetry lock
+            poetry export --without-hashes --format=requirements.txt > requirements.txt
+            cp requirements.txt .requirements/requirements.txt
+
+            git add .
+
+            git commit -m "⬆️ Update Requirements and Version"
+            
+            git push
+
+            gh pr create --title "⬆️ 🤖 - Auto Release" \
+                         --base "main" \
+                         --head "dev" \
+                         --body "Auto Release"
+
+            gh pr merge --merge --auto ${{ github.event.number }}
+
+      - name: Save artefact
+        uses: actions/upload-artifact@v3
+        with:
+          path: /dist
+
 
   release:
     needs: [precommit, secrets, buildntest]
