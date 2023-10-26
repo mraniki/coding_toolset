@@ -69,16 +69,17 @@ jobs:
 
             pip install poetry
             poetry install
+            poetry run semantic-release version
+
             poetry lock
             poetry export --without-hashes --format=requirements.txt > requirements.txt
             cp requirements.txt .requirements/requirements.txt
-            poetry run semantic-release version
 
             git commit -m "⬆️ Update Requirements and Version" --allow-empty
 
             git add .
+
             git push origin HEAD:dev
-            git pull origin main --rebase
 
             gh pr create --title "⬆️ 🤖 - Auto Release" \
                          --base "main" \
@@ -87,6 +88,7 @@ jobs:
             gh pr merge --merge --auto ${{ github.event.number }}
 
     # push:
+         # git pull origin main --rebase
     #   name: 'Push to main'
     #   needs: [create_pull_request]
     #   runs-on: ubuntu-latest
