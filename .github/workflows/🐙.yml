@@ -6,23 +6,23 @@ on:
   workflow_call:
     inputs:
       repo:
-        required: true
+        required: false
         type: string
-        default: 'dev'
+        default: dev
       pypi_publish:
-        required: true
+        required: false
         type: string
         default: true
       gitlab_mirror:
-        required: true
+        required: false
         type: string
         default: true
       codeberg_mirror:
-        required: true
+        required: false
         type: string
         default: true
       docker_image:
-        required: true
+        required: false
         type: string
         default: false
 
@@ -77,7 +77,7 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SETTINGS_LOCATION: "op://git/SETTINGS/${{github.event.inputs.repo}}"
+          SETTINGS_LOCATION: "op://git/SETTINGS/${{inputs.repo}}"
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
@@ -124,7 +124,7 @@ jobs:
         
       - name: Get Settings
         run: |
-          echo "${{github.event.inputs.repo}}"
+          echo "${{inputs.repo}}"
           echo "op://git/SETTINGS/${{github.event.inputs.repo}}"
           echo ${{ needs.secrets.outputs.SETTINGS_LOCATION }}
           op read ${{ needs.secrets.outputs.SETTINGS_LOCATION }} > settings.toml
