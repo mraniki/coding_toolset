@@ -164,7 +164,7 @@ jobs:
            poetry run semantic-release version
            cat $GITHUB_OUTPUT
       - name: Save artefact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: /dist
 
