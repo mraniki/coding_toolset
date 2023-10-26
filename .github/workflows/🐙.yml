@@ -6,23 +6,23 @@ on:
   workflow_call:
     inputs:
       repo:
-        required: false
+        required: true
         type: string
-        default: dev
+        default: 'dev'
       pypi_publish:
-        required: false
+        required: true
         type: string
         default: true
       gitlab_mirror:
-        required: false
+        required: true
         type: string
         default: true
       codeberg_mirror:
-        required: false
+        required: true
         type: string
         default: true
       docker_image:
-        required: false
+        required: true
         type: string
         default: false
 
