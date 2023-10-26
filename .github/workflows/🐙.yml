@@ -118,7 +118,14 @@ jobs:
       - name: Build package
         run: |
           poetry build
- 
+
+      - name: Get Settings
+        run: |
+          op read {{ needs.secrets.outputs.SETTINGS_LOCATION }} > settings.toml
+        working-directory: .
+        env:
+            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      
       - name: Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
 
