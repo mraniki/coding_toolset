@@ -77,7 +77,7 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SETTINGS_LOCATION: "op://git/SETTINGS/${{inputs.repo}}"
+          SETTINGS_LOCATION: "op://git/SETTINGS/${{ inputs.repo }}"
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
