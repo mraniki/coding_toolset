@@ -126,7 +126,7 @@ jobs:
         run: |
           SETTINGS=$(op read op://git/SETTINGS/${{ inputs.repo }})
           echo "SETTINGS_PATH=$SETTINGS" >> $GITHUB_ENV
-          op read ${{ env.$SETTINGS_PATH }} > settings.toml
+          op read ${{ env.SETTINGS_PATH }} > settings.toml
         working-directory: .
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
