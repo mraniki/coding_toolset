@@ -125,6 +125,7 @@ jobs:
       - name: Get Settings
         run: |
           SETTINGS=$(op read op://git/SETTINGS/${{ inputs.repo }})
+          echo "$SETTINGS"
           echo "SETTINGS_PATH=$SETTINGS" >> $GITHUB_ENV
           op read ${{ env.SETTINGS_PATH }} > settings.toml
         working-directory: .
