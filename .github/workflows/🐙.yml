@@ -192,14 +192,16 @@ jobs:
             poetry install --with dev
             poetry run semantic-release -vv version --print
             cat $GITHUB_OUTPUT
+            poetry build
 
       - name: Save artefact
+        if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
         uses: actions/upload-artifact@v3
         with:
           path: /dist
 
       - name: Create Commit and PR
-        if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
+        if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
@@ -224,6 +226,7 @@ jobs:
             gh pr merge --merge --auto ${{ github.event.number }}
 
       - name: Save artefact
+        if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
         uses: actions/upload-artifact@v3
         with:
           path: /dist
