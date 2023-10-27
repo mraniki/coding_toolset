@@ -124,6 +124,7 @@ jobs:
         
       - name: Get Settings
         run: |
+          echo "${{ needs.secrets.outputs.SETTINGS_LOCATION }}"
           SETTINGS=$(op read op://git/SETTINGS/${{ inputs.repo }})
           echo "$SETTINGS"
           op read $SETTINGS > settings.toml
@@ -194,7 +195,9 @@ jobs:
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
-
+        
+            pip install poetry
+            poetry install --with dev
             poetry lock
             poetry export --without-hashes --format=requirements.txt > requirements.txt
             cp requirements.txt .requirements/requirements.txt
