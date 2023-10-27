@@ -170,6 +170,7 @@ jobs:
           echo "::set-output name=base_branch::$base_branch"
       - name: Push branch
         if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
+        id: semantic
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
@@ -181,14 +182,9 @@ jobs:
 
             pip install poetry
             poetry install --with dev
-
-      - name: Update Version
-        id: semantic
-        env:
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
-        run: |
             poetry run semantic-release -vv version --print
             cat $GITHUB_OUTPUT
+
       - name: Save artefact
         uses: actions/upload-artifact@v3
         with:
