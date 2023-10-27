@@ -169,15 +169,17 @@ jobs:
           echo "::set-output name=count::$(gh pr list -S ${pr_title}' in:title' -B $base_branch | wc -l)"
           echo "::set-output name=pr_title::$pr_title"
           echo "::set-output name=base_branch::$base_branch"
+      - name: Identify
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+
       - name: Push branch
         if: ${{ steps.check.outputs.count == 0 && steps.check.outputs.diff > 0 }}
         id: semantic
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
-
-            git config user.email "action@github.com"
-            git config user.name "GitHub Action"
 
             pip install --upgrade pip
 
@@ -195,7 +197,7 @@ jobs:
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
-        
+
             pip install poetry
             poetry install --with dev
             poetry lock
