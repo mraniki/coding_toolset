@@ -19,25 +19,25 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: 📌 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11.6"
           
-      - name: Install dependencies
+      - name: 🛠️ Install dependencies
         run: |
           pip install ruff
           pip install pre-commit
 
-      - name: Lint
+      - name: 🚨 Lint
         run: |
           ruff check --fix .
 
-      - name: Pre-commit
+      - name: 🚧 Pre-commit
         run: |
           pre-commit run --config .github/.pre-commit-config.yaml
 
-      - name: Job Info
+      - name: ℹ️ Job Info
         if: success()
         run: |
           echo workspace is: ${{ github.workspace }}
