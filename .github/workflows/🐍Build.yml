@@ -21,7 +21,6 @@ jobs:
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
       TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
-      SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
     steps:
       - name: 🔒️ Install 1Password CLI
@@ -34,7 +33,6 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          SETTINGS_LOCATION: "op://git/SETTINGS/${{ inputs.repo }}"
           TOKEN: "op://git/GITHUB/TOKEN"
 
   build:

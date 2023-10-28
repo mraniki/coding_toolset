@@ -12,8 +12,29 @@ on:
         default: '.'
 
 jobs:
+  secrets:
+    name: 🔒️ Retrieve Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
+      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
+
+    steps:
+      - name: 🔒️ Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+  
+      - name: 🔒️ Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TOKEN: "op://git/GITHUB/TOKEN"
+
     create_pull_request:
       name: 'Create GitHub PR'
+      needs: [secrets]
       runs-on: ubuntu-latest
       concurrency: release
       permissions:
@@ -21,28 +42,17 @@ jobs:
         contents: write
         pull-requests: write
       steps:
-        - name: Install 1Password CLI
-          uses: 1password/install-cli-action@v1
-
-        - name: Load credentials
-          uses: 1password/load-secrets-action@v1
-          id: op-load-secrets
-          with:
-            export-env: false
-          env:
-            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-            TOKEN: "op://git/GITHUB/TOKEN"
 
         - name: 📥 Checkout the repository
           uses: actions/checkout@v4
             fetch-depth: 0
             ref: dev
-            token: ${{ steps.op-load-secrets.outputs.TOKEN }}
+            token: ${{ needs.secrets.outputs.TOKEN }}
 
-        - name: Check Diff
+        - name: 🛂 Check Diff
           id: diff
           env:
-            GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
+            GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
           run: |
             if git diff origin/dev origin/main >/dev/null; then
               echo "CHANGE=TRUE" >> $GITHUB_OUTPUT
@@ -50,11 +60,11 @@ jobs:
               echo "CHANGE=FALSE" >> $GITHUB_OUTPUT
             fi
 
-        - name: Create pull request
+        - name: 🛃 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
           id: cpr
           env:
-            GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
+            GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
           run: |
             echo "${{ steps.diff.outputs.CHANGE }}"
 
