@@ -18,7 +18,6 @@ on:
 jobs:
 
   secrets:
-    needs: [precommit]
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"

@@ -54,7 +54,6 @@ jobs:
           echo "pypi_publish? ${{ github.event.inputs.pypi_publish }}"
 
   secrets:
-    needs: [precommit]
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
