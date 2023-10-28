@@ -83,11 +83,19 @@ jobs:
         with:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
 
-      - name: ⛙ Rebase Dev Branch
-        uses: robotology/gh-action-nightly-merge@v1.4.0
+      - name: ⛙ Rebase Dev Branch from Main
+        run: |
+          git checkout dev
+          git rebase origin/main
+          git push
         env:
           GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-        with:
-          stable_branch: 'main'
-          development_branch: 'dev'
-          allow_ff: true
+
+      # - name: ⛙ Rebase Dev Branch
+      #   uses: robotology/gh-action-nightly-merge@v1.4.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+      #   with:
+      #     stable_branch: 'main'
+      #     development_branch: 'dev'
+      #     allow_ff: true
