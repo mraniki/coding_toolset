@@ -119,8 +119,6 @@ jobs:
 
       - name: ⛙ Rebase Dev Branch
         uses: robotology/@v1.4.0
-        env:
-          GITHUB_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         with:
           stable_branch: 'main'
           development_branch: 'dev'
