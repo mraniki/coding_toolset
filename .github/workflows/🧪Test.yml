@@ -85,3 +85,5 @@ jobs:
         if: ${{github.event_name == 'pull_request'}}
         run: |
           gh pr merge --merge --auto ${{ github.event.number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
