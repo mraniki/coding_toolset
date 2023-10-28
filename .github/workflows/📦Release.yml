@@ -88,7 +88,7 @@ jobs:
           poetry build
 
           echo "git push the new tag:"
-          git push origin v${new_version}
+          git push
           
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
