@@ -40,7 +40,7 @@ jobs:
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
-          export-env: false
+          export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
@@ -119,8 +119,9 @@ jobs:
 
       - name: ⛙ Rebase Dev Branch
         uses: robotology/gh-action-nightly-merge@v1.4.0
+        env:
+          GITHUB_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         with:
           stable_branch: 'main'
           development_branch: 'dev'
           allow_ff: true
-          push_token: ${{ needs.secrets.outputs.TOKEN }}
