@@ -60,7 +60,15 @@ jobs:
 
       - name: Build package
         run: poetry build
-      
+
+      - name: Identify
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+     
       - name: Update requirements
         if: github.event_name == 'pull_request'
         env:
