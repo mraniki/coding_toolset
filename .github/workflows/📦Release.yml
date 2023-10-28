@@ -56,19 +56,23 @@ jobs:
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
+      # - name: 🔖 Semantic Version and Release
+      #   id: release
+      #   continue-on-error: true
+      #   env:
+      #     GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+      #   run: |
+      #     python -m pip install --upgrade --disable-pip-version-check pip
+      #     pip install poetry
+      #     poetry install --with dev
+      #     poetry run semantic-release version --print
+      #     poetry run semantic-release publish
+      #     poetry build
+
       - name: 🔖 Semantic Version and Release
-        id: release
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-        run: |
-          python -m pip install --upgrade --disable-pip-version-check pip
-          pip install poetry
-          poetry install --with dev
-          poetry run semantic-release version --print
-          poetry run semantic-release publish
-          poetry build
-          
+        uses: python-semantic-release/python-semantic-release@v8.3.0
+        with:
+          github_token: ${{ steps.secrets.outputs.TOKEN }}
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
         continue-on-error: true
