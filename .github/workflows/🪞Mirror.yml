@@ -12,17 +12,30 @@ on:
         required: false
         type: string
         default: '.'
+      gitlab_mirror:
+        required: false
+        type: string
+        default: true
+      codeberg_mirror:
+        required: false
+        type: string
+        default: true
 
 jobs:
 
- 
-  codeberg:
+  secrets:
+    needs: [precommit]
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-    permissions:
-        id-token: write
-        contents: write 
+    outputs:
+      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
+      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
+      GITLAB: "${{ steps.secrets.outputs.GITLAB }}"
+      CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
+
     steps:
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+  
       - name: Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
@@ -30,38 +43,43 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SETTINGS_LOCATION: "op://git/SETTINGS/${{ inputs.repo }}"
+          TOKEN: "op://git/GITHUB/TOKEN"
+          GITLAB: "op://git/GITLAB/key"
           CODEBERG: "op://git/CODEBERG/key"
-      - uses: actions/checkout@v4
+
+  release:
+    needs: [secrets]
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+        id-token: write
+        contents: write 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
+          token: ${{ needs.secrets.outputs.TOKEN }}
+
+      - name: Set up latest Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Mirror to Codeberg
+        uses: pixta-dev/repository-mirroring-action@v1
+        if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name == 'push' }} && ${{github.event.inputs.codeberg_mirror }} == 'true'
         with:
           target_repo_url: git@codeberg.org:${{ github.repository }}.git
-          ssh_private_key: ${{ steps.op-load-secrets.outputs.CODEBERG }}
+          ssh_private_key: ${{ needs.secrets.outputs.CODEBERG }}
 
-  gitlab:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-    permissions:
-        id-token: write
-        contents: write 
-    steps:
-      - name: Load credentials
-        uses: 1password/load-secrets-action@v1
-        id: op-load-secrets
-        with:
-          export-env: false
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          GITLAB: "op://git/GITLAB/key" 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
+      - name: Mirror to Codeberg
+        uses: pixta-dev/repository-mirroring-action@v1
+        if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name  }}== 'push' && ${{github.event.inputs.gitlab_mirror }} == 'true'
         with:
           target_repo_url: git@gitlab.com:${{ github.repository }}.git
-          ssh_private_key: ${{ steps.op-load-secrets.outputs.GITLAB }}
-            
-          
-
+          ssh_private_key: ${{ needs.secrets.outputs.GITLAB }}
           

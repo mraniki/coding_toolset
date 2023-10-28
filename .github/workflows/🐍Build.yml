@@ -5,47 +5,27 @@ on:
   workflow_dispatch:
   workflow_call:
     inputs:
+      repo:
+        required: false
+        type: string
+        default: dev
       settings_token:
         required: false
         type: string
         default: '.'
 
 jobs:
-
-  build:
+  secrets:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-            fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    outputs:
+      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
+      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
+      SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          python -m pip install --upgrade pip twine
-          pip install poetry
-          poetry install
-
-      - name: Build package
-        run: poetry build
-
-  req:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      
-    if: github.event_name == 'pull_request'
-    continue-on-error: true
     steps:
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
-
+  
       - name: Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
@@ -53,12 +33,18 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SETTINGS_LOCATION: "op://git/SETTINGS/${{ inputs.repo }}"
           TOKEN: "op://git/GITHUB/TOKEN"
 
+  build:
+    runs-on: ubuntu-latest
+    needs: [secrets]
+    permissions:
+      contents: write
+    steps:
       - uses: actions/checkout@v4
         with:
             fetch-depth: 0
-            token: ${{ steps.op-load-secrets.outputs.TOKEN }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -73,19 +59,69 @@ jobs:
 
       - name: Build package
         run: poetry build
+      
       - name: Update requirements
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
           cp requirements.txt .requirements/requirements.txt
+          git add .
+          git commit -m "⬆️ Update Requirements"
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-            repository: .
-            commit_message: Update Requirements
-            commit_options: '--no-verify'
-            file_pattern: .requirements/
-            commit_user_name: mraniki
-            commit_user_email: 8766259+mraniki@users.noreply.github.com 
-            commit_author: mraniki <8766259+mraniki@users.noreply.github.com>
+  # req:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+      
+  #   if: github.event_name == 'pull_request'
+  #   continue-on-error: true
+  #   steps:
+  #     - name: Install 1Password CLI
+  #       uses: 1password/install-cli-action@v1
+
+  #     - name: Load credentials
+  #       uses: 1password/load-secrets-action@v1
+  #       id: op-load-secrets
+  #       with:
+  #         export-env: false
+  #       env:
+  #         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+  #         TOKEN: "op://git/GITHUB/TOKEN"
+
+  #     - uses: actions/checkout@v4
+  #       with:
+  #           fetch-depth: 0
+  #           token: ${{ steps.op-load-secrets.outputs.TOKEN }}
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.11'
+
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install --upgrade pip
+  #         python -m pip install --upgrade pip twine
+  #         pip install poetry
+  #         poetry install
+
+  #     - name: Build package
+  #       run: poetry build
+  #     - name: Update requirements
+  #       run: |
+  #         poetry lock
+  #         poetry export --without-hashes --format=requirements.txt > requirements.txt
+  #         cp requirements.txt .requirements/requirements.txt
+
+  #     - uses: stefanzweifel/git-auto-commit-action@v5
+  #       with:
+  #           repository: .
+  #           commit_message: Update Requirements
+  #           commit_options: '--no-verify'
+  #           file_pattern: .requirements/
+  #           commit_user_name: mraniki
+  #           commit_user_email: 8766259+mraniki@users.noreply.github.com 
+  #           commit_author: mraniki <8766259+mraniki@users.noreply.github.com>
 
