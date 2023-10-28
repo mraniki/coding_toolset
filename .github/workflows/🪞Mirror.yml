@@ -17,7 +17,6 @@ jobs:
 
   mirror:
     name: 🪞 Mirroring 
-    needs: [secrets]
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     concurrency: release
