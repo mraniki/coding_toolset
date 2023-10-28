@@ -22,6 +22,7 @@ jobs:
       with:
         python-version: "3.11.6"
         
+    - name: Install dependencies
     - run: |
         pip install ruff
         pip install pre-commit
@@ -29,6 +30,9 @@ jobs:
     - name: Lint
       run: |
         ruff check --fix .
+
+    - name: Pre-commit
+      run: |
         pre-commit run --config .github/.pre-commit-config.yaml
 
     # - uses: pre-commit/action@v3.0.0
