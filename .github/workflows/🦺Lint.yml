@@ -19,7 +19,8 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
 
-      - name: 📌 Set up Python
+      - name: 🐍 Set up Python
+        id: setup-python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11.6"
