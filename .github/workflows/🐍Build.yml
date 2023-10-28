@@ -4,41 +4,12 @@ name: 🐍Build
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      repo:
-        required: false
-        type: string
-        default: dev
-      settings_token:
-        required: false
-        type: string
-        default: '.'
 
 jobs:
-  secrets:
-    name: 🔒️ Retrieve Secrets
-    runs-on: ubuntu-latest
-    outputs:
-      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
-      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
-
-    steps:
-      - name: 🔒️ Install 1Password CLI
-        uses: 1password/install-cli-action@v1
-  
-      - name: 🔒️ Load credentials
-        uses: 1password/load-secrets-action@v1
-        id: op-load-secrets
-        with:
-          export-env: false
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TOKEN: "op://git/GITHUB/TOKEN"
 
   build:
     name: 🐍 Build
     runs-on: ubuntu-latest
-    needs: [secrets]
     permissions:
       contents: write
     steps:
@@ -55,7 +26,6 @@ jobs:
       - name: 🛠️ Install dependencies
         run: |
           pip install --upgrade pip
-          python -m pip install --upgrade pip twine
           pip install poetry
           poetry install
 
@@ -64,16 +34,12 @@ jobs:
 
       - name: 🪪 Identify
         if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
      
       - name: 🛠️ Update requirements
         if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt

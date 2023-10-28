@@ -4,28 +4,21 @@ name: 🐳Docker
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      settings_docker_username:
-        required: false
-        type: string
-        default: '.'
-      settings_docker_password:
-        required: false
-        type: string
-        default: '.'
- 
+
+
 jobs:
 
-  secrets:
-    name: 🔒️ Retrieve Secrets
+  latest:
+    name: 🐳 Build and Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    outputs:
-      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
-      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
-      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
-
     steps:
-      - name: 🔒️Install 1Password CLI
+
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+ 
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
       - name: 🔒️ Load credentials
@@ -35,20 +28,10 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TOKEN: "op://git/GITHUB/TOKEN"
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
           DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
 
-  latest:
-    name: 🐳 Build and Push Docker image to Docker Hub
-    needs: [secrets]
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
-        with:
-            fetch-depth: 0
-  
       - name: 📦 Prepare docker image name
         id: image_names
         run: |
@@ -58,8 +41,8 @@ jobs:
       - name: 🚪 Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ needs.secrets.outputs.DOCKER_USERNAME }}
-          password: ${{ needs.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}
+          username: ${{ steps.secrets.outputs.DOCKER_USERNAME }}
+          password: ${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: 🚪 Log in to the ghcr registry
         uses: docker/login-action@v3

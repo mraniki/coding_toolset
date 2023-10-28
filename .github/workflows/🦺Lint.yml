@@ -4,16 +4,10 @@ name: 🦺Lint
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      settings:
-        required: false
-        type: string
-        default: '.'
 
 jobs:
   lint:
     name: 🦺 Lint
-    if: always()
     runs-on: ubuntu-latest
     steps:
 
