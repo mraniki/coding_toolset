@@ -15,26 +15,26 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.11.6"
-        
-    - name: Install dependencies
-    - run: |
-        pip install ruff
-        pip install pre-commit
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.6"
+          
+      - name: Install dependencies
+      - run: |
+          pip install ruff
+          pip install pre-commit
 
-    - name: Lint
-      run: |
-        ruff check --fix .
+      - name: Lint
+        run: |
+          ruff check --fix .
 
-    - name: Pre-commit
-      run: |
-        pre-commit run --config .github/.pre-commit-config.yaml
+      - name: Pre-commit
+        run: |
+          pre-commit run --config .github/.pre-commit-config.yaml
 
-    # - uses: pre-commit/action@v3.0.0
-    #   with:
-    #     extra_args: --config .github/.pre-commit-config.yaml
+      # - uses: pre-commit/action@v3.0.0
+      #   with:
+      #     extra_args: --config .github/.pre-commit-config.yaml
