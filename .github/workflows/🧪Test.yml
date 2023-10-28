@@ -54,7 +54,7 @@ jobs:
           - check-latest: true
     environment: ${{inputs.environment}}
     steps:
-      - name: Check out repository
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         id: setup-python

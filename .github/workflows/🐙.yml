@@ -31,7 +31,7 @@ jobs:
   precommit:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
 
       - name: Control
@@ -97,7 +97,7 @@ jobs:
           - experimental: true
           - check-latest: true
     steps:
-      - name: Check out repository
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
@@ -152,7 +152,7 @@ jobs:
         contents: write
         pull-requests: write
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -241,7 +241,7 @@ jobs:
         contents: write 
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -295,7 +295,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repo
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0

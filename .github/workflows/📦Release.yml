@@ -68,7 +68,8 @@ jobs:
         contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ steps.op-load-secrets.outputs.TOKEN }}

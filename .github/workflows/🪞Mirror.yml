@@ -58,7 +58,7 @@ jobs:
         contents: write 
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
