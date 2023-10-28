@@ -23,8 +23,8 @@ jobs:
         python-version: "3.11.6"
         
     - run: |
-      pip install ruff
-      pip install pre-commit
+        pip install ruff
+        pip install pre-commit
 
     - name: Lint
       run: |
