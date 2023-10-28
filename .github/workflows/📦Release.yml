@@ -66,9 +66,8 @@ jobs:
           pip install poetry
           poetry install --with dev
           poetry run semantic-release version --print
-          poetry run semantic-release publish --print
-          echo "git push the new tag:"
-          git push 
+          poetry run semantic-release publish
+          
           
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
