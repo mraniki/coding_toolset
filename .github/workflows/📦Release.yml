@@ -22,18 +22,21 @@ on:
 jobs:
 
   secrets:
-    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
       TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
       PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
+      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
+      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
+      GITLAB: "${{ steps.secrets.outputs.GITLAB }}"
+      CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
 
     steps:
-      - name: 🔒️ Install 1Password CLI
+      - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: 🔒️ Load credentials
+      - name: Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -42,6 +45,10 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+          DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
+          DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
+          GITLAB: "op://git/GITLAB/key"
+          CODEBERG: "op://git/CODEBERG/key"
 
   release:
     name: Versioning and Release
@@ -54,6 +61,7 @@ jobs:
         contents: write
 
     steps:
+
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
@@ -64,7 +72,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11.6"
-
+          
       - name: 🔖 Semantic Version and Release
         id: release
         continue-on-error: true
@@ -96,11 +104,13 @@ jobs:
         if: ${{github.event.inputs.pypi_publish}} == 'true'
         continue-on-error: true
         env:
+          TWINE_USERNAME: '__token__'
           TWINE_PASSWORD: ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
           python -m pip install --upgrade pip twine
-          twine upload --verbose -u '__token__' dist/*
+          echo ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
+          twine upload --verbose dist/*
 
       - name: 🦑 Publish package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@main
@@ -113,3 +123,4 @@ jobs:
           stable_branch: 'main'
           development_branch: 'dev'
           allow_ff: true
+          push_token: ${{ needs.secrets.outputs.TOKEN }}
