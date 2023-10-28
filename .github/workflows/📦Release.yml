@@ -31,18 +31,6 @@ jobs:
         contents: write
 
     steps:
-
-      - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 🐍 Set up Python
-        id: setup-python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11.6"
-
       - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
@@ -55,6 +43,18 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.secrets.outputs.TOKEN }}
+          
+      - name: 🐍 Set up Python
+        id: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11.6"
+
 
       # - name: 🔖 Semantic Version and Release
       #   id: release
