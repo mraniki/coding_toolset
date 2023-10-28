@@ -80,7 +80,8 @@ jobs:
           echo "github.ref_name is: ${{ github.ref_name }}"
           echo "github.ref is: ${{ github.ref }}"
           echo "github.head_ref is: ${{ github.head_ref }}"
-
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
       - name: Enable Pull Request Automerge
         if: ${{github.event_name == 'pull_request'}}
         run: |
