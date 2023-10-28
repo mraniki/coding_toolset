@@ -74,7 +74,7 @@ jobs:
           python -m pip install --upgrade --disable-pip-version-check pip
           pip install poetry
           poetry install --with dev
-          poetry run semantic-release -vv version --print
+          poetry run semantic-release version --print
 
           echo "version in pyproject.toml before updating:"
           poetry version  #show version
@@ -90,7 +90,7 @@ jobs:
           poetry build
 
           echo "git push the new tag:"
-          git push origin $NEWTAG
+          git push
           
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
