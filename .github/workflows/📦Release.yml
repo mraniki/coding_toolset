@@ -66,6 +66,7 @@ jobs:
           pip install poetry
           poetry install --with dev
           poetry run semantic-release -vv version --print
+          poetry build
           
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
@@ -84,9 +85,10 @@ jobs:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
 
       - name: ⛙ Rebase Dev Branch from Main
+        continue-on-error: true
         run: |
           git checkout dev
-          git rebase origin/main
+          git merge --ff-only origin/main
           git push
         env:
           GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
