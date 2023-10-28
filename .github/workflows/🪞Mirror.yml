@@ -24,6 +24,7 @@ on:
 jobs:
 
   secrets:
+    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
@@ -47,7 +48,8 @@ jobs:
           GITLAB: "op://git/GITLAB/key"
           CODEBERG: "op://git/CODEBERG/key"
 
-  release:
+  mirror:
+    name: 🪞 Mirroring 
     needs: [secrets]
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
@@ -63,7 +65,7 @@ jobs:
           fetch-depth: 0
           token: ${{ needs.secrets.outputs.TOKEN }}
 
-      - name: 📌 Set up Python
+      - name: 🐍  Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11.6"

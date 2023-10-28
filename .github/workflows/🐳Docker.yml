@@ -17,6 +17,7 @@ on:
 jobs:
 
   secrets:
+    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"

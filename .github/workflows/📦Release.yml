@@ -22,6 +22,7 @@ on:
 jobs:
 
   secrets:
+    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
@@ -43,7 +44,8 @@ jobs:
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
 
   release:
-    if: ${{ github.head_ref == 'main' }}
+    name: Versioning and Release
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     needs: [secrets]
     runs-on: ubuntu-latest
     concurrency: release

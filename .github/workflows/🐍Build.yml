@@ -16,6 +16,7 @@ on:
 
 jobs:
   secrets:
+    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
@@ -37,6 +38,7 @@ jobs:
           TOKEN: "op://git/GITHUB/TOKEN"
 
   build:
+    name: 🐍 Build
     runs-on: ubuntu-latest
     needs: [secrets]
     permissions:

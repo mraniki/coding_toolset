@@ -18,6 +18,7 @@ on:
 jobs:
 
   secrets:
+    name: 🔒️ Retrieve Secrets
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
@@ -39,6 +40,7 @@ jobs:
           SETTINGS_LOCATION: "op://git/SETTINGS/${{ inputs.repo }}"
 
   test:
+    name: 🧪 Test
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

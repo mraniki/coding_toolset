@@ -11,7 +11,8 @@ on:
         default: '.'
 
 jobs:
-  lint-ruff:
+  lint:
+    name: 🦺 Lint
     if: always()
     runs-on: ubuntu-latest
     steps:
