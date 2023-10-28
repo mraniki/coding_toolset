@@ -78,7 +78,7 @@ jobs:
             
             git push
 
-            gh pr create --title "⬆️ 🤖 - Auto Release" \
+            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.event.head_commit.message }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
