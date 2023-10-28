@@ -72,7 +72,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ needs.secrets.outputs.TOKEN }}
 
       - name: Set up latest Python
         uses: actions/setup-python@v4
