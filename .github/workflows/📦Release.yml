@@ -65,7 +65,8 @@ jobs:
           python -m pip install --upgrade --disable-pip-version-check pip
           pip install poetry
           poetry install --with dev
-          poetry run semantic-release -vv version --print
+          poetry run semantic-release version --print
+          poetry run semantic-release publish
           poetry build
           
       - name: ⛴️ Upload to PyPI via Twine
