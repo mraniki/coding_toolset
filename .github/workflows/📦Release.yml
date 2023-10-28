@@ -67,6 +67,7 @@ jobs:
 
       - name: 🔖 Semantic Version and Release
         id: release
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
         run: |
@@ -80,7 +81,8 @@ jobs:
 
           # update pypoetry.toml with the $new_version from semantic-release
           poetry version $new_version
-
+          NEWTAG=$(poetry version $new_version)
+          echo "$NEWTAG"
           echo "version in pyproject.toml after updating:"
           poetry version  #show version
 
@@ -88,7 +90,7 @@ jobs:
           poetry build
 
           echo "git push the new tag:"
-          git push
+          git push origin $NEWTAG
           
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
