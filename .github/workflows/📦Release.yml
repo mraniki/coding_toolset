@@ -21,34 +21,6 @@ on:
 
 jobs:
 
-  secrets:
-    runs-on: ubuntu-latest
-    outputs:
-      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
-      TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
-      PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
-      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
-      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
-      GITLAB: "${{ steps.secrets.outputs.GITLAB }}"
-      CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
-
-    steps:
-      - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v1
-  
-      - name: Load credentials
-        uses: 1password/load-secrets-action@v1
-        id: op-load-secrets
-        with:
-          export-env: true
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TOKEN: "op://git/GITHUB/TOKEN"
-          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
-          DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
-          DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
-          GITLAB: "op://git/GITLAB/key"
-          CODEBERG: "op://git/CODEBERG/key"
 
   release:
     name: Versioning and Release
@@ -72,12 +44,29 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11.6"
-          
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+  
+      - name: Load credentials
+        uses: 1password/load-secrets-action@v1
+        id: op-load-secrets
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TOKEN: "op://git/GITHUB/TOKEN"
+          PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+          DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
+          DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
+          GITLAB: "op://git/GITLAB/key"
+          CODEBERG: "op://git/CODEBERG/key"
+
       - name: 🔖 Semantic Version and Release
         id: release
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+          GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
         run: |
           python -m pip install --upgrade --disable-pip-version-check pip
           pip install poetry
@@ -105,22 +94,22 @@ jobs:
         continue-on-error: true
         env:
           TWINE_USERNAME: '__token__'
-          TWINE_PASSWORD: ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
-          GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+          TWINE_PASSWORD: ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
+          GH_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
         run: |
           python -m pip install --upgrade pip twine
-          echo ${{ needs.secrets.outputs.PYPI_API_TOKEN }}
+          echo ${{ steps.op-load-secrets.outputs.PYPI_API_TOKEN }}
           twine upload --verbose dist/*
 
       - name: 🦑 Publish package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@main
         with:
-          github_token: ${{ needs.secrets.outputs.TOKEN }}
+          github_token: ${{ steps.op-load-secrets.outputs.TOKEN }}
 
       - name: ⛙ Rebase Dev Branch
         uses: robotology/gh-action-nightly-merge@v1.4.0
         env:
-          GITHUB_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
+          GITHUB_TOKEN: ${{ steps.op-load-secrets.outputs.TOKEN }}
         with:
           stable_branch: 'main'
           development_branch: 'dev'
