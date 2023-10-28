@@ -22,10 +22,15 @@ jobs:
       with:
         python-version: "3.11.6"
         
-    - run: pip install ruff
-    - name: Lint with ruff
-      run: ruff check --fix .
+    - run: |
+      pip install ruff
+      pip install pre-commit
 
-    - uses: pre-commit/action@v3.0.0
-      with:
-        extra_args: --config .github/.pre-commit-config.yaml
+    - name: Lint
+      run: |
+        ruff check --fix .
+        pre-commit run --all-files --config .github/.pre-commit-config.yaml
+
+    # - uses: pre-commit/action@v3.0.0
+    #   with:
+    #     extra_args: --config .github/.pre-commit-config.yaml
