@@ -118,7 +118,7 @@ jobs:
           github_token: ${{ needs.secrets.outputs.TOKEN }}
 
       - name: ⛙ Rebase Dev Branch
-        uses: robotology/@v1.4.0
+        uses: robotology/gh-action-nightly-merge@v1.4.0
         with:
           stable_branch: 'main'
           development_branch: 'dev'
