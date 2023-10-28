@@ -58,7 +58,7 @@ jobs:
 
 
   release:
-    if: ${{ pull_request.head.ref == 'main' }}
+    if: ${{ github.head_ref == 'main' }}
 
     needs: [secrets]
     runs-on: ubuntu-latest
