@@ -23,10 +23,6 @@ jobs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
       TOKEN: "${{ steps.secrets.outputs.TOKEN }}"
       PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
-      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
-      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
-      GITLAB: "${{ steps.secrets.outputs.GITLAB }}"
-      CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
       SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
     steps:

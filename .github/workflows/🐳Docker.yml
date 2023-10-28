@@ -1,8 +1,6 @@
 
 name: 🐳Docker
 
-run-name: ${{ github.actor }} is using 🐳
-
 on:
   workflow_dispatch:
   workflow_call:
@@ -18,14 +16,18 @@ on:
  
 jobs:
 
-  latest:
-    name: 🐳 Build and Push Docker image to Docker Hub
+  secrets:
     runs-on: ubuntu-latest
-    steps:
-      - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v1
+    outputs:
+      OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
+      DOCKER_USERNAME: "${{ steps.secrets.outputs.DOCKER_USERNAME }}"
+      DOCKER_HUB_ACCESS_TOKEN: "${{ steps.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}"
 
-      - name: Load Docker credentials
+    steps:
+      - name: 🔒️Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+  
+      - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -35,38 +37,44 @@ jobs:
           DOCKER_USERNAME: "op://git/DOCKERHUB/DOCKER_USERNAME"
           DOCKER_HUB_ACCESS_TOKEN: "op://git/DOCKERHUB/password"
 
+  latest:
+    name: 🐳 Build and Push Docker image to Docker Hub
+    needs: [secrets]
+    runs-on: ubuntu-latest
+    steps:
 
-      - name: Check out the repo
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
             fetch-depth: 0
-      - name: Prepare docker image name
+  
+      - name: 📦 Prepare docker image name
         id: image_names
         run: |
           IMAGES="${GITHUB_REPOSITORY/docker-/},ghcr.io/${GITHUB_REPOSITORY/docker-/}"
           echo "docker_images=$IMAGES" >> $GITHUB_ENV
 
-      - name: Log in to Docker Hub
+      - name: 🚪 Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ steps.op-load-secrets.outputs.DOCKER_USERNAME }}
-          password: ${{ steps.op-load-secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}
+          username: ${{ needs.secrets.outputs.DOCKER_USERNAME }}
+          password: ${{ needs.secrets.outputs.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Log in to the ghcr registry
+      - name: 🚪 Log in to the ghcr registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata for Docker latest
+      - name: 🕵️ Extract metadata for Docker latest
         id: meta
         uses: docker/metadata-action@v5
         with:
           images:  ${{ env.docker_images }}
           tags: latest
 
-      - name: Build and push Docker image
+      - name: 🐳 Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           #context: .
@@ -74,4 +82,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
