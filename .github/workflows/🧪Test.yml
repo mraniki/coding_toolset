@@ -30,10 +30,10 @@ jobs:
       SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
     steps:
-      - name: Install 1Password CLI
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: Load credentials
+      - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -63,7 +63,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: ${{ matrix.experimental }}
           
-      - name: Install Poetry
+      - name: 🛠️ Install Poetry
         uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
@@ -72,10 +72,10 @@ jobs:
       - name: Install project
         run: poetry install --sync --no-interaction
 
-      - name: Install 1Password CLI
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: Get Secrets
+      - name: 🔒️ Get Secrets
         run: |
           SETTINGS=$(op read op://git/SETTINGS/${{ inputs.repo }})
           echo "$SETTINGS"
@@ -84,9 +84,10 @@ jobs:
         env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
   
-      - name: Test with pytest
+      - name: 🧪 Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
-      - name: Upload coverage to Codecov
+
+      - name: 🧾 Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -95,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test]
     steps:
-      - name: Job Info
+      - name: ℹ️ Job Info
         run: |
           echo workspace is: ${{ github.workspace }}
           echo "is workflow_dispatch event? ${{ github.event_name == 'workflow_dispatch' }}"

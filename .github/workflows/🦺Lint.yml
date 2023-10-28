@@ -33,7 +33,7 @@ jobs:
         run: |
           ruff check --fix .
 
-      - name: 🚧 Pre-commit
+      - name: 🦺 Pre-commit
         run: |
           pre-commit run --config .github/.pre-commit-config.yaml
 

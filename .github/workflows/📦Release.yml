@@ -29,10 +29,10 @@ jobs:
       PYPI_API_TOKEN: "${{ steps.secrets.outputs.PYPI_API_TOKEN }}"
 
     steps:
-      - name: Install 1Password CLI
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: Load credentials
+      - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -59,7 +59,6 @@ jobs:
 
   release:
     if: ${{ github.head_ref == 'main' }}
-
     needs: [secrets]
     runs-on: ubuntu-latest
     concurrency: release
@@ -73,12 +72,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up latest Python
+      - name: 📌 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.6'
+          python-version: "3.11.6"
 
-      - name: Semantic Version and Release
+      - name: 🔖 Semantic Version and Release
         id: release
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
@@ -103,7 +102,7 @@ jobs:
           echo "git push the new tag:"
           git push origin v${new_version}
           
-      - name: Upload to PyPI via Twine
+      - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
         continue-on-error: true
         env:
@@ -113,12 +112,12 @@ jobs:
           python -m pip install --upgrade pip twine
           twine upload --verbose -u '__token__' dist/*
 
-      - name: Publish package to GitHub Release
+      - name: 🦑 Publish package to GitHub Release
         uses: python-semantic-release/upload-to-gh-release@main
         with:
           github_token: ${{ needs.secrets.outputs.TOKEN }}
 
-      - name: Rebase Dev Branch
+      - name: ⛙ Rebase Dev Branch
         uses: robotology/@v1.4.0
         env:
           GITHUB_TOKEN: ${{ needs.secrets.outputs.TOKEN }}

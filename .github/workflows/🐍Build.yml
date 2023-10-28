@@ -23,10 +23,10 @@ jobs:
       SETTINGS_LOCATION: "${{ steps.secrets.outputs.SETTINGS_LOCATION }}"
 
     steps:
-      - name: Install 1Password CLI
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: Load credentials
+      - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -58,10 +58,10 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Build package
+      - name: 🛠️ Build package
         run: poetry build
 
-      - name: Identify
+      - name: 🪪 Identify
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}
@@ -69,7 +69,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
      
-      - name: Update requirements
+      - name: 🛠️ Update requirements
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ needs.secrets.outputs.TOKEN }}

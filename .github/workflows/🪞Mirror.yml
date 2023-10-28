@@ -24,7 +24,6 @@ on:
 jobs:
 
   secrets:
-    needs: [precommit]
     runs-on: ubuntu-latest
     outputs:
       OP_SERVICE_ACCOUNT_TOKEN: "${{ steps.secrets.outputs.OP_SERVICE_ACCOUNT_TOKEN }}"
@@ -33,10 +32,10 @@ jobs:
       CODEBERG: "${{ steps.secrets.outputs.CODEBERG }}"
 
     steps:
-      - name: Install 1Password CLI
+      - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
   
-      - name: Load credentials
+      - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
         id: op-load-secrets
         with:
@@ -64,19 +63,19 @@ jobs:
           fetch-depth: 0
           token: ${{ needs.secrets.outputs.TOKEN }}
 
-      - name: Set up latest Python
+      - name: 📌 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.6'
+          python-version: "3.11.6"
 
-      - name: Mirror to Codeberg
+      - name: 🥼 Mirror to Codeberg
         uses: pixta-dev/repository-mirroring-action@v1
         if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name == 'push' }} && ${{github.event.inputs.codeberg_mirror }} == 'true'
         with:
           target_repo_url: git@codeberg.org:${{ github.repository }}.git
           ssh_private_key: ${{ needs.secrets.outputs.CODEBERG }}
 
-      - name: Mirror to Codeberg
+      - name: 🏰 Mirror to Codeberg
         uses: pixta-dev/repository-mirroring-action@v1
         if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name  }}== 'push' && ${{github.event.inputs.gitlab_mirror }} == 'true'
         with:
