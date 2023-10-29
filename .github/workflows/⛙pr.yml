@@ -55,7 +55,7 @@ jobs:
           id: quote
           run: |
             TITLE=$(fortune -s)
-            echo "$TITLE"
+            echo "$TITLE" >> $GITHUB_OUTPUT
 
         - name: 🛅 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
@@ -64,7 +64,7 @@ jobs:
           id: cpr
           run: |
             
-            gh pr create --title "⬆️ 🤖 - ${{ TITLE }}" \
+            gh pr create --title "⬆️ 🤖 - ${{ steps.quote.outputs.TITLE }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
