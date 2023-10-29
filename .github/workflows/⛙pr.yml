@@ -9,7 +9,7 @@ on:
 jobs:
 
     create_pull_request:
-      name: 'Create GitHub PR'
+      name: 🛅 Create GitHub PR
       runs-on: ubuntu-latest
       concurrency: release
       permissions:
@@ -51,16 +51,20 @@ jobs:
               echo "CHANGE=FALSE" >> $GITHUB_OUTPUT
             fi
 
-        - name: 🛃 Create pull request
+        - name: 🔮 Get a random quote
+          id: quote
+          run: |
+            TITLE=$(fortune -s)
+            echo "$TITLE"
+
+        - name: 🛅 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
           env:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
             
-            TITLE=$(fortune -s)
-            echo "$TITLE"
-            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ TITLE }}" \
+            gh pr create --title "⬆️ 🤖 - ${{ TITLE }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
