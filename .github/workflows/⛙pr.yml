@@ -55,7 +55,7 @@ jobs:
           id: quote
           run: |
             sudo apt-get -y install fortune-mod
-            TITLE=$(fortune -s)
+            TITLE=$(fortune -s | tr -d '\t' | sed 's/^[ \t]*//;s/[ \t]*$//')
             echo "TITLE=$TITLE" >> $GITHUB_ENV
         
         - name: 🛅 Create pull request
