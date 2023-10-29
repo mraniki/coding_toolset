@@ -65,7 +65,7 @@ jobs:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
-            gh pr create --title "⬆️ 🤖 - ${{ steps.quote.outputs.TITLE }}" \
+            gh pr create --title "⬆️ 🤖 - $TITLE" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
