@@ -36,6 +36,12 @@ jobs:
             ref: dev
             token: ${{ steps.secrets.outputs.TOKEN }}
 
+        - name: 🪪 Identify
+          if: github.event_name == 'pull_request'
+          run: |
+            git config --global user.email "action@github.com"
+            git config --global user.name "${GITHUB_ACTOR}"
+
         - name: 🛂 Check Diff
           id: diff
           run: |
@@ -47,29 +53,10 @@ jobs:
 
         - name: 🛃 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
+          env:
+            GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
-            echo "${{ steps.diff.outputs.CHANGE }}"
-
-            git config user.email "action@github.com"
-            git config user.name "GitHub Action"
-
-            pip install --upgrade pip
-
-            pip install poetry
-            poetry install --with dev
-
-            poetry run semantic-release -vv version --print
-
-            poetry lock
-            poetry export --without-hashes --format=requirements.txt > requirements.txt
-            cp requirements.txt .requirements/requirements.txt
-
-            git add .
-
-            git commit -m "⬆️ Update Requirements and Version"
-            
-
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.event.head_commit.message }}" \
                          --base "main" \
                          --head "dev" \
