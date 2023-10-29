@@ -51,12 +51,11 @@ jobs:
               echo "CHANGE=FALSE" >> $GITHUB_OUTPUT
             fi
 
-        - name: 🔮 Get a random quote
-          id: quote
-          run: |
-            sudo apt-get -y install fortune-mod
-            TITLE=$(fortune -s)
-            echo "TITLE=$TITLE" >> $GITHUB_OUTPUT
+        # - name: 🔮 Get a random quote
+        #   id: quote
+        #   run: |
+            
+        #     echo "TITLE=$TITLE" >> $GITHUB_OUTPUT
 
         - name: 🛅 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
@@ -64,8 +63,9 @@ jobs:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
-            
-            gh pr create --title "⬆️ 🤖 - ${{ steps.quote.outputs.TITLE }}" \
+            sudo apt-get -y install fortune-mod
+            TITLE=$(fortune -s)
+            gh pr create --title "⬆️ 🤖 - ${{ $TITLE }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
