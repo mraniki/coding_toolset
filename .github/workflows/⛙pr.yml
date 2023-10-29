@@ -17,12 +17,24 @@ jobs:
         contents: write
         pull-requests: write
       steps:
-
+        - name: 🔒️ Install 1Password CLI
+          uses: 1password/install-cli-action@v1
+    
+        - name: 🔒️ Load credentials
+          uses: 1password/load-secrets-action@v1
+          id: secrets
+          with:
+            export-env: false
+          env:
+            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+            TOKEN: "op://git/GITHUB/TOKEN"
+      
         - name: 📥 Checkout the repository
           uses: actions/checkout@v4
           with:
             fetch-depth: 0
             ref: dev
+            token: ${{ steps.secrets.outputs.TOKEN }}
 
         - name: 🛂 Check Diff
           id: diff
@@ -57,7 +69,6 @@ jobs:
 
             git commit -m "⬆️ Update Requirements and Version"
             
-            git push
 
             gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.event.head_commit.message }}" \
                          --base "main" \
