@@ -54,6 +54,7 @@ jobs:
         - name: 🔮 Get a random quote
           id: quote
           run: |
+            sudo apt-get -y install fortune-mod
             TITLE=$(fortune -s)
             echo "TITLE=$TITLE" >> $GITHUB_ENV
         
@@ -63,7 +64,6 @@ jobs:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
-            sudo apt-get -y install fortune-mod
             gh pr create --title "⬆️ 🤖 - ${{ steps.quote.outputs.TITLE }}" \
                          --base "main" \
                          --head "dev" \
