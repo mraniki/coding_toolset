@@ -37,12 +37,28 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-     
+
       - name: 🛠️ Update requirements
         if: github.event_name == 'pull_request'
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
-          cp requirements.txt .requirements/requirements.txt
-          git add .
-          git commit -m "⬆️ Update Requirements" --allow-empty
+      
+          # Check if the requirements file has changed
+          if git diff --quiet requirements.txt; then
+            echo "Requirements file hasn't changed, no need to commit."
+          else
+            cp requirements.txt .requirements/requirements.txt
+            # Add all files except poetry.lock
+            git add $(git ls-files | grep -v "poetry.lock")
+            git commit -m "⬆️ Update Requirements"
+          fi
+     
+      # - name: 🛠️ Update requirements
+      #   if: github.event_name == 'pull_request'
+      #   run: |
+      #     poetry lock
+      #     poetry export --without-hashes --format=requirements.txt > requirements.txt
+      #     cp requirements.txt .requirements/requirements.txt
+      #     git add .
+      #     git commit -m "⬆️ Update Requirements" --allow-empty
