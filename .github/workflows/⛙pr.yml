@@ -56,7 +56,7 @@ jobs:
           run: |
             sudo apt-get -y install fortune-mod
             TITLE=$(fortune -s)
-            echo $TITLE >> $GITHUB_OUTPUT
+            echo "TITLE=$TITLE" >> $GITHUB_OUTPUT
 
         - name: 🛅 Create pull request
           if: ${{ steps.diff.outputs.CHANGE }} == "TRUE"
