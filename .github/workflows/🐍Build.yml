@@ -49,6 +49,7 @@ jobs:
             echo "nothing hasn't changed, no need to commit."
           else
             # Add all files except poetry.lock
+            mkdir .requirements
             cp requirements.txt .requirements/requirements.txt
             git add $(git ls-files | grep -v "poetry.lock")
             git commit -m "⬆️ Update Requirements"
