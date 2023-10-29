@@ -57,7 +57,10 @@ jobs:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
           run: |
-            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ github.event.head_commit.message }}" \
+            
+            TITLE=$(fortune -s)
+            echo "$TITLE"
+            gh pr create --title "⬆️ 🤖 - Auto Release - ${{ TITLE }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
