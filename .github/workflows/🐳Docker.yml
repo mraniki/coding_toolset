@@ -22,7 +22,7 @@ jobs:
   
       - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v1
-        id: op-load-secrets
+        id: secrets
         with:
           export-env: false
         env:
