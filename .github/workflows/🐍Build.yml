@@ -43,7 +43,6 @@ jobs:
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
-          mv requirements.txt .requirements/requirements.txt
-          rm poetry.lock
+          cp requirements.txt .requirements/requirements.txt
           git add .
-          git commit -m "⬆️ Update Requirements"
+          git commit -m "⬆️ Update Requirements" --allow-empty
