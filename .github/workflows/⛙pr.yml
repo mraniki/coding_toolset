@@ -55,7 +55,8 @@ jobs:
           id: quote
           run: |
             sudo apt-get -y install fortune-mod
-            TITLE=$(fortune -s | tr -d '[:punct:]' | tr -d '[:digit:]' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            TITLE=$(fortune -s | tr -d '[:punct:]' | tr -d '[:digit:]' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | head -n 1)
+
             # Limit the TITLE to 256 characters
             TITLE=${TITLE:0:256}
             echo "TITLE=$TITLE" >> $GITHUB_ENV
