@@ -43,16 +43,10 @@ jobs:
         run: |
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
-      
-          # Check if the requirements file has changed
-          if git diff --quiet; then
-            echo "nothing hasn't changed, no need to commit."
-          else
-            # Add all files except poetry.lock
-            cp requirements.txt .requirements/requirements.txt
-            git add $(git ls-files | grep -v "poetry.lock")
-            git commit -m "⬆️ Update Requirements"
-          fi
+          cp requirements.txt .requirements/requirements.txt
+          git add $(git ls-files | grep -v "poetry.lock")
+          git commit -m "⬆️ Update Requirements"
+
      
       # - name: 🛠️ Update requirements
       #   if: github.event_name == 'pull_request'
