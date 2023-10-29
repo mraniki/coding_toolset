@@ -54,7 +54,7 @@ jobs:
         - name: 🔮 Get a random quote
           id: quote
           run: |
-            apt-get -y install fortune-mod
+            sudo apt-get -y install fortune-mod
 
             TITLE=$(fortune -s)
             echo "$TITLE" >> $GITHUB_OUTPUT
