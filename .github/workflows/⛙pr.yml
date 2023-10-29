@@ -54,6 +54,8 @@ jobs:
         - name: 🔮 Get a random quote
           id: quote
           run: |
+            apt-get -y install fortunes
+
             TITLE=$(fortune -s)
             echo "$TITLE" >> $GITHUB_OUTPUT
 
