@@ -42,8 +42,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           poetry lock
-          poetry export --without-hashes --format=requirements.txt > requirements.txt
-          cp requirements.txt .requirements/requirements.txt
+          poetry export --without-hashes --format=requirements.txt > .requirements/requirements.txt
           git add .
           git commit -m "⬆️ Update Requirements" --allow-empty
 
