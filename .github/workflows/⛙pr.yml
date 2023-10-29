@@ -64,8 +64,7 @@ jobs:
           id: cpr
           run: |
             sudo apt-get -y install fortune-mod
-            TITLE=$(fortune -s)
-            gh pr create --title "⬆️ 🤖 - ${{ $TITLE }}" \
+            gh pr create --title "⬆️ 🤖 - ${{ $(fortune -s) }}" \
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
