@@ -74,5 +74,3 @@ jobs:
                          --base "main" \
                          --head "dev" \
                          --body "Auto Release"
-
-            gh pr merge --merge --auto ${{ github.event.number }}
