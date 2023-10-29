@@ -44,8 +44,8 @@ jobs:
           poetry lock
           poetry export --without-hashes --format=requirements.txt > requirements.txt
           cp requirements.txt .requirements/requirements.txt
-          git add $(git ls-files | grep -v "poetry.lock")
-          git commit -m "⬆️ Update Requirements"
+          git add .
+          git commit -m "⬆️ Update Requirements" --allow-empty
 
      
       # - name: 🛠️ Update requirements
