@@ -45,7 +45,7 @@ jobs:
         - name: 🛂 Check Diff
           id: diff
           run: |
-            if git diff origin/dev origin/main >/dev/null; then
+            if git diff dev origin/main >/dev/null; then
               echo "CHANGE=TRUE" >> $GITHUB_OUTPUT
             else
               echo "CHANGE=FALSE" >> $GITHUB_OUTPUT
