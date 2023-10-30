@@ -45,7 +45,7 @@ jobs:
         - name: 🛂 Check Diff
           id: diff
           run: |
-            if git diff dev origin/main >/dev/null; then
+            if git diff dev main >/dev/null; then
               echo "CHANGE=TRUE"
               echo "Changes detected."
             else
@@ -65,7 +65,7 @@ jobs:
             echo "TITLE=$TITLE" >> $GITHUB_ENV
 
         - name: 🛅 Create pull request
-          if: ${{ steps.diff.outputs.CHANGE == 'TRUE' }}
+          if: ${{ env.CHANGE == 'TRUE' }}
           env:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
