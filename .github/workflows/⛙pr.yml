@@ -47,8 +47,11 @@ jobs:
           run: |
             if git diff dev origin/main >/dev/null; then
               echo "CHANGE=TRUE" >> $GITHUB_ENV
+              echo "Changes detected."
             else
               echo "CHANGE=FALSE" >> $GITHUB_ENV
+              echo "No changes detected."
+              exit 0  # Set exit code 0 to indicate success
             fi
 
         - name: 🔮 Get a random quote
