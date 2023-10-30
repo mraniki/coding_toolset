@@ -65,7 +65,7 @@ jobs:
             echo "TITLE=$TITLE" >> $GITHUB_ENV
 
         - name: 🛅 Create pull request
-          if: $CHANGE == 'TRUE'
+          if: ${{ steps.diff.outputs.CHANGE == 'TRUE' }}
           env:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
