@@ -69,22 +69,32 @@ jobs:
           run: |
             # Check if a pull request already exists
             pr_exists=$(gh pr list --base main --head dev --json "number" | jq 'length > 0')
-        
+
             if [[ $pr_exists == "true" ]]; then
               echo "Pull request already exists, not creating a new one."
+              exit 0  # Set exit code 0 to indicate success
             else
               gh pr create --title "⬆️ 🤖 - $TITLE" \
-                           --base "main" \
-                           --head "dev" \
-                           --body "Auto Release"
+                          --base "main" \
+                          --head "dev" \
+                          --body "Auto Release"
             fi
+
+
         # - name: 🛅 Create pull request
         #   if: ${{ steps.diff.outputs.CHANGE == 'TRUE' }}
         #   env:
         #     GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
         #   id: cpr
         #   run: |
-        #     gh pr create --title "⬆️ 🤖 - $TITLE" \
-        #                  --base "main" \
-        #                  --head "dev" \
-        #                  --body "Auto Release"
+        #     # Check if a pull request already exists
+        #     pr_exists=$(gh pr list --base main --head dev --json "number" | jq 'length > 0')
+        
+        #     if [[ $pr_exists == "true" ]]; then
+        #       echo "Pull request already exists, not creating a new one."
+        #     else
+        #       gh pr create --title "⬆️ 🤖 - $TITLE" \
+        #                    --base "main" \
+        #                    --head "dev" \
+        #                    --body "Auto Release"
+        #     fi
