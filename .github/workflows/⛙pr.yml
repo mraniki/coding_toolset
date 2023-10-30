@@ -46,9 +46,9 @@ jobs:
           id: diff
           run: |
             if git diff dev origin/main >/dev/null; then
-              echo "CHANGE=TRUE" >> $GITHUB_OUTPUT
+              echo "CHANGE=TRUE" >> $GITHUB_ENV
             else
-              echo "CHANGE=FALSE" >> $GITHUB_OUTPUT
+              echo "CHANGE=FALSE" >> $GITHUB_ENV
             fi
 
         - name: 🔮 Get a random quote
@@ -62,7 +62,7 @@ jobs:
             echo "TITLE=$TITLE" >> $GITHUB_ENV
 
         - name: 🛅 Create pull request
-          if: ${{ steps.diff.outputs.CHANGE == 'TRUE' }}
+          if: $CHANGE == 'TRUE'
           env:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
