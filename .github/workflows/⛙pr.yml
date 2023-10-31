@@ -45,13 +45,13 @@ jobs:
           id: diff
           run: |
             if git diff origin/dev origin/main >/dev/null; then
-              echo "CHANGE=TRUE"
+              echo "CHANGE=TRUE" >> $GITHUB_ENV
               echo "Changes detected."
             else
-              echo "CHANGE=FALSE"
+              echo "CHANGE=FALSE" >> $GITHUB_ENV
               echo "No changes detected."
             fi
-            echo "CHANGE=$CHANGE" >> $GITHUB_ENV
+            echo ${{ env.CHANGE }}
 
         - name: 🔮 Get a random quote
           id: quote
