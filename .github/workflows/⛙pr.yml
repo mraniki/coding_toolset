@@ -37,7 +37,6 @@ jobs:
             token: ${{ steps.secrets.outputs.TOKEN }}
 
         - name: 🪪 Identify
-          if: github.event_name == 'pull_request'
           run: |
             git config --global user.email "action@github.com"
             git config --global user.name "${GITHUB_ACTOR}"
