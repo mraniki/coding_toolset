@@ -91,7 +91,9 @@ jobs:
         continue-on-error: true
         run: |
           git checkout dev
-          git merge --ff-only origin/main
+          git merge --no-ff origin/main
+          # git merge --ff-only origin/main
+          # git rebase
           git push
         env:
           GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
