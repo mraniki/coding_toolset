@@ -92,7 +92,7 @@ jobs:
         run: |
           git fetch origin
           git checkout dev
-          git rebase origin/main --preserve-merges
+          git rebase origin/main
           git push origin dev --force
         env:
           GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
