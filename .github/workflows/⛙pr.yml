@@ -75,6 +75,7 @@ jobs:
 
         - name: 🛅 Create pull request
           if: ${{ env.CHANGE == 'TRUE' }}
+          continue-on-error: true
           env:
             GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
           id: cpr
