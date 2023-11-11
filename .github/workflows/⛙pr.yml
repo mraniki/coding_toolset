@@ -41,10 +41,20 @@ jobs:
             git config --global user.email "action@github.com"
             git config --global user.name "${GITHUB_ACTOR}"
 
+        - name: ⛙ Rebase Dev Branch from Main
+          continue-on-error: true
+          run: |
+            git fetch origin
+            git checkout dev
+            git rebase origin/main
+            git push origin dev --force
+          env:
+            GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+
         - name: 🛂 Check Diff
           id: diff
           run: |
-            if git diff origin/dev origin/main >/dev/null; then
+            if git diff dev origin/main >/dev/null; then
               echo "CHANGE=TRUE" >> $GITHUB_ENV
               echo "Changes detected."
             else
