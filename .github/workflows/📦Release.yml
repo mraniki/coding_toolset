@@ -70,6 +70,7 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v8.3.0
         with:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
+
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true'
         continue-on-error: true

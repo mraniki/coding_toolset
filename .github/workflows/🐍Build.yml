@@ -11,7 +11,9 @@ jobs:
     name: 🐍 Build
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
+      pull-requests: write
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
@@ -45,5 +47,3 @@ jobs:
           poetry export --without-hashes --format=requirements.txt > .requirements/requirements.txt
           git add .
           git commit -m "⬆️ Update Requirements" --allow-empty
-
-
