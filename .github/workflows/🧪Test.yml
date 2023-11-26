@@ -73,12 +73,3 @@ jobs:
         run: |
           echo "Test Results Completed"
 
-      # - name: 📥 Checkout the repository
-      #   uses: actions/checkout@v4
-  
-      # - name: Enable Pull Request Automerge
-      #   if: ${{github.event_name == 'pull_request'}}
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #     gh pr merge --merge --auto ${{ github.event.number }}

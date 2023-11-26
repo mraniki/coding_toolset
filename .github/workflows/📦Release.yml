@@ -72,7 +72,7 @@ jobs:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
 
       - name: ⛴️ Upload to PyPI via Twine
-        if: ${{github.event.inputs.pypi_publish}} == 'true'
+        if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ steps.release.outputs.released }} == 'true'
         # continue-on-error: true
         env:
           TWINE_USERNAME: '__token__'
@@ -97,3 +97,11 @@ jobs:
           git push origin dev --force
         env:
           GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+
+  
+      # - name: ⛙ Enable Pull Request Automerge
+      #   if: ${{github.event_name == 'pull_request'}}
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #     gh pr merge --merge --auto ${{ github.event.number }}
