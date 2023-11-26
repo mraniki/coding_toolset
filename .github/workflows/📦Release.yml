@@ -73,7 +73,7 @@ jobs:
 
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ steps.release.outputs.released }} == 'true'
-        # continue-on-error: true
+        continue-on-error: true
         env:
           TWINE_USERNAME: '__token__'
           TWINE_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
