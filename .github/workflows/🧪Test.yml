@@ -59,7 +59,7 @@ jobs:
       - name: 🧪 Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
 
-      - name: Retry on failure of build
+      - name: Retry on failure
         if: failure()
         run: |
           sleep 1h
