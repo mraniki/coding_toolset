@@ -59,6 +59,12 @@ jobs:
       - name: 🧪 Test with pytest
         run: poetry run pytest -v --cov . --cov-report=xml
 
+      - name: Retry on failure of build
+        if: failure()
+        run: |
+          sleep 1h
+          poetry run pytest -v --cov . --cov-report=xml
+
       - name: 🧾 Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
