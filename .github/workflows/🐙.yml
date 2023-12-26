@@ -195,7 +195,7 @@ jobs:
 
       - name: Save artefact
         if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: /dist
 
@@ -226,7 +226,7 @@ jobs:
 
       - name: Save artefact
         if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: /dist
 
