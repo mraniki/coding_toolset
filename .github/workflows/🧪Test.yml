@@ -79,3 +79,9 @@ jobs:
         run: |
           echo "Test Results Completed"
 
+      - name: ⛙ Enable Pull Request Automerge
+        if: ${{github.event_name == 'pull_request'}}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge --merge --auto --squash ${{ github.event.number }}
