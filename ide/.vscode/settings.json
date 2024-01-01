@@ -1,6 +1,222 @@
 {
-    "python.linting.enabled": false,
-    "python.testing.autoTestDiscoverOnSaveEnabled": false,
-    "python.testing.unittestArgs": [],
-    "python.defaultInterpreterPath": "~/miniconda3/envs/dev311/bin/python"
+    "workbench.startupEditor": "none",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true
+      },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+      },
+    "git.autofetch": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.testing.pytestEnabled": true,
+    "python.condaPath": "/micromamba/condabin/conda",
+    "terminal.integrated.profiles.osx": {
+        "bash": {
+            "path": "bash",
+            "args": [
+                "-l"
+            ],
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh",
+            "args": [
+                "-l"
+            ]
+        },
+        "fish": {
+            "path": "fish",
+            "args": [
+                "-l"
+            ]
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        },
+        "zsh-dev": {
+            "path": "/bin/zsh",
+            "args": [
+                "-l"
+            ]
+        }
+    },
+    "terminal.integrated.env.osx": {},
+    "python.venvFolders": [
+        "/micromamba/envs"
+    ],
+    "terminal.integrated.inheritEnv": false,
+    "git.enableSmartCommit": true,
+    "git.terminalAuthentication": false,
+    "git.confirmSync": false,
+    "genieai.enableConversationHistory": true,
+    "Codegeex.Privacy": true,
+    "Codegeex.Explanation.LanguagePreference": "en-US",
+    "githubPullRequests.pullBranch": "never",
+    "githubPullRequests.fileListLayout": "tree",
+    "python.testing.pytestArgs": [
+        "-v",
+        "-s"
+    ],
+    "gitmoji.addCustomEmoji": [
+    
+
+        {
+            "emoji": "🎨",
+            "code": ":art:",
+            "description": "Improve structure / format of the code.",
+        },
+        {
+            "emoji": "🐛",
+            "code": ":bug:",
+            "description": "Fix a bug.",
+        },
+        {
+            "emoji": "🚑",
+            "code": ":ambulance:",
+            "description": "HotFix",
+        },
+        {
+            "emoji": "🔥",
+            "code": ":fire:",
+            "description": "Remove code",
+        },
+        {
+            "emoji": "🚨",
+            "code": ":rotating_light:",
+            "description": "Fix linter ",
+        },
+        {
+            "emoji": "⚡",
+            "code": ":zap:",
+            "description": "Improve performance.",
+        },
+        {
+            "emoji": "🔧",
+            "code": ":wrench:",
+            "description": "Add or update configuration",
+        },
+        {
+            "emoji": "♻️",
+            "code": ":recycle:",
+            "description": "Refactor code",
+        },
+        {
+            "emoji": "💬",
+            "code": ":docs:",
+            "description": "Add or update documentation.",
+        },
+        {
+            "emoji": "📝",
+            "code": ":memo:",
+            "description": "Add or update documentation.",
+        },
+        {
+            "emoji": "🩹",
+            "code": ":adhesive_bandage:",
+            "description": "Simple fix for a non-critical issue.",
+        },
+        {
+            "emoji": "🐳",
+            "code": ":whale:",
+            "description": "Docker change",
+        },
+        {
+            "emoji": "👷 CI Change",
+            "code": ":whale:",
+            "description": "CI change",
+        },
+        {
+            "emoji": "🙈",
+            "code": ":see_no_evil:",
+            "description": "Add or update a .gitignore file.",
+        },
+        {
+            "emoji": "⚗️",
+            "code": ":alembic:",
+            "description": "Perform experiments.",
+        },
+        {
+            "emoji": "🧐",
+            "code": ":monocle_face:",
+            "description": "Data inspection.",
+        },
+        {
+            "emoji": "🔇",
+            "code": ":mute:",
+            "description": "Remove logs.",
+        },
+        {
+            "emoji": "🔊",
+            "code": ":loud_sound:",
+            "description": "Add or update logs.",
+        },
+        {
+            "emoji": "🥅",
+            "code": ":goal_net:",
+            "description": "Catch errors.",
+        },
+
+        {
+            "emoji": "✅",
+            "code": ":white_check_mark:",
+            "description": "Add, update, or pass tests.",
+            },
+
+            {
+            "emoji": "⬆️",
+            "code": ":arrow_up:",
+            "description": "Upgrade dependencies.",
+            },
+        {
+            "emoji": "🔒",
+            "code": ":lock:",
+            "description": "Fix security issues.",
+        },
+        {
+            "emoji": "👽",
+            "code": ":alien:",
+            "description": "Update code due to 3rd party changes",
+        },
+        {
+            "emoji": "🥚",
+            "code": ":egg:",
+            "description": "Prepping new feature",
+            },
+        {
+            "emoji": "✨ feature",
+            "code": ":sparkles:",
+            "description": "New feature",
+        },
+        {
+            "emoji": "💄 Add or update version",
+            "code": ":lipstick:",
+            "description": "Improve piece of code like refactoring.",
+        },
+        {
+            "emoji": "🚀 new version",
+            "code": ":rocket:",
+            "description": "Deploy stuff.",
+        },
+        {
+            "emoji": "💥 breaking",
+            "code": ":breaking:",
+            "description": "Release a new version",
+        },
+
+    ],
+    "git.autoStash": true,
+    "git.rebaseWhenSync": true,
+    "codeium.enableConfig": {
+        "*": true,
+        "pine": true,
+        "mq4": true,
+        "plaintext": true
+    },
+    "gitmoji.onlyUseCustomEmoji": true
 }
