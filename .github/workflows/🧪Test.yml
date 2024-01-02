@@ -57,7 +57,8 @@ jobs:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
   
       - name: 🧪 Test with pytest
-        run: poetry run pytest -v --cov . --cov-report=xml
+        run: poetry run pytest --cov-report=xml
+        #run: poetry run pytest -v --cov . --cov-report=xml
 
       - name: Retry on failure
         if: failure()
