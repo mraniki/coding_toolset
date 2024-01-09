@@ -48,14 +48,14 @@ jobs:
           GITLAB: "op://git/GITLAB/key"
           CODEBERG: "op://git/CODEBERG/key"
           
-      - name: 🥼 Mirror to Codeberg
+      - name:  🏰 Mirror to Codeberg
         uses: pixta-dev/repository-mirroring-action@v1
         if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name == 'push' }} && ${{github.event.inputs.codeberg_mirror }} == 'true'
         with:
           target_repo_url: git@codeberg.org:${{ github.repository }}.git
           ssh_private_key: ${{ steps.secrets.outputs.CODEBERG }}
 
-      - name: 🏰 Mirror to Codeberg
+      - name: 🥼 Mirror to gitlab
         uses: pixta-dev/repository-mirroring-action@v1
         if: ${{ github.ref == 'refs/heads/main'}} && ${{ github.event_name  }}== 'push' && ${{github.event.inputs.gitlab_mirror }} == 'true'
         with:
