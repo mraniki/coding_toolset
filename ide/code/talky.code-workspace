@@ -1,42 +1,5 @@
 {
-	"folders": [
-		{
-			"name": "coding_toolset",
-			"path": "../.."
-		},
-		{
-			"name": "findmyorder",
-			"path": "../../../findmyorder"
-		},
-		{
-			"name": "dxsp",
-			"path": "../../../dxsp"
-		},
-		{
-			"name": "tt",
-			"path": "../../../tt"
-		},
-		{
-			"name": "tokenlist",
-			"path": "../../../tokenlist"
-		},
-		{
-			"name": "iamlistening",
-			"path": "../../../iamlistening"
-		},
-		{
-			"name": "tt-plugins",
-			"path": "../../../tt-plugins"
-		},
-		{
-			"name": "talkytrend",
-			"path": "../../../talkytrend"
-		},
-		{
-			"name": "trading",
-			"path": "../../../trading"
-		}
-	],
+
 	"settings": {
 		"[python]": {
 			"editor.defaultFormatter": "charliermarsh.ruff"
