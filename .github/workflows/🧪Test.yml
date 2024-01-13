@@ -81,14 +81,15 @@ jobs:
         run: |
           echo "Test Results Completed"
 
-      # - name: ⛙ Enable Pull Request Automerge
-      #   if: ${{github.event_name == 'pull_request'}}
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #     gh pr merge ${{github.event.pull_request.html_url}} --auto --merge
-      #     # git push
-      #     # --rebase
-      #     # --squash
-      #     # --merge
-         # ${{ github.event.number }}
+      - name: ⛙ Enable Pull Request Automerge
+        if: ${{github.event_name == 'pull_request'}}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge ${{github.event.pull_request.html_url}} --auto 
+        # --merge
+        # git push
+        # --rebase
+        # --squash
+        # --merge
+        # ${{ github.event.number }}
