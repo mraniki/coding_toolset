@@ -83,10 +83,14 @@ jobs:
     name: ⛙ Enable Pull Request Automerge
     runs-on: ubuntu-latest
     needs: [test-results]
+    permissions:
+      contents: write
     steps:
 
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Enable Pull Request Automerge
         run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
@@ -96,6 +100,7 @@ jobs:
       - name: Push to dev if merged to dev
         if: github.event.pull_request.head.ref != 'dev'
         run: |
+          git fetch --all
           git checkout dev
           git pull origin dev
           git push origin dev
@@ -105,6 +110,7 @@ jobs:
       - name: Push to main if merged from dev
         if: github.event.pull_request.head.ref == 'dev'
         run: |
+          git fetch --all
           git checkout main
           git pull origin main
           git merge --ff-only dev
