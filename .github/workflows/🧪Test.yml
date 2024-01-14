@@ -92,27 +92,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Enable Pull Request Automerge
-        run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Push to dev if merged to dev
-        if: github.event.pull_request.head.ref != 'dev'
+      - name: Print current state of dev
         run: |
           git fetch --all
           git checkout dev
-          git pull origin dev
-          git push origin dev
-        env:
-          GH_TOKEN: ${{ github.token }}
+          git log -1 # Print the latest commit in dev
 
       - name: Push to main if merged from dev
         if: github.event.pull_request.head.ref == 'dev'
         run: |
-          git fetch --all
           git checkout main
-          git pull origin main
+          git merge --ff-only dev
           git push origin main
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Enable Pull Request Automerge
+        run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
         env:
           GH_TOKEN: ${{ github.token }}
