@@ -46,3 +46,5 @@ jobs:
           echo "github.ref_name is: ${{ github.ref_name }}"
           echo "github.ref is: ${{ github.ref }}"
           echo "github.head_ref is: ${{ github.head_ref }}"
+          echo "github.base_ref is:
+${{ github.event.pull_request.base.ref }}"
