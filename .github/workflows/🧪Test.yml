@@ -102,12 +102,12 @@ jobs:
         if: github.event.pull_request.head.ref == 'dev'
         run: |
           git checkout main
-          git merge --ff-only dev
+          git merge --no-ff --message "Merged from dev" dev
           git push origin main
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Enable Pull Request Automerge
-        run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # - name: Enable Pull Request Automerge
+      #   run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
