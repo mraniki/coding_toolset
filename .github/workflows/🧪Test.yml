@@ -81,19 +81,30 @@ jobs:
         run: |
           echo "Test Results Completed"
 
-      # - name: ⛙ Enable Pull Request Automerge
-      #   if: ${{github.event_name == 'pull_request'}}
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #    git checkout ${{ github.event.pull_request.base.ref }} && git pull origin ${{ github.event.pull_request.base.ref }} && git checkout ${{ github.event.pull_request.head.ref }} &&
-      #     git merge --no-ff ${{ github.event.pull_request.head.ref }} && git push origin ${{ github.event.pull_request.base.ref }}
-      #    # && git fetch origin pull/ID/head:dev && 
-         
-        # gh pr merge ${{github.event.pull_request.html_url}} --auto --rebase
-        # --merge
-        # git push
-        # --rebase
-        # --squash
-        # --merge
-        # ${{ github.event.number }}
+  automerge:
+    name: ⛙ Enable Pull Request Automerge
+    runs-on: ubuntu-latest
+    needs: [test-results]
+      - name: Enable Pull Request Automerge
+        run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Push to dev if merged to dev
+        if: github.event.pull_request.merged && github.event.pull_request.base.ref == 'dev'
+        run: |
+          git checkout dev
+          git pull origin dev
+          git push origin dev
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Push to main if merged from dev
+        if: github.event.pull_request.merged && github.event.pull_request.head.ref == 'dev'
+        run: |
+          git checkout main
+          git pull origin main
+          git merge --ff-only dev
+          git push origin main
+        env:
+          GH_TOKEN: ${{ github.token }}
