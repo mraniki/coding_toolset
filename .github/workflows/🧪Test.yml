@@ -81,14 +81,14 @@ jobs:
         run: |
           echo "Test Results Completed"
 
-      - name: ⛙ Enable Pull Request Automerge
-        if: ${{github.event_name == 'pull_request'}}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-         git checkout ${{ github.event.pull_request.base.ref }} && git pull origin ${{ github.event.pull_request.base.ref }} && git checkout ${{ github.event.pull_request.head.ref }} &&
-          git merge --no-ff ${{ github.event.pull_request.head.ref }} && git push origin ${{ github.event.pull_request.base.ref }}
-         # && git fetch origin pull/ID/head:dev && 
+      # - name: ⛙ Enable Pull Request Automerge
+      #   if: ${{github.event_name == 'pull_request'}}
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: |
+      #    git checkout ${{ github.event.pull_request.base.ref }} && git pull origin ${{ github.event.pull_request.base.ref }} && git checkout ${{ github.event.pull_request.head.ref }} &&
+      #     git merge --no-ff ${{ github.event.pull_request.head.ref }} && git push origin ${{ github.event.pull_request.base.ref }}
+      #    # && git fetch origin pull/ID/head:dev && 
          
         # gh pr merge ${{github.event.pull_request.html_url}} --auto --rebase
         # --merge
