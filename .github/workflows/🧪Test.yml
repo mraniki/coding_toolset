@@ -86,7 +86,8 @@ jobs:
     permissions:
       contents: write
     steps:
-
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
       - name: Enable Pull Request Automerge
         run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
         env:
