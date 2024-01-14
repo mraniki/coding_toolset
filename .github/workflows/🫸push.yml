@@ -11,9 +11,9 @@ jobs:
 
     steps:
       - name: 📥 Checkout the repository
-              uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
   
       - name: Configure Git
           run: |
