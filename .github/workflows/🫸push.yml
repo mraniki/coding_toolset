@@ -1,0 +1,30 @@
+name: 🫸Push
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+
+jobs:
+  push-merge-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout the repository
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+  
+      - name: Configure Git
+          run: |
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+
+      - name: Push Merge Commit to Main
+        if: github.event.pull_request.head.ref == 'dev'
+        run: |
+          git checkout main
+          git pull origin main
+          git push origin main
+        env:
+          GH_TOKEN: ${{ github.token }}
