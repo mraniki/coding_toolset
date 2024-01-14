@@ -85,6 +85,8 @@ jobs:
     name: ⛙ Enable Pull Request Automerge
     runs-on: ubuntu-latest
     needs: [test-results]
+    steps:
+    
       - name: Enable Pull Request Automerge
         run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
         env:
