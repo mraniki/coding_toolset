@@ -94,7 +94,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Push to dev if merged to dev
-        if: github.event.pull_request.base.ref == 'dev'
+        if: github.event.pull_request.head.ref != 'dev'
         run: |
           git checkout dev
           git pull origin dev
@@ -103,7 +103,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Push to main if merged from dev
-        if: github.event.pull_request.base.ref == 'main'
+        if: github.event.pull_request.head.ref == 'dev'
         run: |
           git checkout main
           git pull origin main
