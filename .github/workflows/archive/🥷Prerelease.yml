@@ -47,7 +47,7 @@ jobs:
     if: ${{ github.ref.type == 'dev' }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
       
       - name: Prepare docker image name
         id: image_names

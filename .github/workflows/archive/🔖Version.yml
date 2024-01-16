@@ -30,7 +30,7 @@ jobs:
     if: env.package = 'false'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.6.0
     - uses: divideprojects/poetry-export-requirements-action@v1
       with:
         without-hashes: true
@@ -40,7 +40,7 @@ jobs:
     if: env.package = 'true'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.6.0
     - uses: divideprojects/poetry-export-requirements-action@v1
       with:
         without-hashes: true
@@ -50,7 +50,7 @@ jobs:
     if: env.package = 'false' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.6.0
         with:
           fetch-depth: 0
       - name: Python Semantic Release
@@ -62,7 +62,7 @@ jobs:
     if: env.package = 'true' and ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.6.0
         with:
           fetch-depth: 0
       - name: Python Semantic Release
@@ -78,7 +78,7 @@ jobs:
     needs: [release]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.6.0
         with:
           fetch-depth: 0
 
