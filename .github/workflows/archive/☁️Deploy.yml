@@ -34,7 +34,7 @@ steps:
     name: Deploy on deta
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
       - name: Deploy to Deta
         uses: BogDAAAMN/deta-deploy-action@v1.0.1
         with:
