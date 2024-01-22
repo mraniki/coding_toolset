@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Semantic Version and Release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: relekang/python-semantic-release@v7.34.6
+        uses: relekang/python-semantic-release@v8.7.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - name: Semantic Version and PYPI release
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        uses: relekang/python-semantic-release@v7.34.6
+        uses: relekang/python-semantic-release@v8.7.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
