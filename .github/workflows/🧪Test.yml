@@ -60,7 +60,6 @@ jobs:
         if: ${{ github.repository == 'mraniki/cefi' }}
         run: |
             wget -q https://github.com/IbcAlpha/IBC/releases/download/3.18.0-Update.1/IBCLinux-3.18.0.zip -O ibc.zip \
-            && sha256sum -c ibc.zip.sha256 \
             && unzip ibc.zip -d /opt/ibc \
             && chmod o+x /opt/ibc/*.sh /opt/ibc/*/*.sh \
 
