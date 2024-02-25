@@ -38,6 +38,7 @@ jobs:
         run: |
           echo workspace is: ${{ github.workspace }}
           echo actor is: ${{ github.actor }}
+          echo "repository is: ${{ github.repository }}"
           echo "is workflow_dispatch event? ${{ github.event_name == 'workflow_dispatch' }}"
           echo event is: ${{ github.event_name }}
           echo "is push event? ${{ github.event_name == 'push' }}"
