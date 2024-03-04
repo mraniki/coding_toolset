@@ -81,12 +81,10 @@ jobs:
           echo "Test Results Completed"
 
   automerge:
-    name: ⛙ Enable Pull Request Automerge
+    name: ⛙ Enable Pull Request Automerge to dev
     runs-on: ubuntu-latest
     needs: [test-results]
-    # if: ${{ github.repository == 'mraniki/cefi' }}
-    # permissions:
-    #   contents: write
+    if: ${{ github.base_ref == 'dev' }}
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
