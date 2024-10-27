@@ -68,6 +68,7 @@ jobs:
 
       - name: 🔖 Semantic Version and Release
         uses: python-semantic-release/python-semantic-release@v9.12.0
+
         with:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
 
