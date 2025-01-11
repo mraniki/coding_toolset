@@ -43,6 +43,7 @@ jobs:
       - name: 🛠️ Update requirements
         if: github.event_name == 'pull_request'
         run: |
+          poetry self add poetry-plugin-export
           poetry lock
           poetry export --without-hashes --format=requirements.txt > .requirements/requirements.txt
           git add .
