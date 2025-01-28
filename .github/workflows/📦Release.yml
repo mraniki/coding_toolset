@@ -67,7 +67,7 @@ jobs:
       #     poetry run semantic-release version --print
 
       - name: 🔖 Semantic Version and Release
-        uses: python-semantic-release/python-semantic-release@v9.16.0
+        uses: python-semantic-release/python-semantic-release@v9.16.1
 
         with:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
