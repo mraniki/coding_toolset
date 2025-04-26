@@ -12,7 +12,12 @@ jobs:
 
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
-
+          # Check out the code from the repo that called the workflow
+          repository: ${{ github.repository }}
+          # Check out the specific commit associated with the PR head or push
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # fetch-depth: 0 # Optional, but safer than fetch-depth: 1
+          
       - name: 🪵 Debug Checkout
         run: |
           echo "--- Debug Info ---"
