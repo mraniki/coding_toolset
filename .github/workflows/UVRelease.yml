@@ -63,8 +63,8 @@ jobs:
           # Provide PyPI credentials for semantic-release upload
           PYPI_USERNAME: "__token__"
           PYPI_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-        # Run publish with increased verbosity
-        run: semantic-release publish -vv
+        # Run publish with increased verbosity (DEBUG level)
+        run: semantic-release publish --verbosity=2
 
       # The semantic-release publish command handles build, commit, tag, and GH release.
       # The upload-to-gh-release action might be redundant unless it offers specific features.
