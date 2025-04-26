@@ -56,12 +56,29 @@ jobs:
       - name: ⬇️ Install uv & semantic-release
         run: pip install uv python-semantic-release
 
+      - name: 🧐 List files before build
+        run: ls -la
+
+      # --- Debug Step: Try running uv build manually first --- #
+      - name: ⚙️ DEBUG: Manual uv build
+        run: uv build --sdist --wheel
+        continue-on-error: true # Continue even if this fails for now
+
+      - name: 🧐 List files after manual build
+        run: ls -la dist/ || echo "dist/ not found after manual build"
+        continue-on-error: true
+      # --- End Debug Step --- #
+
       - name: 🔖 Semantic Version and Publish
         id: release # Keep id if subsequent steps use its outputs
         env:
           GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
         # Run publish, which includes versioning, build, commit, tag, release
         run: semantic-release publish
+
+      - name: 🧐 List files after semantic-release publish
+        run: ls -la dist/ || echo "dist/ not found after semantic-release publish"
+        continue-on-error: true
 
       # The semantic-release publish command handles build, commit, tag, and GH release.
       # The upload-to-gh-release action might be redundant unless it offers specific features.
