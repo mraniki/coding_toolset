@@ -1,0 +1,57 @@
+name: ⚡Lint (UV)
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  lint:
+    name: ⚡ Lint (UV)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # fetch-depth: 0 # Consider if needed for specific linters
+
+      # Optional: Debugging step kept from original
+      - name: 🪵 Debug Checkout
+        run: |
+          echo "--- Debug Info ---"
+          echo "Running in Directory: $(pwd)"
+          echo "Commit SHA Checked Out: $(git rev-parse HEAD)"
+          # ... (rest of debug lines) ...
+          echo "--- End Debug Info ---"
+
+      - name: 🐍 Set up Python & UV
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'uv'
+
+      - name: 🛠️ Install Linters using UV
+        run: |
+          # Install ruff and pre-commit using uv pip install
+          # Assumes these are not defined in the project's pyproject.toml
+          # If they ARE in pyproject.toml [dev] dependencies, use `uv sync --extra dev`
+          uv pip install ruff pre-commit
+
+      - name: 🚨 Lint with Ruff
+        run: |
+          # Use uv run if ruff needs project context, otherwise direct call is fine
+          ruff check --fix --no-cache .
+
+      - name: 🦺 Pre-commit
+        run: |
+          # Use uv run if pre-commit hooks need project venv, otherwise direct call
+          # Check if your pre-commit config requires the project venv
+          pre-commit run --config .github/.pre-commit-config.yaml # Assuming config is in calling repo
+
+      # Optional: Job Info step kept from original
+      - name: ℹ️ Job Info
+        if: success()
+        run: |
+          # ... (rest of info lines) ...
+          echo "github.base_ref is: ${{ github.event.pull_request.base.ref }}" 
