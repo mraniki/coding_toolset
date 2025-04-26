@@ -60,11 +60,12 @@ jobs:
         id: release # Keep id if subsequent steps use its outputs
         env:
           GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-          # Provide PyPI credentials for semantic-release upload
           PYPI_USERNAME: "__token__"
           PYPI_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-        # Run publish with DEBUG verbosity
-        run: semantic-release publish -vv
+          PSR_LOG_LEVEL: DEBUG # Set log level via environment variable
+        # Run publish
+        # run: semantic-release -vv publish
+        run: semantic-release --verbose publish
 
       # The semantic-release publish command handles build, commit, tag, and GH release.
       # The upload-to-gh-release action might be redundant unless it offers specific features.
