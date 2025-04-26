@@ -53,7 +53,7 @@ jobs:
         id: setup-python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.13.3"
+          python-version: "3.11"
 
       # - name: 🔖 Semantic Version and Release
       #   id: release
