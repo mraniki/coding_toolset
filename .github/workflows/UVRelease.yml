@@ -82,7 +82,7 @@ jobs:
         with:
           # user: __token__ # Recommended for PyPI token
           password: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-          # skip_existing: true # Optional: don't fail if version exists
+          skip_existing: true # Don't fail if version already exists
 
       # Use GitHub CLI to upload assets to the release created by semantic-release version
       - name: 📦 Upload assets to GitHub Release
