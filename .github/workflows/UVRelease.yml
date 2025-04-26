@@ -70,6 +70,11 @@ jobs:
           TAG=$(git describe --tags --abbrev=0)
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
+      # Explicit build step after versioning/tagging
+      - name: ⚙️ Build distributions
+        if: steps.versioning.outputs.tag != '' # Only build if a new tag was created
+        run: uv build --sdist --wheel
+
       # Use the standard PyPI publish action
       - name: 🚀 Publish package to PyPI
         if: steps.versioning.outputs.tag != '' && inputs.pypi_publish == 'true' # Check if tag was created and publish enabled
