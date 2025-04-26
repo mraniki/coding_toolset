@@ -60,7 +60,10 @@ jobs:
         id: release # Keep id if subsequent steps use its outputs
         env:
           GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-        # Run publish, which includes versioning, build, commit, tag, release
+          # Provide PyPI credentials for semantic-release upload
+          PYPI_USERNAME: "__token__"
+          PYPI_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
+        # Run publish, which includes versioning, build, commit, tag, release, and now PyPI upload
         run: semantic-release publish
 
       # The semantic-release publish command handles build, commit, tag, and GH release.
@@ -71,21 +74,6 @@ jobs:
       #   continue-on-error: true
       #   with:
       #     github_token: ${{ steps.secrets.outputs.TOKEN }}
-
-      - name: ⛴️ Upload to PyPI via Twine
-        # semantic-release publish already tries to upload to PyPI if configured.
-        # This step might be redundant or only needed as a fallback.
-        # Keep it for now, but verify if semantic-release handles PyPI upload directly.
-        if: ${{github.event.inputs.pypi_publish}} == 'true' # Condition might need adjustment
-        continue-on-error: true
-        env:
-          TWINE_USERNAME: '__token__'
-          TWINE_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-          # GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }} # Likely not needed for Twine
-        run: |
-          echo "Attempting Twine upload (may be redundant if semantic-release succeeded)..."
-          python -m pip install --upgrade twine
-          twine upload --verbose dist/*
 
       - name: ⛙ Rebase Dev Branch from Main
         continue-on-error: true
