@@ -56,25 +56,36 @@ jobs:
       - name: ⬇️ Install uv & semantic-release
         run: pip install uv python-semantic-release
 
-      - name: 🔖 Semantic Version and Publish
-        id: release # Keep id if subsequent steps use its outputs
+      - name: 🔖 Semantic Version, Build, Commit, Tag
+        id: versioning # Give it an ID
         env:
           GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-          PYPI_USERNAME: "__token__"
-          PYPI_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-          PSR_LOG_LEVEL: DEBUG # Set log level via environment variable
-        # Run publish
-        # run: semantic-release -vv publish
-        run: semantic-release --verbose publish
+          # Set log level via environment variable (most reliable method)
+          PSR_LOG_LEVEL: DEBUG
+        # Run version command - this runs build, updates files, commits, tags
+        run: |
+          semantic-release version
+          # Try to capture the tag created. semantic-release doesn't output it directly.
+          # Use git describe as a common way to get the latest tag.
+          TAG=$(git describe --tags --abbrev=0)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      # The semantic-release publish command handles build, commit, tag, and GH release.
-      # The upload-to-gh-release action might be redundant unless it offers specific features.
-      # We'll keep it commented out for now.
-      # - name: 🦑 Publish package to GitHub Release
-      #   uses: python-semantic-release/upload-to-gh-release@main
-      #   continue-on-error: true
-      #   with:
-      #     github_token: ${{ steps.secrets.outputs.TOKEN }}
+      # Use the standard PyPI publish action
+      - name: 🚀 Publish package to PyPI
+        if: steps.versioning.outputs.tag != '' && inputs.pypi_publish == 'true' # Check if tag was created and publish enabled
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # user: __token__ # Recommended for PyPI token
+          password: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
+          # skip_existing: true # Optional: don't fail if version exists
+
+      # Use GitHub CLI to upload assets to the release created by semantic-release version
+      - name: 📦 Upload assets to GitHub Release
+        if: steps.versioning.outputs.tag != '' # Check if tag was created
+        env:
+          GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+        run: |
+          gh release upload ${{ steps.versioning.outputs.tag }} dist/* --clobber
 
       - name: ⛙ Rebase Dev Branch from Main
         continue-on-error: true
