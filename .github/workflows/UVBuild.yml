@@ -1,0 +1,51 @@
+name: ⚡Build (UV)
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: ⚡ Build (UV)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0 # Required for git history checks if needed
+
+      - name: 🐍 Set up Python & UV
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Or make this an input/matrix variable
+          cache: 'uv' # Cache UV dependencies
+
+      - name: 🛠️ Install dependencies
+        run: uv sync --all-extras # Install main and optional/dev dependencies
+
+      - name: 🛠️ Build package
+        run: uv build
+
+      - name: 🪪 Identify
+        # Keep this section if you need to commit changes like requirements updates
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+
+      - name: 🛠️ Update requirements (Optional, if still needed)
+        # UV uses uv.lock primarily. Exporting requirements.txt might be optional.
+        # If you still need requirements.txt for some reason:
+        if: github.event_name == 'pull_request'
+        run: |
+          uv lock # Ensure lock file is up-to-date
+          mkdir -p .requirements # Create directory if it doesn't exist
+          uv export --format requirements.txt --output .requirements/requirements.txt
+          # Consider if you want to export extras: --all-extras or --extras <group>
+          git add pyproject.toml uv.lock .requirements/requirements.txt
+          # Commit if there are changes
+          git diff --staged --quiet || git commit -m "⬆️ Update Dependencies (uv)" 
