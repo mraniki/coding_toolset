@@ -1,3 +1,4 @@
+
 name: 📦Release
 
 on:
@@ -54,21 +55,22 @@ jobs:
         with:
           python-version: "3.11"
 
+      # - name: 🔖 Semantic Version and Release
+      #   id: release
+      #   continue-on-error: true
+      #   env:
+      #     GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+      #   run: |
+      #     python -m pip install --upgrade --disable-pip-version-check pip
+      #     pip install poetry
+      #     poetry install --with dev
+      #     poetry run semantic-release version --print
+
       - name: 🔖 Semantic Version and Release
         uses: python-semantic-release/python-semantic-release@v9.21.0
 
         with:
           github_token: ${{ steps.secrets.outputs.TOKEN }}
-
-      - name: 🔖 Semantic Version and Publish
-        id: release # Keep id if subsequent steps use its outputs (check below)
-        env:
-          GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-        run: semantic-release publish
-
-      # Check if subsequent steps rely on steps.release.outputs.released
-      # If so, this manual run might need adjustment to capture similar status.
-      # For now, we assume subsequent steps run conditionally based on job success.
 
       - name: ⛴️ Upload to PyPI via Twine
         if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ steps.release.outputs.released }} == 'true'
