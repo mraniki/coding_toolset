@@ -36,10 +36,10 @@ jobs:
 
       - name: 🛠️ Install Linters using UV
         run: |
-          # Install ruff and pre-commit using uv pip install
+          # Install ruff and pre-commit using uv pip install into the system environment
           # Assumes these are not defined in the project's pyproject.toml
           # If they ARE in pyproject.toml [dev] dependencies, use `uv sync --extra dev`
-          uv pip install ruff pre-commit
+          uv pip install --system ruff pre-commit
 
       - name: 🚨 Lint with Ruff
         run: |
