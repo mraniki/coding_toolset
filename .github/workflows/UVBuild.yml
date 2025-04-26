@@ -47,7 +47,7 @@ jobs:
         run: |
           uv lock # Ensure lock file is up-to-date
           mkdir -p .requirements # Create directory if it doesn't exist
-          uv export --format requirements.txt --output .requirements/requirements.txt
+          uv export --format requirements.txt --output-file .requirements/requirements.txt
           # Consider if you want to export extras: --all-extras or --extras <group>
           git add pyproject.toml uv.lock .requirements/requirements.txt
           # Commit if there are changes
