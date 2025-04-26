@@ -12,6 +12,7 @@ jobs:
 
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
+        with:
           # Check out the code from the repo that called the workflow
           repository: ${{ github.repository }}
           # Check out the specific commit associated with the PR head or push
