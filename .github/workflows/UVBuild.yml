@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11' # Or make this an input/matrix variable
-          cache: 'uv' # Cache UV dependencies
+          # cache: 'uv' # Cache UV dependencies - Removed, not supported yet
 
       - name: 🛠️ Install dependencies
         run: uv sync --all-extras # Install main and optional/dev dependencies

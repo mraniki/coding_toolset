@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: ${{ matrix.experimental }}
-          cache: 'uv' # Cache UV dependencies
+          # cache: 'uv' # Cache UV dependencies - Removed, not supported yet
 
       - name: 🛠️ Install dependencies
         run: uv sync --all-extras # Install main and optional/dev dependencies for tests
