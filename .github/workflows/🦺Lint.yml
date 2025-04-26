@@ -1,4 +1,3 @@
-
 name: 🦺Lint
 
 on:
@@ -14,6 +13,24 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
 
+      - name: 🪵 Debug Checkout
+        run: |
+          echo "--- Debug Info ---"
+          echo "Running in Directory: $(pwd)"
+          echo "Commit SHA Checked Out: $(git rev-parse HEAD)"
+          echo "Workflow Trigger Event: ${{ github.event_name }}"
+          echo "Ref Triggered: ${{ github.ref }}"
+          echo "Ref Type: ${{ github.ref_type }}"
+          # Specific details for PRs (only available on pull_request triggers)
+          echo "PR Head SHA: ${{ github.event.pull_request.head.sha || 'N/A' }}"
+          echo "PR Base SHA: ${{ github.event.pull_request.base.sha || 'N/A' }}"
+          echo "PR Merge Commit SHA (github.sha): ${{ github.sha || 'N/A' }}"
+          echo "--- File Listing ---"
+          ls -la
+          echo "--- Recent Git Log ---"
+          git log -n 5
+          echo "--- End Debug Info ---"
+
       - name: 🐍 Set up Python
         id: setup-python
         uses: actions/setup-python@v5
@@ -27,7 +44,7 @@ jobs:
 
       - name: 🚨 Lint
         run: |
-          ruff check --fix .
+          ruff check --fix --no-cache .
 
       - name: 🦺 Pre-commit
         run: |
