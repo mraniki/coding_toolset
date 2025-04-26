@@ -1,4 +1,4 @@
-name: 📦Release
+name: ⚡Release (UV)
 
 on:
   workflow_dispatch:
@@ -17,14 +17,12 @@ on:
         type: string
         default: true
 
-
 jobs:
-
   release:
-    name: Versioning and Release
+    name: ⚡ Versioning and Release (UV)
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    concurrency: release
+    concurrency: release # Use a different concurrency group if needed?
     permissions:
         id-token: write
         contents: write
@@ -32,7 +30,7 @@ jobs:
     steps:
       - name: 🔒️ Install 1Password CLI
         uses: 1password/install-cli-action@v1
-  
+
       - name: 🔒️ Load credentials
         uses: 1password/load-secrets-action@v2
         id: secrets
@@ -42,50 +40,52 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           TOKEN: "op://git/GITHUB/TOKEN"
           PYPI_API_TOKEN: "op://git/PYPI_API_TOKEN/password"
+
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ steps.secrets.outputs.TOKEN }}
-          
+
       - name: 🐍 Set up Python
         id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: 🔖 Semantic Version and Release
-        uses: python-semantic-release/python-semantic-release@v9.21.0
-
-        with:
-          github_token: ${{ steps.secrets.outputs.TOKEN }}
+      - name: ⬇️ Install uv & semantic-release
+        run: pip install uv python-semantic-release
 
       - name: 🔖 Semantic Version and Publish
-        id: release # Keep id if subsequent steps use its outputs (check below)
+        id: release # Keep id if subsequent steps use its outputs
         env:
           GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+        # Run publish, which includes versioning, build, commit, tag, release
         run: semantic-release publish
 
-      # Check if subsequent steps rely on steps.release.outputs.released
-      # If so, this manual run might need adjustment to capture similar status.
-      # For now, we assume subsequent steps run conditionally based on job success.
+      # The semantic-release publish command handles build, commit, tag, and GH release.
+      # The upload-to-gh-release action might be redundant unless it offers specific features.
+      # We'll keep it commented out for now.
+      # - name: 🦑 Publish package to GitHub Release
+      #   uses: python-semantic-release/upload-to-gh-release@main
+      #   continue-on-error: true
+      #   with:
+      #     github_token: ${{ steps.secrets.outputs.TOKEN }}
 
       - name: ⛴️ Upload to PyPI via Twine
-        if: ${{github.event.inputs.pypi_publish}} == 'true' && ${{ steps.release.outputs.released }} == 'true'
+        # semantic-release publish already tries to upload to PyPI if configured.
+        # This step might be redundant or only needed as a fallback.
+        # Keep it for now, but verify if semantic-release handles PyPI upload directly.
+        if: ${{github.event.inputs.pypi_publish}} == 'true' # Condition might need adjustment
         continue-on-error: true
         env:
           TWINE_USERNAME: '__token__'
           TWINE_PASSWORD: ${{ steps.secrets.outputs.PYPI_API_TOKEN }}
-          GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
+          # GH_TOKEN: ${{ steps.secrets.outputs.TOKEN }} # Likely not needed for Twine
         run: |
-          python -m pip install --upgrade pip twine
+          echo "Attempting Twine upload (may be redundant if semantic-release succeeded)..."
+          python -m pip install --upgrade twine
           twine upload --verbose dist/*
-
-      - name: 🦑 Publish package to GitHub Release
-        uses: python-semantic-release/upload-to-gh-release@main
-        continue-on-error: true
-        with:
-          github_token: ${{ steps.secrets.outputs.TOKEN }}
 
       - name: ⛙ Rebase Dev Branch from Main
         continue-on-error: true
@@ -95,12 +95,4 @@ jobs:
           git rebase origin/main
           git push origin dev --force
         env:
-          GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }}
-
-  
-      # - name: ⛙ Enable Pull Request Automerge
-      #   if: ${{github.event_name == 'pull_request'}}
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #     gh pr merge --merge --auto ${{ github.event.number }}
+          GITHUB_TOKEN: ${{ steps.secrets.outputs.TOKEN }} 
