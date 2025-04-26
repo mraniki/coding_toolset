@@ -45,8 +45,16 @@ jobs:
           
       - name: 🛠️ Install dependencies
         run: |
-          pip install ruff
+          # Pin ruff version
+          pip install ruff==0.11.7
           pip install pre-commit
+
+      - name: 👀 Verify File Content
+        run: |
+          echo "--- Start of dxsp/handler/_client.py ---"
+          # Use the relative path from the checkout root
+          cat ./dxsp/handler/_client.py || echo "File ./dxsp/handler/_client.py not found or cat failed"
+          echo "--- End of dxsp/handler/_client.py ---"
 
       - name: 🚨 Lint
         run: |
