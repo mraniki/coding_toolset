@@ -64,7 +64,7 @@ jobs:
           PSR_LOG_LEVEL: DEBUG
         # Run version command - this runs build, updates files, commits, tags
         run: |
-          semantic-release version
+          semantic-release -vv version 
           # Try to capture the tag created. semantic-release doesn't output it directly.
           # Use git describe as a common way to get the latest tag.
           TAG=$(git describe --tags --abbrev=0)
