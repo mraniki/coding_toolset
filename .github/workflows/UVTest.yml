@@ -55,6 +55,7 @@ jobs:
           OP_SETTINGS_PATH=$(op read op://git/SETTINGS/${{ inputs.repo }})
           echo "Reading settings from: $OP_SETTINGS_PATH"
           op read $OP_SETTINGS_PATH > settings.toml
+          echo "TT_CONFIG_DIR=$(pwd)" >> $GITHUB_ENV # Export TT_CONFIG_DIR for subsequent steps
         working-directory: . # Ensure this runs in the correct directory
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
