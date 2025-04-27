@@ -3,6 +3,12 @@ name: ⚡Lint (UV)
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      target_dir:
+        description: 'Directory containing the pyproject.toml and code to lint'
+        required: false
+        default: '.'
+        type: string
 
 jobs:
   lint:
@@ -34,23 +40,25 @@ jobs:
       - name: ⬇️ Install uv
         run: pip install uv
 
-      - name: 🛠️ Install Linters using UV
+      - name: 🛠️ Install Dev Dependencies using UV
         run: |
-          # Install ruff and pre-commit using uv pip install into the system environment
-          # Assumes these are not defined in the project's pyproject.toml
-          # If they ARE in pyproject.toml [dev] dependencies, use `uv sync --extra dev`
-          uv pip install --system ruff pre-commit
+          # Navigate into the target directory specified by input
+          cd ${{ inputs.target_dir }}
+          # Install dependencies including the [dev] extras
+          uv pip install --system .[dev]
+          # Or potentially: uv sync --extra dev
+          # Go back to root for subsequent steps that might expect it
+          cd ..
 
-      - name: 🚨 Lint with Ruff
+      - name: 🚨 Lint Target Directory with Ruff
         run: |
-          # Use uv run if ruff needs project context, otherwise direct call is fine
-          ruff check --fix --no-cache .
+          # Run from root but target the directory specified by input
+          ruff check --fix --no-cache ${{ inputs.target_dir }}
 
       - name: 🦺 Pre-commit
         run: |
-          # Use uv run if pre-commit hooks need project venv, otherwise direct call
-          # Check if your pre-commit config requires the project venv
-          pre-commit run --config .github/.pre-commit-config.yaml # Assuming config is in calling repo
+          # Run from root, assuming config is at .github/.pre-commit-config.yaml
+          pre-commit run --config .github/.pre-commit-config.yaml
 
       # Optional: Job Info step kept from original
       - name: ℹ️ Job Info
