@@ -66,7 +66,7 @@ jobs:
         run: |
           if [[ "${{ github.repository }}" == "mraniki/MyLLM" ]]; then
             echo "Forcing minor release for MyLLM repository."
-            semantic-release -vv --force minor version
+            semantic-release -vv --minor version
           else
             echo "Running standard versioning for ${{ github.repository }}."
             semantic-release version
