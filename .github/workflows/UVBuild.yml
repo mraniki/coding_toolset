@@ -49,6 +49,19 @@ jobs:
           mkdir -p .requirements # Create directory if it doesn't exist
           uv export --format requirements.txt --output-file .requirements/requirements.txt
           # Consider if you want to export extras: --all-extras or --extras <group>
-          git add pyproject.toml uv.lock .requirements/requirements.txt
+          git add pyproject.toml uv.lock - name: 🛠️ Update requirements (Optional, if still needed)
+            # UV uses uv.lock primarily. Exporting requirements.txt might be optional.
+            # If you still need requirements.txt for some reason:
+            if: github.event_name == 'pull_request'
+            run: |
+              uv lock # Ensure lock file is up-to-date
+              mkdir -p .requirements # Create directory if it doesn't exist
+              uv export --format requirements.txt --output-file .requirements/requirements.txt
+              # Copy uv.lock to .requirements folder
+              cp uv.lock .requirements/uv.lock
+              # Consider if you want to export extras: --all-extras or --extras <group>
+              git add pyproject.toml uv.lock .requirements/requirements.txt .requirements/uv.lock
+              # Commit if there are changes
+              git diff --staged --quiet || git commit -m "⬆️ Update Dependencies (uv)"
           # Commit if there are changes
           git diff --staged --quiet || git commit -m "⬆️ Update Dependencies (uv)" 
