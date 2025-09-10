@@ -31,7 +31,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🐍 Set up Python & UV
         uses: actions/setup-python@v5
@@ -95,7 +95,7 @@ jobs:
     if: ${{ github.base_ref == 'dev' }}
     steps:
       - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Enable Pull Request Automerge
         run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
         env:
