@@ -32,7 +32,7 @@ jobs:
           echo "--- End Debug Info ---"
 
       - name: 🐍 Set up Python & UV
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           # cache: 'uv' # Removed as it's not supported by setup-python@v5 yet

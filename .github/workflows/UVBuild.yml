@@ -19,7 +19,7 @@ jobs:
             fetch-depth: 0 # Required for git history checks if needed
 
       - name: 🐍 Set up Python & UV
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11' # Or make this an input/matrix variable
           # cache: 'uv' # Cache UV dependencies - Removed, not supported yet
