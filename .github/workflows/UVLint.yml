@@ -34,7 +34,7 @@ jobs:
       - name: 🐍 Set up Python & UV
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
           # cache: 'uv' # Removed as it's not supported by setup-python@v5 yet
 
       - name: ⬇️ Install uv

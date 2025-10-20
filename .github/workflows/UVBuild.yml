@@ -21,7 +21,7 @@ jobs:
       - name: 🐍 Set up Python & UV
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # Or make this an input/matrix variable
+          python-version: '3.13' # Or make this an input/matrix variable
           # cache: 'uv' # Cache UV dependencies - Removed, not supported yet
 
       - name: ⬇️ Install uv
