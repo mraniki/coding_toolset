@@ -67,7 +67,7 @@ jobs:
 
     steps:
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v1
+        uses: 1password/install-cli-action@v2
   
       - name: Load credentials
         uses: 1password/load-secrets-action@v2
@@ -119,7 +119,7 @@ jobs:
           poetry build
 
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v1
+        uses: 1password/install-cli-action@v2
         
       - name: Get Settings
         run: |
