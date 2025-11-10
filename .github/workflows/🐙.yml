@@ -70,7 +70,7 @@ jobs:
         uses: 1password/install-cli-action@v1
   
       - name: Load credentials
-        uses: 1password/load-secrets-action@v2
+        uses: 1password/load-secrets-action@v3
         id: op-load-secrets
         with:
           export-env: false
