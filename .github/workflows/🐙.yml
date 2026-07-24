@@ -195,7 +195,7 @@ jobs:
 
       - name: Save artefact
         if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: /dist
 
@@ -226,7 +226,7 @@ jobs:
 
       - name: Save artefact
         if: always() && ${{ steps.diff.outputs.CHANGE }} == "TRUE"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: /dist
 
@@ -258,7 +258,7 @@ jobs:
           python -m pip install --upgrade build twine
     
       - name: Download the artefact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: dist/
 
