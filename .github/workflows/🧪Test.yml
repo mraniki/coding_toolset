@@ -27,7 +27,7 @@ jobs:
     environment: ${{inputs.environment}}
     steps:
       - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: 🐍 Set up Python ${{ matrix.python-version }}
         id: setup-python
         uses: actions/setup-python@v5
@@ -87,7 +87,7 @@ jobs:
     if: ${{ github.base_ref == 'dev' }}
     steps:
       - name: 📥 Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Enable Pull Request Automerge
         run: gh pr merge --auto --merge ${{ github.event.pull_request.number }}
         env:
